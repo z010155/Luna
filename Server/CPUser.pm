@@ -469,7 +469,7 @@ method getUnreadPostcards($intPID) {
        my $arrPostcards = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT * FROM postcards WHERE `recepient` = '$intPID'");
        my $unreadCount = 0;
        foreach (%{$arrPostcards}) {
-                if (!$_>{isRead}) {
+                if (!$_->{isRead}) {
                     $unreadCount++;
                 }
        }
