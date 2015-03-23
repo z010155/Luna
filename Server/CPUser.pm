@@ -132,7 +132,7 @@ method loadDetails {
                       }
                       case ('ownedFurns') {
                             my @furnitures = split(',', $value);
-                            while (my ($furnID, $furnQuantity) = each(@ignored)) {
+                            while (my ($furnID, $furnQuantity) = each(@furnitures)) {
                                    $self->{ownedFurns}->{$furnID} = $furnQuantity;
                             }
                       } else {
