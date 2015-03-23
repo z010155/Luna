@@ -45,7 +45,7 @@ method new($resConfig, $resDBConfig) {
                     'j#js' => 'handleJoinServer',
                     'j#jr' => 'handleJoinRoom',
                     'j#jg' => 'handleJoinGame',
-                    'j#grs' => 'handleGetRoomSynced'
+                    'j#grs' => 'handleGetRoomSynced',
                     'b#gb' => 'handleGetBuddies',
                     'b#br' => 'handleBuddyRequest',
                     'b#ba' => 'handleBuddyAccept',
@@ -69,7 +69,7 @@ method new($resConfig, $resDBConfig) {
                     'g#cr' => 'handleCloseIgloo',
                     'g#gf' => 'handleGetOwnedFurniture',
                     'g#ur' => 'handleGetFurnitureRevision',
-                    'g#gr' => 'handleGetOpenedIgloos'
+                    'g#gr' => 'handleGetOpenedIgloos',
                     'n#gn' => 'handleGetIgnored',
                     'n#an' => 'handleAddIgnore',
                     'n#rn' => ' handleRemoveIgnored',
