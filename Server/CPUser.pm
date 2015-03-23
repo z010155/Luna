@@ -297,7 +297,7 @@ method joinRoom($intRoom, $intX, $intY) {
        return if (!int($intRoom) && !int($intX) && !int($intY));
        if (exists($self->{parent}->{modules}->{crumbs}->{gameRoomCrumbs}->{$intRoom})) {
            return $self->sendXT(['jg', '-1', $intRoom]);
-       } elseif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom})) {
+       } elsif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom})) {
                  $self->{room} = $intRoom;
                  $self->setPosition($intX, $intY);
                  $self->removePlayer;  		
