@@ -22,7 +22,7 @@ method handleQueryPlayerAwards($strData, $objClient) {
        my $objPlayer = $objClient->getClientByID($intPID);
        my @arrAwards;
        foreach (@{$objPlayer->{inventory}}) {
-                if (exists($self->{modules}->{crumbs}->{itemCrumbs}->{$_})) && $self->{modules}->{crumbs}->{itemCrumbs}->{$_}->{type} == 10) {
+                if (exists($self->{modules}->{crumbs}->{itemCrumbs}->{$_}) && $self->{modules}->{crumbs}->{itemCrumbs}->{$_}->{type} == 10) {
                     push(@arrAwards, $_);
                 }
        }
