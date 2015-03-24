@@ -7,6 +7,6 @@ use Method::Signatures;
 
 method handleDonateCoins($strData, $objClient) {}
 
-methof handleSetPoll($strData, $objClient) {}
+method handleSetPoll($strData, $objClient) {}
 
 1;
