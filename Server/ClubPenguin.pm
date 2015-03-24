@@ -3,6 +3,25 @@ package ClubPenguin;
 use strict;
 use warnings;
 
+use Server::Systems::Buddies;
+use Server::Systems::Ignore;
+use Server::Systems::EPF;
+use Server::Systems::Igloos;
+use Server::Systems::Settings;
+use Server::Systems::Inventory;
+use Server::Systems::Navigation;
+use Server::Systems::Mining;
+use Server::Systems::Postcards; 
+use Server::Systems::Stamps;
+use Server::Systems::Messaging;
+use Server::Systems::Player;
+use Server::Systems::Moderator;
+use Server::Systems::Pets;
+use Server::Systems::Toys; 
+use Server::Systems::Tables;
+use Server::Systems::Ninja;
+use Server::Systems::Election;
+
 use Moose;
 
 extends 'Buddies';

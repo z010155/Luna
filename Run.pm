@@ -19,7 +19,6 @@ use Misc::Crumbs;
 use Server::CPPlugins;
 use Server::CPCommands;
 
-usesub Server::Systems;
 usesub Server::Plugins;
 
 use Server::ClubPenguin;
