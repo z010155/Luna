@@ -69,8 +69,9 @@ method handleGetOwnedFurniture($strData, $objClient) {
 }
 
 method handleGetFurnitureRevision($strData, $objClient) {
+       my @arrData = split('%', $strData);
        my @arrFurns;
-       while (my ($intKey, $intValue) = each(strData)) {
+       while (my ($intKey, $intValue) = each(@arrData)) {
               if ($intKey > 4) {
                   push(@arrFurns, $intValue);
               }

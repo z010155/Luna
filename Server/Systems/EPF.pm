@@ -18,8 +18,8 @@ method handleEPFAddItem($strData, $objClient) {
        }
        push(@{$objClient->{inventory}}, $intItem);
        $self->{modules}->{mysql}->updateTable('users', 'inventory', join('%', @{$objClient->{inventory}}) , 'ID', $objClient->{ID});
-       $client->updateEPFPoints($objClient->{epfPoints} - $self->{modules}->{crumbs}->{epfCrumbs}->{$intItem}->{points});
-       $client->sendXT(['epfai', '-1', $intItem, $objClient->{epfPoints}]);
+       $objClient->updateEPFPoints($objClient->{epfPoints} - $self->{modules}->{crumbs}->{epfCrumbs}->{$intItem}->{points});
+       $objClient->sendXT(['epfai', '-1', $intItem, $objClient->{epfPoints}]);
 }
 
 method handleEPFGetAgent($strData, $objClient) {
