@@ -13,8 +13,8 @@ method handleSendStampEarned($strData, $objClient) {
        return if (grep /$intStamp/, @{$objClient->{stamps}});
        push(@{$objClient->{stamps}}, $intStamp);
        push(@{$objClient->{restamps}}, $intStamp);
-       $self->{modules}->{mysql}->updateTable('users', 'stamps', join('|', @{$objClient->{stamps}}, 'ID', $objClient->{ID});
-       $self->{modules}->{mysql}->updateTable('users', 'restamps', join('|', @{$objClient->{restamps}}, 'ID', $objClient->{ID});
+       $self->{modules}->{mysql}->updateTable('users', 'stamps', join('|', @{$objClient->{stamps}}), 'ID', $objClient->{ID});
+       $self->{modules}->{mysql}->updateTable('users', 'restamps', join('|', @{$objClient->{restamps}}), 'ID', $objClient->{ID});
        $objClient->sendXT(['aabs', '-1', $intStamp]);
 }
 
