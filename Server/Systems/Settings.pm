@@ -11,7 +11,7 @@ method handleUpdatePlayerClothing($strData, $objClient) {
        my @arrCmd = split('#', $strCmd);
        my $intItem = $arrData[5];
        my $strType = $arrCmd[1];
-       my $arrTypes = {upc => 'colour', uph => 'head', upf => 'face', upn => 'neck', upb => 'body', upa => 'hand', upe => 'feet', upp => 'photo', upl => 'flag'};
+       my %arrTypes = (upc => 'colour', uph => 'head', upf => 'face', upn => 'neck', upb => 'body', upa => 'hand', upe => 'feet', upp => 'photo', upl => 'flag');
        return if (!exists($arrTypes{$strType}));        
        $objClient->updatePlayerCard($strType, $arrTypes{$strType}, $intItem);
 }
