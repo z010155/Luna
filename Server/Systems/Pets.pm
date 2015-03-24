@@ -31,8 +31,8 @@ method handlePuffleUser($strData, $objClient) {}
 
 method handlePufflePip($strData, $objClient) {}
 
-method handlePufflePir(strData, $objClient) {}
+method handlePufflePir($strData, $objClient) {}
 
-method handlePuffleWalk(strData, $objClient) {}
+method handlePuffleWalk($strData, $objClient) {}
 
 1;
