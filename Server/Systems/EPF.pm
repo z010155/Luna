@@ -11,7 +11,7 @@ method handleEPFAddItem($strData, $objClient) {
        return if (!int($intItem));
        if (!exists($self->{modules}->{crumbs}->{epfCrumbs}->{$intItem})) {
            return $objClient->sendError(402);
-       } elsif (grep /$intItem/, @{$objClient->{inventory}) {
+       } elsif (grep /$intItem/, @{$objClient->{inventory}}) {
            return $objClient->sendError(400);
        } elsif ($objClient->{epfPoints} < $self->{modules}->{crumbs}->{epfCrumbs}->{$intItem}->{points}) {
            return $objClient->sendError(405);
