@@ -29,6 +29,14 @@ method fetchColumns($strSQL) {
        }
 }
 
+method fetchAllColumns($strSQL) {
+       my $strQuery = $self->execQuery($strSQL);
+       my $arrResult = $strQuery->fetchall_hashref;
+       if ($arrResult) {
+           return $arrResult;
+       }
+}
+
 method countRows($strSQL) {
        my $strQuery = $self->execQuery($strSQL);
        my $arrResult = $strQuery->fetchall_arrayref(0);
