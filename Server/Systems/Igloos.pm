@@ -65,7 +65,7 @@ method handleGetOwnedFurniture($strData, $objClient) {
        while (my ($furnID, $furnQuantity) = each(%{$objClient->{ownedFurns}})) {
               $strFurns .= $furnID . '|' . $furnQuantity . '%';
        }
-       $objClient->write('%xt%gf%-1%' . ($strFurns ? $strFurns '%'));
+       $objClient->write('%xt%gf%-1%' . ($strFurns ? $strFurns : '%'));
 }
 
 method handleGetFurnitureRevision($strData, $objClient) {
