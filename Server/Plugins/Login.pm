@@ -20,7 +20,7 @@ method new($resChild) {
 
 method handleLoginNotice($strXML, $objClient) {
        my $username = $strXML->{body}->{login}->{nick};
-       $self->{child}->{modules}->{logger}->output('Client Is Attempting To Login Using Username: ' . ucfirst($username), Logger:LEVELS->{ntc});
+       $self->{child}->{modules}->{logger}->output('Client Is Attempting To Login Using Username: ' . ucfirst($username), Logger::LEVELS->{ntc});
 }
 
 1;
