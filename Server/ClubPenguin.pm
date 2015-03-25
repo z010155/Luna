@@ -352,7 +352,7 @@ method continueLogin($strName, $arrInfo, $objClient) {
 method generateServerList {
        my $strServer = '';
        my $arrInfo = $self->{modules}->{mysql}->fetchAll("SELECT * FROM servers");
-       foreach my $intKey (keys %{$arrInfo})) {
+       foreach my $intKey (keys %{$arrInfo}) {
                my $intPopulation = $arrInfo->{$intKey}->{curPop};
                my $intBars = 0;
                if ($intPopulation <= 50) {    
