@@ -282,7 +282,7 @@ method handleCrossDomainPolicy($objClient) {
 }
 
 method handleVerChk($strXML, $objClient) {
-       return $strXML->{body}->{v} == 153 ? $objClient->write("<msg t='sys'><body action='apiOK' r='0'></body></msg>") : $objClient->write("<msg t='sys'><body action='apiKO' r='0'></body></msg>");
+       return $strXML->{body}->{ver}->{v} == 153 ? $objClient->write("<msg t='sys'><body action='apiOK' r='0'></body></msg>") : $objClient->write("<msg t='sys'><body action='apiKO' r='0'></body></msg>");
 }
 
 method handleRndK($strXML, $objClient) {
