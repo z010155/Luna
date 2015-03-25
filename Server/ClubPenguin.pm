@@ -184,8 +184,10 @@ method new($resConfig, $resDBConfig) {
 method initializeSource {
        $self->createHeader;
        $self->loadModules;
-       $self->{modules}->{crumbs}->updateCrumbs;
-       $self->{modules}->{crumbs}->loadCrumbs;
+       if ($self->{servConfig}->{servType} ne 'login') {
+           $self->{modules}->{crumbs}->updateCrumbs;
+           $self->{modules}->{crumbs}->loadCrumbs;
+       }
        $self->initiateMysql;
        $self->loadPlugins;
        $self->createServer;
@@ -280,7 +282,7 @@ method handleCrossDomainPolicy($objClient) {
 }
 
 method handleVerChk($strXML, $objClient) {
-       return $strXML->{body}->{v} eq 153 ? $objClient->write("<msg t='sys'><body action='apiOK' r='0'></body></msg>") : $objClient->write("<msg t='sys'><body action='apiKO' r='0'></body></msg>");
+       return $strXML->{body}->{v} == 153 ? $objClient->write("<msg t='sys'><body action='apiOK' r='0'></body></msg>") : $objClient->write("<msg t='sys'><body action='apiKO' r='0'></body></msg>");
 }
 
 method handleRndK($strXML, $objClient) {
@@ -350,23 +352,23 @@ method continueLogin($strName, $arrInfo, $objClient) {
 method generateServerList {
        my $strServer = '';
        my $arrInfo = $self->{modules}->{mysql}->fetchAll("SELECT * FROM servers");
-       while (my ($intKey, $values) = each(%{$arrInfo})) {
-              my $intPopulation = $arrInfo->{$intKey}->{curPop};
-              my $intBars = 0;
-              if ($intPopulation <= 50) {    
+       foreach my $intKey (keys %{$arrInfo})) {
+               my $intPopulation = $arrInfo->{$intKey}->{curPop};
+               my $intBars = 0;
+               if ($intPopulation <= 50) {    
                   $intBars = 1;
-              } elsif ($intPopulation > 50 && $intPopulation <= 100) {
+               } elsif ($intPopulation > 50 && $intPopulation <= 100) {
                   $intBars = 2;
-              } elsif ($intPopulation > 100 && $intPopulation <= 200) {
+               } elsif ($intPopulation > 100 && $intPopulation <= 200) {
                   $intBars = 3;
-              } elsif ($intPopulation > 200 && $intPopulation <= 300) {
+               } elsif ($intPopulation > 200 && $intPopulation <= 300) {
                   $intBars = 4;
-              } elsif ($intPopulation > 300 && $intPopulation <= 400) {
+               } elsif ($intPopulation > 300 && $intPopulation <= 400) {
                   $intBars = 5;
-              } elsif ($intPopulation > 400 && $intPopulation <= 500 && $intPopulation > 500) {
+               } elsif ($intPopulation > 400 && $intPopulation <= 500 && $intPopulation > 500) {
                   $intBars = 6;
-              }
-              $strServer .= $arrInfo->{$intKey}->{servIP} . ':' . $arrInfo->{$intKey}->{servPort} . ':' . $arrInfo->{$intKey}->{servName} . ':' . $intBars . '|';
+               }
+               $strServer .= $arrInfo->{$intKey}->{servIP} . ':' . $arrInfo->{$intKey}->{servPort} . ':' . $arrInfo->{$intKey}->{servName} . ':' . $intBars . '|';
        }
        return $strServer;
 }
