@@ -32,7 +32,6 @@ method serverLoop {
              $resSock->sysread($strBuffer, 65536);
              if ($strBuffer eq '') {
                  $self->removeClientBySock($resSock);
-                 next;
              }
              my @arrData = split(chr(0), $strBuffer);
              foreach (@arrData) {                         
