@@ -297,20 +297,20 @@ method joinRoom($intRoom, $intX, $intY) {
        return if (!int($intRoom) && !int($intX) && !int($intY));
        if (exists($self->{parent}->{modules}->{crumbs}->{gameRoomCrumbs}->{$intRoom})) {
            return $self->sendXT(['jg', '-1', $intRoom]);
-       } elseif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom})) {
+       } elsif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom})) {
                  $self->{room} = $intRoom;
                  $self->setPosition($intX, $intY);
-                 $self->removePlayer;  		
+                 $self->removePlayer();  		
                  if ($self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
                      return $self->sendError(210);
                  }
-	                my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildClientString . '%';
+	                my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildClientString() . '%';
 	                my $objClient = $self->getClientByName($self->{username});       
                  if ($objClient->{room} eq $self->{room}) {
-                     $strData .= $objClient->buildClientString . '%';
+                     $strData .= $objClient->buildClientString() . '%';
                  }
                  $self->write($strData);
-                 $self->sendRoom('%xt%ap%-1%' . $self->buildClientString . '%');
+                 $self->sendRoom('%xt%ap%-1%' . $self->buildClientString() . '%');
        }
 }
 
