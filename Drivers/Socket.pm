@@ -76,7 +76,7 @@ method getClientBySock($resSock) {
 }
 
 method addClient {
-       my $resSocket = $self->{socket}->accept();
+       my $resSocket = $self->{socket}->accept;
        $self->{listener}->add($resSocket);
        my $objClient = CPUser->new($self->{child}, $resSocket);
        my $intKey = fileno($resSocket);

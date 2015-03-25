@@ -7,7 +7,7 @@ use Method::Signatures;
 
 method handleGetIgnored($strData, $objClient) {
        my $strIgnored = $self->handleFetchIgnored($objClient);
-	      $objClient->write('%xt%gn%-1%' . ($strIgnored ? $strIgnored : '%'));
+       $objClient->write('%xt%gn%-1%' . ($strIgnored ? $strIgnored : '%'));
 }
 
 method handleAddIgnore($strData, $objClient) {

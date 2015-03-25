@@ -436,18 +436,21 @@ method updateFurniture($strFurn) {
 
 method updateIgloo($intIgloo) {
        return if (!int($intIgloo));
+       $self->{igloo} = $intIgloo;
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'igloo', $intIgloo, 'ID', $self->{ID});
        $self->sendXT(['ao', '-1', $intIgloo, $self->{coins}]);
 }
 
 method updateFloor($intFloor) {
        return if (!int($intFloor));
+       $self->{floor} = $intFloor;
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'floor', $intFloor, 'ID', $self->{ID});
        $self->sendXT(['ag', '-1', $intFloor, $self->{coins}]);
 }
 
 method updateMusic($intMusic) {
        return if (!int($intMusic));
+       $self->{music} = $intMusic;
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'music', $intMusic, 'ID', $self->{ID});
        $self->sendXT(['um', '-1', $intMusic]);
 }
@@ -466,13 +469,7 @@ method getPostcards($intPID) {
 
 method getUnreadPostcards($intPID) {
        return if (!int($intPID));
-       my $arrPostcards = $self->{parent}->{modules}->{mysql}->fetchAllColumns("SELECT * FROM postcards WHERE `recepient` = '$intPID'");
-       my $unreadCount = 0;
-       foreach (%{$arrPostcards}) {
-                if (!$_->{isRead}) {
-                    $unreadCount++;
-                }
-       }
+       my $unreadCount = $self->{parent}->{modules}->{mysql}->countRows("SELECT `isRead` FROM postcards WHERE `recepient` = '$intPID' AND `isRead` = '0'");
        return $unreadCount;
 }
 
@@ -508,12 +505,12 @@ method updateBuddies($strBuddies, $intPID) {
 method updateMute($objClient, $blnMute) {
        return if (!int($blnMute));
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'isMuted', $blnMute, 'ID', $objClient->{ID});
-       $objClient->{property}->{personal}->{isMuted} = $blnMute;
+       $objClient->{isMuted} = $blnMute;
 }
 
 method updateBan($objClient, $strBan) {
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'isBanned', $strBan, 'ID', $objClient->{ID});
-       $objClient->{property}->{personal}->{isBanned} = $strBan;   
+       $objClient->{isBanned} = $strBan;   
 }
 
 method updateBanCount($objClient, $intVal) {

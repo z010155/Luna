@@ -294,8 +294,8 @@ method handleLogin($strXML, $objClient) {
 }
 
 method checkBeforeLogin($strName, $strPass, $objClient) {
-       my $intNames = $self->{modules}->{mysql}->countRows("SELECT `username` FROM $self->{dbConfig}->{tables}->{main} WHERE `username` = '$strName'");
-       my $arrInfo = $self->{modules}->{mysql}->fetchColumns("SELECT * FROM $self->{dbConfig}->{tables}->{main} WHERE `username` = '$strName'");
+       my $intNames = $self->{modules}->{mysql}->countRows("SELECT `username` FROM users WHERE `username` = '$strName'");
+       my $arrInfo = $self->{modules}->{mysql}->fetchColumns("SELECT * FROM users WHERE `username` = '$strName'");
        my $strHash = $self->generateHash($arrInfo, $objClient);      
        if ($intNames <= 0) {
            $objClient->sendError(100);

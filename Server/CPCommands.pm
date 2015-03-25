@@ -61,7 +61,7 @@ method handleBanClient($objClient, $strName) {
        $objPlayer->sendError(603);
        $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
        $self->{child}->{modules}->{mysql}->updateTable('users', 'isBanned', 'PERM', 'username', $strName);
-       $objPlayer->{property}->{personal}->{isBanned} = 'PERM';
+       $objPlayer->{isBanned} = 'PERM';
 }
 
 method handleKickBanClient($objClient, $strName) {
