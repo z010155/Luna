@@ -479,7 +479,7 @@ method getPostcardCount($intPID) {
        return $intCount;
 }
 
-method sendPostcard($recepient, $mailerName = 'Server', $mailerID = 0, $notes, $type, $timestamp = time) {
+method sendPostcard($recepient, $mailerName = 'Server', $mailerID = 0, $notes = 'Cool', $type = 1, $timestamp = time) {
        my @fields = ('recepient', 'mailerName', 'mailerID', 'notes', 'timestamp', 'postcardType');
        my @values = ($recepient, $mailerName, $mailerID, $notes, $type, $timestamp);
        my $postcardID = $self->{parent}->{modules}->{mysql}->insertData('postcards', \@fields, \@values);
