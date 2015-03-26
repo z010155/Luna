@@ -293,15 +293,15 @@ method removePlayer {
        $self->sendRoom('%xt%rp%-1%' . $self->{ID} . '%');
 }
 
-method joinRoom($intRoom, $intX, $intY) {
+method joinRoom($intRoom, $intX = 330, $intY = 330) {
        return if (!int($intRoom) && !int($intX) && !int($intY));
        if (exists($self->{parent}->{modules}->{crumbs}->{gameRoomCrumbs}->{$intRoom})) {
            return $self->sendXT(['jg', '-1', $intRoom]);
-       } elsif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom})) {
+       } elsif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}) || $intRoom > 1000) {
                  $self->{room} = $intRoom;
                  $self->setPosition($intX, $intY);
                  $self->removePlayer;  		
-                 if ($self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
+                 if ($intRoom <= 899 && $self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
                      return $self->sendError(210);
                  }
 	                my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildClientString . '%';
