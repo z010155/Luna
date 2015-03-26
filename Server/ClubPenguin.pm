@@ -6,7 +6,6 @@ use warnings;
 use Method::Signatures;
 use Digest::MD5 qw(md5_hex);
 use Math::Round qw(round);
-use List::Compare qw(is_LsubsetR);
 use File::Basename;
 
 method new($resConfig, $resDBConfig) {

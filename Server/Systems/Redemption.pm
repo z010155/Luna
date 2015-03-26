@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Method::Signatures;
+use List::Compare qw(is_LsubsetR);
 
 method new($resChild) {
        my $obj = bless {}, $self;
