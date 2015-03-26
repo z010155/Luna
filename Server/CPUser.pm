@@ -324,7 +324,7 @@ method addItem($intItem) {
 	          return $self->sendError(401);
        }    
        push(@{$self->{inventory}}, $intItem);
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'inventory', join('%', @{$self->{inventory}}) , 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('users', 'items', join('%', @{$self->{inventory}}) , 'ID', $self->{ID});
        $self->updateCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{itemCrumbs}->{$intItem}->{cost});
        $self->sendXT(['ai', '-1', $intItem, $self->{coins}]);
 }
