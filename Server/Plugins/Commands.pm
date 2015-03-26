@@ -5,10 +5,6 @@ use warnings;
 
 use Method::Signatures;
 
-use Moose;
-
-extends 'CPCommands';
-
 method new($resChild) {
        my $obj = bless {}, $self;
        $obj->{child} = $resChild;
@@ -58,7 +54,7 @@ method handleCommands($strMsg, $objClient) {
        my $strArg = $arrParts[1];
        return if (!exists($self->{commands}->{members}->{$strCmd}));
        my $strHandler = $self->{commands}->{members}->{$strCmd};
-       $self->$strHandler($objClient, $strArg);
+       $self->{child}->{modules}->{commands}->$strHandler($objClient, $strArg);
 }
 
 method handleStaffCommands($strMsg, $objClient) {
@@ -68,7 +64,7 @@ method handleStaffCommands($strMsg, $objClient) {
        return if (!exists($self->{commands}->{staff}->{$strCmd}));
        my $strHandler = $self->{commands}->{staff}->{$strCmd};
        if ($objClient->{isStaff}) {
-           $self->$strHandler($objClient, $strArg);
+          $self->{child}->{modules}->{commands}->$strHandler($objClient, $strArg);
        }
 }
 

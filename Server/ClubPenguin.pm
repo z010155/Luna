@@ -178,7 +178,8 @@ method loadModules {
                  crypt => Cryptography->new,
                  tools => Tools->new,
                  crumbs => Crumbs->new($self),
-                 pbase => CPPlugins->new($self)
+                 pbase => CPPlugins->new($self),
+                 commands => CPCommands->new($self)
        };
 }
 
