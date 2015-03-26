@@ -6,6 +6,12 @@ use warnings;
 use Switch;
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleAddItem($objClient, $intItem) {
        $objClient->addItem($intItem);
 }
