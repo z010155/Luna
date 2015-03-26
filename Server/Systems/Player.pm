@@ -5,6 +5,12 @@ use warnings;
 
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleSetFrame($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intFrame = $arrData[5];

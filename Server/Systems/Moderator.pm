@@ -5,13 +5,19 @@ use warnings;
 
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleKick($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intPID = $arrData[5];
        my $objPlayer = $objClient->getClientByID($intPID);
        if ($objClient->{isStaff}) {
            $objPlayer->sendError(610);
-           $self->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+           $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
        }
 }
 
@@ -39,7 +45,7 @@ method handleBan($strData, $objClient) {
 				          $objClient->updateBan($objPlayer, 'PERM');
 				          $objPlayer->sendError(603);
                $objClient->botSay($objClient->{username} . ' Has Permanently Banned ' . $objPlayer->{username});
-			      	     $self->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+			      	     $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
            }
        }
 }

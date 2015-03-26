@@ -5,6 +5,12 @@ use warnings;
 
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleJoinPlayer($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intRoom = $arrData[5];
@@ -23,17 +29,17 @@ method handleJoinRoom($strData, $objClient) {
 method handleJoinServer($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $loginKey = $arrData[6];
-       my $dbInfo = $self->{modules}->{mysql}->fetchColumns("SELECT `loginKey`, `invalidLogins` FROM users WHERE `ID` = '$objClient->{ID}'");
+       my $dbInfo = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT `loginKey`, `invalidLogins` FROM users WHERE `ID` = '$objClient->{ID}'");
        if ($loginKey ne '' || $loginKey ne $dbInfo->{loginKey}) {
            $objClient->sendError(101);
            $objClient->updateInvalidLogins($dbInfo->{invalidLogins} + 1, $objClient->{username});
-           return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
        }
        $objClient->updateKey('', $objClient->{username});
        $objClient->sendXT(['js', '-1', 0, $objClient->{isEPF}, $objClient->{isStaff}]);
        $objClient->sendXT(['lp', '-1', $objClient->buildClientString, $objClient->{coins}, 0, 1440, 100, $objClient->{age}, 4, $objClient->{age}, 7]);
        $objClient->sendXT(['gps', '-1', $objClient->{ID}, join('|', @{$objClient->{stamps}})]);
-       $objClient->joinRoom($self->generateRoom);     
+       $objClient->joinRoom($self->{child}->generateRoom);     
 }
 
 method handleJoinGame($strData, $objClient) {

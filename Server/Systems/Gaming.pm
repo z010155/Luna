@@ -1,4 +1,4 @@
-package Election;
+package Gaming;
 
 use strict;
 use warnings;
@@ -11,8 +11,6 @@ method new($resChild) {
        return $obj;
 }
 
-method handleDonateCoins($strData, $objClient) {}
-
-method handleSetPoll($strData, $objClient) {}
+method handleGaming($strData, $objClient) {}
 
 1;

@@ -3,46 +3,6 @@ package ClubPenguin;
 use strict;
 use warnings;
 
-use Server::Systems::Buddies;
-use Server::Systems::Ignore;
-use Server::Systems::EPF;
-use Server::Systems::Igloos;
-use Server::Systems::Settings;
-use Server::Systems::Inventory;
-use Server::Systems::Navigation;
-use Server::Systems::Mining;
-use Server::Systems::Postcards; 
-use Server::Systems::Stamps;
-use Server::Systems::Messaging;
-use Server::Systems::Player;
-use Server::Systems::Moderator;
-use Server::Systems::Pets;
-use Server::Systems::Toys; 
-use Server::Systems::Tables;
-use Server::Systems::Ninja;
-use Server::Systems::Election;
-
-use Moose;
-
-extends 'Buddies';
-extends 'Ignore';
-extends 'EPF';
-extends 'Igloos';
-extends 'Settings';
-extends 'Inventory';
-extends 'Navigation';
-extends 'Mining';
-extends 'Postcards'; 
-extends 'Stamps';
-extends 'Messaging';
-extends 'Player';
-extends 'Moderator';
-extends 'Pets';
-extends 'Toys'; 
-extends 'Tables';
-extends 'Ninja';
-extends 'Election';
-
 use Method::Signatures;
 use Digest::MD5 qw(md5_hex);
 use Math::Round qw(round);
@@ -176,6 +136,7 @@ method new($resConfig, $resDBConfig) {
        };
        $obj->{iplog} = {};
        $obj->{igloos} = {};
+       $obj->{systems} = {};
        $obj->{plugins} = {};
        $obj->{clients} = {};
        return $obj;
@@ -189,6 +150,7 @@ method initializeSource {
            $self->{modules}->{crumbs}->loadCrumbs;
        }
        $self->initiateMysql;
+       $self->loadSystems;
        $self->loadPlugins;
        $self->createServer;
        $self->initiateServer;
@@ -219,6 +181,22 @@ method loadModules {
                  pbase => CPPlugins->new($self)
        };
 }
+
+method loadSystems {       
+       my @arrFiles = glob('Server/Systems/*.pm');
+       foreach (@arrFiles) {
+                my $strClass = basename($_, '.pm');
+                my $objSystem = $strClass->new($self);
+                $self->{systems}->{$strClass} = $objSystem;
+       }
+       my $sysCount = scalar(keys %{$self->{systems}});
+       if ($sysCount > 0) {
+           $self->{modules}->{logger}->output('Successfully Loaded ' . $sysCount . ' Systems', Logger::LEVELS->{inf}); 
+       } else {
+           $self->{modules}->{logger}->output('Failed To Load Any Systems', Logger::LEVELS->{err}); 
+       }
+}
+
 
 method loadPlugins {       
        my @arrFiles = glob('Server/Plugins/*.pm');
@@ -380,86 +358,17 @@ method handleXTData($strData, $objClient) {
        my $stdXT = $arrData[3];
        return if (!exists($self->{handlers}->{xt}->{$chrXT}->{$stdXT}));
        my $strHandler = $self->{handlers}->{xt}->{$chrXT}->{$stdXT};
-       return if (!defined(&{$strHandler}));
-       $self->$strHandler($strData, $objClient);
-       $self->handleCustomPlugins('xt', $strData, $objClient);
-}
-
-method handleRedemptionJoinServer($strData, $objClient) {
-       my @arrValues;
-       for (1..16) {
-            push(@arrValues, $_);
-       }
-       my $intStr = join(',', @arrValues);
-       $objClient->sendXT(['rjs', '-1', $intStr, 0]);	             
-}
-
-method handleRedemptionGetBookQuestion($strData, $objClient) {
-       my @arrData = split('%', $strData);
-       my $intPage = $self->{modules}->{crypt}->generateInt(1, 80);
-       my $intLine = $self->{modules}->{crypt}->generateInt(1, 50);
-       my $intWord = $self->{modules}->{crypt}->generateInt(1, 25);
-       $objClient->sendXT(['rgbq', '-1', $arrData[5], $intPage, $intLine, $intWord]);
-}
-
-method handleRedemptionSendBookAnswer($strData, $objClient) {
-       my @arrData = split('%', $strData);
-       my $intCoins = $arrData[5];
-       $objClient->sendXT(['rsba', '-1', $intCoins]);
-       $objClient->updateCoins($objClient->{coins} + $intCoins);		
-}
-
-method handleRedemptionSendCode($strData, $objClient) {
-       my @arrData = split('%', $strData);
-       my $strName = $arrData[5];        
-       if (length($strName) > 13) {
-           return $objClient->sendError(21703);
-       } elsif (length($strName) < 13) {
-           return $objClient->sendError(21702);
-       } elsif (!exists($self->{modules}->{crumbs}->{redeemCrumbs}->{$strName})) {
-           return $objClient->sendError(20720);
-       } elsif ($self->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{type} eq 'golden') {
+       if (!$objClient->{isAuth} && $objClient->{username} eq '') {
            return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
-       }        
-       my $strItems = $self->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{items};
-       my $intCoins = $self->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{cost};
-       my @arrItems = split('\\|', $strItems);
-       my @arrExisting = @{$objClient->{inventory}};
-       if (is_LsubsetR([\@arrItems, \@arrExisting])) {
-           return $objClient->sendError(20721);
-       }
-       $objClient->sendXT(['rsc', '-1', 'CAMPAIGN', $strItems, $intCoins]);  
-       $objClient->updateCoins($objClient->{coins} - $intCoins);
-       foreach (@arrItems) {
-                $objClient->addItem($_);
+       } else {
+           foreach (values %{$self->{systems}}) {
+                    if ($_->can($strHandler)) {
+                        $_->$strHandler($strData, $objClient);
+                    }
+           }
+           $self->handleCustomPlugins('xt', $strData, $objClient);
        }
 }
-
-method handleRedemptionSendGoldenCode($strData, $objClient) {
-       my @arrData = split('%', $strData);
-       my $strName = $arrData[5];
-       if (length($strName) > 13) {
-           return $objClient->sendError(21703);
-       } elsif (length($strName) < 13) {
-           return $objClient->sendError(21702);
-       } elsif (!exists($self->{modules}->{crumbs}->{redeemCrumbs}->{$strName})) {
-           return $objClient->sendError(20720);
-       } elsif ($self->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{type} eq 'normal') {
-           return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
-       }
-       my $strItems = $self->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{items};
-       my @arrItems = split('\\|', $strItems);
-       my @arrExisting = @{$objClient->{inventory}};
-       if (is_LsubsetR([\@arrItems, \@arrExisting])) {
-           return $objClient->sendError(20721);
-       }
-       $objClient->sendXT(['rsgc', '-1', 'GOLDEN', $strItems]);  
-       foreach (@arrItems) {
-                $objClient->addItem($_);
-       }
-}
-
-method handleGaming($strData, $objClient) {}
 
 method generateRoom {
        my @arrRooms = keys %{$self->{modules}->{crumbs}->{roomCrumbs}};

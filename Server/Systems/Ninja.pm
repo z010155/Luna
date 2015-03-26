@@ -5,6 +5,12 @@ use warnings;
 
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleGetNinjaRevision($strData, $objClient) {}
 
 method handleGetNinjaLevel($strData, $objClient) {}

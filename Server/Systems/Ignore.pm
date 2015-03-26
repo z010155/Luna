@@ -5,6 +5,12 @@ use warnings;
 
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleGetIgnored($strData, $objClient) {
        my $strIgnored = $self->handleFetchIgnored($objClient);
        $objClient->write('%xt%gn%-1%' . ($strIgnored ? $strIgnored : '%'));
@@ -39,7 +45,7 @@ method handleRemoveIgnored($strData, $objClient) {
 method handleFetchIgnored($objClient) {
        my $strIgnored = '';
        foreach (keys %{$objClient->{ignored}}) {
-                my $arrInfo = $self->{modules}->{mysql}->fetchColumns("SELECT `nickname` FROM users WHERE `ID` = '$_'");
+                my $arrInfo = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT `nickname` FROM users WHERE `ID` = '$_'");
                 $strIgnored .= $_ . '|' . $arrInfo->{nickname} . '%';
        }
        return $strIgnored;

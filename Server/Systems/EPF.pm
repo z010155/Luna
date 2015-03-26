@@ -5,20 +5,26 @@ use warnings;
 
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleEPFAddItem($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intItem = $arrData[5];
        return if (!int($intItem));
-       if (!exists($self->{modules}->{crumbs}->{epfCrumbs}->{$intItem})) {
+       if (!exists($self->{child}->{modules}->{crumbs}->{epfCrumbs}->{$intItem})) {
            return $objClient->sendError(402);
        } elsif (grep /$intItem/, @{$objClient->{inventory}}) {
            return $objClient->sendError(400);
-       } elsif ($objClient->{epfPoints} < $self->{modules}->{crumbs}->{epfCrumbs}->{$intItem}->{points}) {
+       } elsif ($objClient->{epfPoints} < $self->{child}->{modules}->{crumbs}->{epfCrumbs}->{$intItem}->{points}) {
            return $objClient->sendError(405);
        }
        push(@{$objClient->{inventory}}, $intItem);
-       $self->{modules}->{mysql}->updateTable('users', 'inventory', join('%', @{$objClient->{inventory}}) , 'ID', $objClient->{ID});
-       $objClient->updateEPFPoints($objClient->{epfPoints} - $self->{modules}->{crumbs}->{epfCrumbs}->{$intItem}->{points});
+       $self->{child}->{modules}->{mysql}->updateTable('users', 'inventory', join('%', @{$objClient->{inventory}}) , 'ID', $objClient->{ID});
+       $objClient->updateEPFPoints($objClient->{epfPoints} - $self->{child}->{modules}->{crumbs}->{epfCrumbs}->{$intItem}->{points});
        $objClient->sendXT(['epfai', '-1', $intItem, $objClient->{epfPoints}]);
 }
 

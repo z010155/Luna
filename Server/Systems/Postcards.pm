@@ -7,9 +7,15 @@ use Method::Signatures;
 use HTTP::Date qw(str2time);
 use HTML::Entities;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleMailGet($strData, $objClient) {
        if ($objClient->{isNewMail}) {
-           my $dbInfo = $self->{modules}->{mysql}->fetchColumns("SELECT `age` FROM users WHERE `ID` = '$objClient->{ID}'");
+           my $dbInfo = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT `age` FROM users WHERE `ID` = '$objClient->{ID}'");
            my $timestamp = str2time($dbInfo->{age});
            $objClient->sendPostcard($objClient->{userID}, 'Sleize', 0, 'Welcome To Luna!', 125, $timestamp);
            $objClient->updateNewMail(0);
@@ -35,7 +41,7 @@ method handleMailSend($strData, $objClient) {
        my $postcardType = $arrData[6];
        my $postcardNotes = decode_entities($arrData[7]);
        return if (!int($recepientID) && !int($postcardType) && !defined($postcardNotes));
-       return if (!exists($self->{modules}->{crumbs}->{mailCrumbs}->{$postcardType}));
+       return if (!exists($self->{child}->{modules}->{crumbs}->{mailCrumbs}->{$postcardType}));
        if ($objClient->{coins} < 10) {
            $objClient->sendXT(['ms', '-1', $objClient->{coins}, 2]);
        } else {
@@ -48,7 +54,7 @@ method handleMailSend($strData, $objClient) {
 }
 
 method handleMailCheck($strData, $objClient) {
-       $self->{modules}->{mysql}->updateTable('postcards', 'isRead', 1, 'recepient', $objClient->{ID});
+       $self->{child}->{modules}->{mysql}->updateTable('postcards', 'isRead', 1, 'recepient', $objClient->{ID});
        $objClient->sendXT(['mc', '-1', 1]);
 }
 
@@ -56,7 +62,7 @@ method handleMailDelete($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $postcardID = $arrData[5];
        return if (!int($postcardID));
-       $self->{modules}->{mysql}->deleteData('postcards', 'postcardID', $postcardID);
+       $self->{child}->{modules}->{mysql}->deleteData('postcards', 'postcardID', $postcardID);
        $objClient->sendXT(['md', '-1', $postcardID]);
 }
 
@@ -64,7 +70,7 @@ method handleMailDeletePlayer($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $playerID = $arrData[5];
        return if (!int($playerID));
-       $self->{modules}->{mysql}->deleteData('postcards', 'recepient', $objClient->{ID}, 'mailerID', $playerID, 1);
+       $self->{child}->{modules}->{mysql}->deleteData('postcards', 'recepient', $objClient->{ID}, 'mailerID', $playerID, 1);
        my $intCount = $objClient->getPostcardCount($objClient->{ID});
        $objClient->sendXT(['mdp', '-1', $intCount]);
 }	

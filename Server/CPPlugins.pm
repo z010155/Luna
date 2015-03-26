@@ -17,30 +17,30 @@ method handleXMLData($strData, $objClient) {
            return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
        }
        my $strAct = $strXML->{body}->{action};
-       while (my ($objClass, $className) = each(%{$self->{child}->{plugins}})) {
-              if ($objClass->{pluginType} eq 'XML') {
-                  if (exists($objClass->{property}->{$strAct})) {
-                      if ($objClass->{property}->{$strAct}->{isEnabled}) {
-                          my $strHandler = $objClass->{property}->{$strAct}->{handler};
-                          $objClass->$strHandler($strXML, $objClient);
-                      }
-                  }
-              }
+       foreach (keys %{$self->{child}->{plugins}}) {
+                if ($_->{pluginType} eq 'XML') {
+                    if (exists($_->{property}->{$strAct})) {
+                        if ($_->{property}->{$strAct}->{isEnabled}) {
+                            my $strHandler = $_->{property}->{$strAct}->{handler};
+                            $_->$strHandler($strXML, $objClient);
+                        }
+                    }
+                }
        }
 }
 
 method handleXTData($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $strCmd = $arrData[3];
-       while (my ($objClass, $className) = each(%{$self->{child}->{plugins}})) {
-              if ($objClass->{pluginType} eq 'XT') {
-                  if (exists($objClass->{property}->{$strCmd})) {
-                      if ($objClass->{property}->{$strCmd}->{isEnabled}) {
-                          my $strHandler = $objClass->{property}->{$strCmd}->{handler};
-                          $objClass->$strHandler($strData, $objClient);
-                      }
-                  }
-              }
+       foreach (keys %{$self->{child}->{plugins}}) {
+                if ($_->{pluginType} eq 'XT') {
+                    if (exists($_->{property}->{$strCmd})) {
+                        if ($_->{property}->{$strCmd}->{isEnabled}) {
+                            my $strHandler = $_->{property}->{$strCmd}->{handler};
+                            $_->$strHandler($strData, $objClient);
+                        }
+                    }
+                }
        }
 }
 

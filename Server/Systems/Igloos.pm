@@ -5,6 +5,12 @@ use warnings;
 
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleAddFurniture($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intFurn = $arrData[5];
@@ -39,7 +45,7 @@ method handleGetIglooDetails($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intPID = $arrData[5];
        return if (!int($intPID));
-       my $arrInfo = $self->{modules}->{mysql}->fetchColumns("SELECT `igloo`, `music`, `floor`, `furniture` FROM users WHERE `ID` = '$intPID'");
+       my $arrInfo = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT `igloo`, `music`, `floor`, `furniture` FROM users WHERE `ID` = '$intPID'");
        my $intIgloo = $arrInfo->{igloo};
        my $intMusic = $arrInfo->{music};
        my $intFloor = $arrInfo->{floor};
@@ -87,7 +93,7 @@ method handleGetOpenedIgloos($strData, $objClient) {
 
 method loadIglooMap {
        my $strMap = '';
-       while (my ($intPID, $strName) = each(%{$self->{igloos}})) {
+       while (my ($intPID, $strName) = each(%{$self->{child}->{igloos}})) {
               $strMap .= $intPID . '|' . $strName . '%';
        }
        return $strMap;

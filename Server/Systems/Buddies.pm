@@ -5,6 +5,12 @@ use warnings;
 
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleGetBuddies($strData, $objClient) {
        my $strBuddies = $self->handleFetchBuddies($objClient);
        $objClient->write('%xt%gb%-1%' . ($strBuddies ? $strBuddies : '%'));
@@ -13,7 +19,7 @@ method handleGetBuddies($strData, $objClient) {
 method handleFetchBuddies($objClient) {
        my $strInfo = '';
        foreach (keys %{$objClient->{buddies}}) {
-	               my $arrInfo = $self->{modules}->{mysql}->fetchColumns("SELECT `nickname` FROM users WHERE `ID` = '$_'");
+	               my $arrInfo = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT `nickname` FROM users WHERE `ID` = '$_'");
 	        	      $strInfo .= $_ . '|' . $arrInfo->{nickname} . '|' . $objClient->getOnline($_) . '%';
        }
        return $strInfo;

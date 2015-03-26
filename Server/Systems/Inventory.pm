@@ -5,6 +5,12 @@ use warnings;
 
 use Method::Signatures;
 
+method new($resChild) {
+       my $obj = bless {}, $self;
+       $obj->{child} = $resChild;
+       return $obj;
+}
+
 method handleGetItems($strData, $objClient) {
        $objClient->sendXT(['gi', '-1', join('%',  @{$objClient->{inventory}})]); 
 }
@@ -22,7 +28,7 @@ method handleQueryPlayerAwards($strData, $objClient) {
        my $objPlayer = $objClient->getClientByID($intPID);
        my @arrAwards;
        foreach (@{$objPlayer->{inventory}}) {
-                if (exists($self->{modules}->{crumbs}->{itemCrumbs}->{$_}) && $self->{modules}->{crumbs}->{itemCrumbs}->{$_}->{type} == 10) {
+                if (exists($self->{child}->{modules}->{crumbs}->{itemCrumbs}->{$_}) && $self->{child}->{modules}->{crumbs}->{itemCrumbs}->{$_}->{type} == 10) {
                     push(@arrAwards, $_);
                 }
        }
@@ -37,7 +43,7 @@ method handleQueryPlayerPins($strData, $objClient) {
        my $objPlayer = $objClient->getClientByID($intPID);
        my @arrPins;
        foreach (@{$objPlayer->{inventory}}) {
-				           if (exists($self->{modules}->{crumbs}->{itemCrumbs}->{$_}) && $self->{child}->{modules}->{crumbs}->{itemCrumbs}->{$_}->{type} == 8) {
+				           if (exists($self->{child}->{modules}->{crumbs}->{itemCrumbs}->{$_}) && $self->{child}->{modules}->{crumbs}->{itemCrumbs}->{$_}->{type} == 8) {
                     push(@arrPins, $_);
 				           }   
        }

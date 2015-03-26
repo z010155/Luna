@@ -5,7 +5,7 @@ Club Penguin Server Emulator - AS2 Protocol
 
 ### Requirements:
 <ul>
- <li> Perl 5.10+</li>
+ <li> Perl 5.12+</li>
  <li> Apache/Nginx</li>
  <li> Phpmyadmin/Adminer</li>
  <li> MYSQL</li>
