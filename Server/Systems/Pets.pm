@@ -13,7 +13,10 @@ method new($resChild) {
 
 method handleAdoptPuffle($strData, $objClient) {}
 
-method handleGetPuffle($strData, $objClient) {}
+method handleGetPuffle($strData, $objClient) {
+       my @arrData = split('%', $strData);
+       $objClient->write('%xt%pg%'.$arrData[5].'%');
+}
 
 method handlePuffleBath($strData, $objClient) {}
 
