@@ -285,8 +285,8 @@ method checkBeforeLogin($strName, $strPass, $objClient) {
            $objClient->sendError(101);	
            $objClient->updateInvalidLogins($arrInfo->{invalidLogins} + 1, $strName);
            return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
-       } elsif ($arrInfo->{invalidLogins} > 3) {
-           $objClient->sendError(900);
+       } elsif ($arrInfo->{invalidLogins} > 5) {
+           $objClient->sendError(150);
            return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
        } elsif (!$arrInfo->{active})  {
            $objClient->sendError(900);
