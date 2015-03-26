@@ -318,7 +318,7 @@ method continueLogin($strName, $arrInfo, $objClient) {
            $objClient->write('%xt%l%-1%' . $arrInfo->{ID} . '%' . $self->{modules}->{crypt}->reverseMD5($objClient->{loginKey}) . '%0%');
            $objClient->updateKey($self->{modules}->{crypt}->reverseMD5($objClient->{loginKey}), $strName);
        } else {
-           $objClient->{userID} = $arrInfo->{ID};
+           $objClient->{ID} = $arrInfo->{ID};
            $objClient->{isAuth} = 1;
            $objClient->updateIP($objClient->{ipAddr});
            $objClient->loadDetails;
