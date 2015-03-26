@@ -325,6 +325,7 @@ method continueLogin($strName, $arrInfo, $objClient) {
            $objClient->sendXT(['l', '-1']);
            $objClient->handleBuddyOnline;
        }
+       $objClient->updateInvalidLogins(0, $strName);
 }
 
 method generateServerList {
