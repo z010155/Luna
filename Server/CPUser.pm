@@ -423,35 +423,35 @@ method closeIgloo {
 }
 
 method updateFurnInventory($strFurns) {
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'ownedFurns', $strFurns, 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('igloos', 'ownedFurns', $strFurns, 'ID', $self->{ID});
 }
 
 method updateIglooInventory($strIgloos) {
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'ownedIgloos', $strIgloos, 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('igloos', 'ownedIgloos', $strIgloos, 'ID', $self->{ID});
 }
 
 method updateFurniture($strFurn) {
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'furniture', $strFurn, 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('igloos', 'furniture', $strFurn, 'ID', $self->{ID});
 }
 
 method updateIgloo($intIgloo) {
        return if (!int($intIgloo));
        $self->{igloo} = $intIgloo;
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'igloo', $intIgloo, 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('igloos', 'igloo', $intIgloo, 'ID', $self->{ID});
        $self->sendXT(['ao', '-1', $intIgloo, $self->{coins}]);
 }
 
 method updateFloor($intFloor) {
        return if (!int($intFloor));
        $self->{floor} = $intFloor;
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'floor', $intFloor, 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('igloos', 'floor', $intFloor, 'ID', $self->{ID});
        $self->sendXT(['ag', '-1', $intFloor, $self->{coins}]);
 }
 
 method updateMusic($intMusic) {
        return if (!int($intMusic));
        $self->{music} = $intMusic;
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'music', $intMusic, 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('igloos', 'music', $intMusic, 'ID', $self->{ID});
        $self->sendXT(['um', '-1', $intMusic]);
 }
 
