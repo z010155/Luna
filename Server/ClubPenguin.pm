@@ -381,11 +381,8 @@ method handleXTData($strData, $objClient) {
        return if (!exists($self->{handlers}->{xt}->{$chrXT}->{$stdXT}));
        my $strHandler = $self->{handlers}->{xt}->{$chrXT}->{$stdXT};
        return if (!defined(&{$strHandler}));
-       if ($objClient->{isAuth} && $objClient->{username} ne '') { 
-           $self->$strHandler($strData, $objClient);
-       } else {
-           $self->{modules}->{base}->removeClientBySock($objClient->{sock});
-       }
+       $self->$strHandler($strData, $objClient);
+       $self->handleCustomPlugins('xt', $strData, $objClient);
 }
 
 method handleRedemptionJoinServer($strData, $objClient) {
