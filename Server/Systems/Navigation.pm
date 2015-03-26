@@ -30,7 +30,7 @@ method handleJoinServer($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $loginKey = $arrData[6];
        my $dbInfo = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT `loginKey`, `invalidLogins` FROM users WHERE `ID` = '$objClient->{ID}'");
-       if ($loginKey ne '' || $loginKey ne $dbInfo->{loginKey}) {
+       if ($loginKey eq '' || $loginKey ne $dbInfo->{loginKey}) {
            $objClient->sendError(101);
            $objClient->updateInvalidLogins($dbInfo->{invalidLogins} + 1, $objClient->{username});
            return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
