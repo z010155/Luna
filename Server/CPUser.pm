@@ -72,7 +72,8 @@ method sendXT(\@arrArgs) {
 method write($strData) {
        if ($self->{sock}->connected) {
            send($self->{sock}, $strData . chr(0), 0);
-       } elsif ($self->{parent}->{servConfig}->{debugging}) {
+       }
+       if ($self->{parent}->{servConfig}->{debugging}) {
            $self->{parent}->{modules}->{logger}->output('Packet Sent: ' . $strData, Logger::LEVELS->{dbg});        
        }
 }
@@ -293,7 +294,7 @@ method removePlayer {
        $self->sendRoom('%xt%rp%-1%' . $self->{ID} . '%');
 }
 
-method joinRoom($intRoom, $intX, $intY) {
+method joinRoom($intRoom, $intX = 330, $intY = 330) {
        return if (!int($intRoom) && !int($intX) && !int($intY));
        if (exists($self->{parent}->{modules}->{crumbs}->{gameRoomCrumbs}->{$intRoom})) {
            return $self->sendXT(['jg', '-1', $intRoom]);
