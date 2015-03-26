@@ -70,7 +70,9 @@ method parseResults($arrConfig, $objMysql, $objCaptcha, $objHtml) {
        my $strHash = md5_hex($strPass);
 
        my $intID = $objMysql->insertData('users', ['nickname', 'username', 'password', 'colour', 'active', 'ipAddr'], [$strName, $strName, $strHash, $intColour, 1, $strIP]);
-              
+       
+       $objMysql->insertData('igloos', ['ID', 'username'], [$intID, $strName]);
+           
        say $objHtml->h1('You have successfully registered');
        say $objHtml->p($objHtml->u('Your account details:'));
        say 'Username: ' . $objHtml->b($strName);
@@ -85,11 +87,17 @@ method displayPage($arrConfig, $objCaptcha, $objHtml) {
        say $objHtml->start_table;
 
        my %arrColours = (
-                      1 => 'Blue', 2 => 'Green',3 => 'Pink',
-                      4 => 'Black',5 => 'Red',6 => 'Orange',
-                      7 => 'Yellow', 8 => 'Dark Purple',9 => 'Brown',
-                      10 => 'Peach',11 => 'Dark Green', 12 => 'Light Blue',
-                      13 => 'Light Green',14 => 'Gray', 15 => 'Aqua'
+                      1 => 'Blue', 2 => 'Green',
+3 => 'Pink',
+                      4 => 'Black',
+5 => 'Red',
+6 => 'Orange',
+                      7 => 'Yellow', 8 => 'Dark Purple',
+9 => 'Brown',
+                      10 => 'Peach',
+11 => 'Dark Green', 12 => 'Light Blue',
+                      13 => 'Light Green',
+14 => 'Gray', 15 => 'Aqua'
        );
 
        say $objHtml->Tr($objHtml->td('Username:'), $objHtml->td($objHtml->textfield(-placeholder => 'Enter your name', -type => 'text', -name => 'username', -maxlength => 12)));
