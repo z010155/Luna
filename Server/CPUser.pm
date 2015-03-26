@@ -200,6 +200,11 @@ method setCoins($intCoins) {
        $self->{coins} = $intCoins;
 }
 
+method updateIP($ipAddr) {
+       return if (!$ipAddr);
+       $self->{parent}->{modules}->{mysql}->updateTable('users', 'ipAddr', $ipAddr, 'ID', $self->{ID});
+}
+
 method updateKey($strKey, $strName) {
        return if (!$strName);
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'loginKey', $strKey, 'username', $strName);
