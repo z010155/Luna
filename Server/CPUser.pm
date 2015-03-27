@@ -124,7 +124,14 @@ method loadDetails {
                             foreach (@restamps) {
                                      push(@{$self->{restamps}}, $_);
                             }
+                      } else {
+                            $self->{$key} = $value;
                       }
+              }
+       }   
+       my $arrIglooInfo = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT * FROM igloos WHERE `ID` = '$self->{ID}'"); 
+       while (my ($key, $value) = each(%{$arrIglooInfo})) {
+              switch ($key) {
                       case ('ownedIgloos') {
                             my @igloos = split('\\|', $value);
                             foreach (@igloos) {
@@ -140,7 +147,7 @@ method loadDetails {
                             $self->{$key} = $value;
                       }
               }
-       }   
+       }
 }
 
 method buildClientString {
@@ -166,10 +173,34 @@ method buildClientString {
        return $strInfo;
 }
 
+method buildBotString {
+       my @arrInfo = (
+                   'botID' => 0, 
+                   'botName' => 'Mystic', 
+                   'bitMask' => 1, 
+                   'botColour' => 4, 
+                   'botHead' => 1007, 
+                   'botFace' => 106, 
+                   'botNeck' => 0, 
+                   'botBody' => 221, 
+                   'botHand' => 0, 
+                   'botFeet' => 0, 
+                   'botFlag' => 0, 
+                   'botPhoto' => 0, 
+                   'xpos' => 0, 
+                   'ypos' => 0, 
+                   'frame' => 0, 
+                   'isMember' => 1,
+                   'rank' => 999
+       );
+       my $strInfo = join('|', values @arrInfo);
+       return $strInfo;
+}
+
 method getClientByID($intPID) {
        return if (!int($intPID));
        foreach (values %{$self->{parent}->{clients}}) {
-                if ($_->{ID} eq $intPID) {
+                if ($_->{ID} == $intPID) {
                     return $_;
                 }
 	      }
@@ -214,9 +245,6 @@ method updateKey($strKey, $strName) {
 method updateInvalidLogins($intCount, $strName) {
        return if (!int($intCount) && !$strName);
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'invalidLogins', $intCount, 'username', $strName);
-       if ($intCount > 3) {
-           $self->{parent}->{modules}->{mysql}->updateTable('users', 'active', 0, 'username', $strName);
-       }
 }
 
 method updatePlayerCard($strData, $strType, $intItem) {
@@ -312,8 +340,11 @@ method joinRoom($intRoom, $intX = 330, $intY = 330) {
                  }
 	                my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildClientString . '%';
 	                my $objClient = $self->getClientByName($self->{username});       
-                 if ($objClient->{room} eq $self->{room}) {
+                 if ($objClient->{room} == $self->{room}) {
                      $strData .= $objClient->buildClientString . '%';
+                 }
+                 if ($self->{parent}->{servConfig}->{isBot}) {
+                     $strData .= $self->buildBotString . '%';
                  }
                  $self->write($strData);
                  $self->sendRoom('%xt%ap%-1%' . $self->buildClientString . '%');
@@ -330,7 +361,7 @@ method addItem($intItem) {
 	          return $self->sendError(401);
        }    
        push(@{$self->{inventory}}, $intItem);
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'items', join('%', @{$self->{inventory}}) , 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('users', 'inventory', join('%', @{$self->{inventory}}) , 'ID', $self->{ID});
        $self->updateCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{itemCrumbs}->{$intItem}->{cost});
        $self->sendXT(['ai', '-1', $intItem, $self->{coins}]);
 }
@@ -342,14 +373,14 @@ method updateEPF($blnEpf) {
 }
 
 method handleBuddyOnline {
-       foreach (%{$self->{buddies}}) {
+       foreach (keys %{$self->{buddies}}) {
                 my $objPlayer = $self->getClientByID($_);
                 $objPlayer->sendXT(['bon', '-1', $self->{ID}]);
        }
 }
 
 method handleBuddyOffline {
-       foreach (%{$self->{buddies}}) {
+       foreach (keys %{$self->{buddies}}) {
                 my $objPlayer = $self->getClientByID($_);
                 $objPlayer->sendXT(['bof', '-1', $self->{ID}]);
        }
@@ -370,7 +401,7 @@ method updateEPFPoints($intPoints) {
 method getRoomCount {
        my $intCount = 0;
        foreach (values %{$self->{parent}->{clients}}) {
-                if ($_->{room} eq $self->{room}) {
+                if ($_->{room} == $self->{room}) {
                     $intCount++;
                 }
        }
@@ -380,7 +411,7 @@ method getRoomCount {
 method getOnline($intPID) {
        return if (!int($intPID));
        foreach (values %{$self->{parent}->{clients}}) {
-                return $_->{ID} eq $intPID ? 1 : 0;
+                return $_->{ID} == $intPID ? 1 : 0;
 	      }
 }
 
