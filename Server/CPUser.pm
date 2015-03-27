@@ -481,7 +481,7 @@ method getUnreadPostcards($intPID) {
 
 method getPostcardCount($intPID) {
        return if (!int($intPID));
-       my $intCount = $self->{parent}->{modules}->{mysql}->countRows("SELECT `recepient` FROM postcards WHERE `toUser` = '$intPID'");
+       my $intCount = $self->{parent}->{modules}->{mysql}->countRows("SELECT `toUser` FROM postcards WHERE `toUser` = '$intPID'");
        return $intCount;
 }
 
