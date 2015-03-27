@@ -30,7 +30,7 @@ method reverseMD5($strKey) {
 
 method generateKey {
        my @chars = ('A'..'Z', 'a'..'z', 0..9, '!$%^&*()_+-=[]{}:@~;<>?|\,./');
-       my $strKey = join '', map { @chars[rand @chars] } 1..8;
+       my $strKey = join('', map { @chars[rand(@chars)] } 1..8);
        return $strKey;
 }
 
