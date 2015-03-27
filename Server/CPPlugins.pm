@@ -17,7 +17,7 @@ method handleXMLData($strData, $objClient) {
            return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
        }
        my $strAct = $strXML->{body}->{action};
-       foreach (keys %{$self->{child}->{plugins}}) {
+       foreach (values %{$self->{child}->{plugins}}) {
                 if ($_->{pluginType} eq 'XML') {
                     if (exists($_->{property}->{$strAct})) {
                         if ($_->{property}->{$strAct}->{isEnabled}) {
@@ -32,7 +32,7 @@ method handleXMLData($strData, $objClient) {
 method handleXTData($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $strCmd = $arrData[3];
-       foreach (keys %{$self->{child}->{plugins}}) {
+       foreach (values %{$self->{child}->{plugins}}) {
                 if ($_->{pluginType} eq 'XT') {
                     if (exists($_->{property}->{$strCmd})) {
                         if ($_->{property}->{$strCmd}->{isEnabled}) {
