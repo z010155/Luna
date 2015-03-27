@@ -140,8 +140,9 @@ method loadDetails {
                       }
                       case ('ownedFurns') {
                             my @furnitures = split(',', $value);
-                            while (my ($furnID, $furnQuantity) = each(@furnitures)) {
-                                   $self->{ownedFurns}->{$furnID} = $furnQuantity;
+                            foreach (@furnitures) {
+                                     my ($furnID, $furnQuantity) = split('\\|', $_);
+                                     $self->{ownedFurns}->{$furnID} = $furnQuantity;
                             }
                       } else {
                             $self->{$key} = $value;
@@ -442,11 +443,8 @@ method addFurniture($intFurn) {
            $quantity += $self->{ownedFurns}->{$intFurn};           
        }
        $self->{ownedFurns}->{$intFurn} = $quantity;  
-       my $string = '';
-       while (my ($furnID, $furnQuantity) = each(%{$self->{ownedFurns}})) {
-              $string .= $furnID . '|' . $furnQuantity . ',';
-       } 
-       $self->updateFurnInventory($string);
+       my $strFurns = join(',', map { return $_ . '|' . $self->{ownedFurns}->{$_}; } keys %{$self->{ownedFurns}});
+       $self->updateFurnInventory($strFurns);
        $self->updateCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost});
        $self->sendXT(['af', '-1', $intFurn, $self->{coins}]);
 }
