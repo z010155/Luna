@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS `servers`;
 DROP TABLE IF EXISTS `postcards`;
 DROP TABLE IF EXISTS `puffles`;
 DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `igloos`;
 
 CREATE TABLE IF NOT EXISTS `servers` (
   `servPort` mediumint(5) NOT NULL,
@@ -40,6 +41,18 @@ CREATE TABLE IF NOT EXISTS `postcards` (
   `isRead` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`postcardID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `igloos` (
+  `ID` int(11) NOT NULL,
+  `username` char(20) NOT NULL,
+  `igloo` int(10) NOT NULL DEFAULT '1',
+  `floor` int(10) NOT NULL DEFAULT '0',
+  `music` int(10) NOT NULL DEFAULT '0',
+  `furniture` longblob NOT NULL,
+  `ownedFurns` longblob NOT NULL,
+  `ownedIgloos` longblob NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -79,13 +92,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `stamps` longblob NOT NULL,
   `cover` longblob NOT NULL,
   `restamps` longblob NOT NULL,
-  `igloo` int(10) NOT NULL DEFAULT '1',
-  `floor` int(10) NOT NULL DEFAULT '0',
-  `music` int(10) NOT NULL DEFAULT '0',
-  `furniture` longblob NOT NULL,
-  `ownedFurns` longblob NOT NULL,
-  `ownedIgloos` longblob NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
-INSERT INTO `users` (`username`, `nickname`, `password`, `colour`) VALUES ('Isis', 'Isis', 'f666dc0363010318799f42c48de7a41a', '4');
+INSERT INTO `users` (`username`, `nickname`, `password`, `colour`) VALUES
+ ('Isis', 'Isis', 'f666dc0363010318799f42c48de7a41a', '4');
