@@ -12,7 +12,7 @@ method new($resChild) {
 }
 
 method handleGetItems($strData, $objClient) {
-       $objClient->sendXT(['gi', '-1', join('%',  @{$objClient->{inventory}})]); 
+       $objClient->sendXT(['gi', '-1', join('%', @{$objClient->{inventory}})]); 
 }
 
 method handleAddItem($strData, $objClient) {
