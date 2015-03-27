@@ -469,24 +469,24 @@ method botSay($strMsg) {
 
 method getPostcards($intPID) {
        return if (!int($intPID));
-       my $arrDetails = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT `mailerName`, `mailerID`, `postcardType`, `notes`, `timestamp`, `postcardID` FROM postcards WHERE `recepient` = '$intPID'");
+       my $arrDetails = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT `fromName`, `fromID`, `cardType`, `details`, `timestamp` FROM postcards WHERE `toUser` = '$intPID'");
        return $arrDetails;
 }
 
 method getUnreadPostcards($intPID) {
        return if (!int($intPID));
-       my $unreadCount = $self->{parent}->{modules}->{mysql}->countRows("SELECT `isRead` FROM postcards WHERE `recepient` = '$intPID' AND `isRead` = '0'");
+       my $unreadCount = $self->{parent}->{modules}->{mysql}->countRows("SELECT `isRead` FROM postcards WHERE `toUser` = '$intPID' AND `isRead` = '0'");
        return $unreadCount;
 }
 
 method getPostcardCount($intPID) {
        return if (!int($intPID));
-       my $intCount = $self->{parent}->{modules}->{mysql}->countRows("SELECT `recepient` FROM postcards WHERE `recepient` = '$intPID'");
+       my $intCount = $self->{parent}->{modules}->{mysql}->countRows("SELECT `recepient` FROM postcards WHERE `toUser` = '$intPID'");
        return $intCount;
 }
 
 method sendPostcard($recepient, $mailerName = 'Server', $mailerID = 0, $notes = 'Cool', $type = 1, $timestamp = time) {
-       my @fields = ('recepient', 'mailerName', 'mailerID', 'notes', 'timestamp', 'postcardType');
+       my @fields = ('toUser', 'fromName', 'fromID', 'details', 'timestamp', 'cardType');
        my @values = ($recepient, $mailerName, $mailerID, $notes, $type, $timestamp);
        my $postcardID = $self->{parent}->{modules}->{mysql}->insertData('postcards', \@fields, \@values);
        return $postcardID;
