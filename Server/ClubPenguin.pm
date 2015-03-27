@@ -147,9 +147,9 @@ method initializeSource {
        if ($self->{servConfig}->{servType} ne 'login') {
            $self->{modules}->{crumbs}->updateCrumbs;
            $self->{modules}->{crumbs}->loadCrumbs;
+           $self->loadSystems;
        }
        $self->initiateMysql;
-       $self->loadSystems;
        $self->loadPlugins;
        $self->createServer;
        $self->initiateServer;
