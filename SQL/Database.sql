@@ -54,8 +54,7 @@ CREATE TABLE IF NOT EXISTS `igloos` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `igloos` (`ID`, `username`) VALUES
-('1', 'Isis');
+INSERT INTO `igloos` (`ID`, `username`) VALUES ('1', 'Isis');
 
 CREATE TABLE IF NOT EXISTS `users` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -98,5 +97,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
-INSERT INTO `users` (`username`, `nickname`, `password`, `colour`) VALUES
- ('Isis', 'Isis', 'f666dc0363010318799f42c48de7a41a', '4');
+INSERT INTO `users` (`username`, `nickname`, `password`, `colour`) VALUES ('Isis', 'Isis', 'f666dc0363010318799f42c48de7a41a', '4');

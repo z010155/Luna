@@ -42,8 +42,14 @@ method handleBuddyAccept($strData, $objClient) {
        delete($objPlayer->{buddyRequests}->{$objClient->{ID}});
        $objClient->{buddies}->{$intBudID} = $objPlayer->{username};
        $objPlayer->{buddies}->{$objClient->{ID}} = $objClient->{username};
-       my $cbStr = join(',', map { return $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objClient->{buddies}});
-       my $pbStr = join(',', map { return $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objPlayer->{buddies}});
+       my $cbStr = '';
+       my $pbStr = '';
+       while (my ($playerID, $playerName) = each(%{$objClient->{buddies}})) {
+              $cbStr .= $playerID . '|' . $playerName . ',';
+       }
+       while (my ($playerID, $playerName) = each(%{$objPlayer->{buddies}})) {
+              $pbStr .= $playerID . '|' . $playerName . ',';
+       }
        $objClient->updateBuddies($cbStr, $objClient->{ID});
        $objClient->updateBuddies($pbStr, $objPlayer->{ID});
        $objPlayer->sendXT(['ba', '-1', $objClient->{ID}, $objClient->{username}]);
@@ -56,9 +62,15 @@ method handleBuddyRemove($strData, $objClient) {
        my $objPlayer = $objClient->getClientByID($intBudID);
        delete($objClient->{buddies}->{$intBudID});
        delete($objPlayer->{buddies}->{$objClient->{ID}});
-       my $cbStr = join(',', map { return $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objClient->{buddies}});
-       my $pbStr = join(',', map { return $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objPlayer->{buddies}});
-			   $objClient->updateBuddies($cbStr, $objClient->{ID});
+       my $cbStr = '';
+       my $pbStr = '';
+       while (my ($playerID, $playerName) = each(%{$objClient->{buddies}})) {
+              $cbStr .= $playerID . '|' . $playerName . ',';
+       }
+       while (my ($playerID, $playerName) = each(%{$objPlayer->{buddies}})) {
+              $pbStr .= $playerID . '|' . $playerName . ',';
+       }
+ 			   $objClient->updateBuddies($cbStr, $objClient->{ID});
 			   $objClient->updateBuddies($pbStr, $objPlayer->{ID});
        $objPlayer->sendXT(['rb', '-1', $objClient->{ID}, $objClient->{username}]);
 }

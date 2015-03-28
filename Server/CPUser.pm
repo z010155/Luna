@@ -325,7 +325,7 @@ method setAction($intAction) {
 }
 
 method removePlayer {
-       return if (!int($self->{room})); # if player just joined server, then it's useless
+       return if (!int($self->{room}));
        $self->sendRoom('%xt%rp%-1%' . $self->{ID} . '%');
 }
 
@@ -340,7 +340,7 @@ method joinRoom($intRoom, $intX = 330, $intY = 330) {
                  if ($intRoom <= 899 && $self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
                      return $self->sendError(210);
                  }
-	         my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildRoomString;  
+                 my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildRoomString;  
                  $self->write($strData);
                  $self->sendRoom('%xt%ap%-1%' . $self->buildClientString . '%');
        }
@@ -395,7 +395,7 @@ method buildRoomString {
                 }
        }
        if ($self->{parent}->{servConfig}->{isBot}) {
-                $userList .= $self->buildBotString . '%';
+           $userList .= $self->buildBotString . '%';
        }
        return $userList;
 }
@@ -450,7 +450,10 @@ method addFurniture($intFurn) {
            $quantity += $self->{ownedFurns}->{$intFurn};           
        }
        $self->{ownedFurns}->{$intFurn} = $quantity;  
-       my $strFurns = join(',', map { return $_ . '|' . $self->{ownedFurns}->{$_}; } keys %{$self->{ownedFurns}});
+       my $strFurns = '';
+       while (my ($furnID, $furnQuantity) = each(%{$self->{ownedFurns}})) {
+              $strFurns .= $furnID . '|' . $furnQuantity . ',';
+       }
        $self->updateFurnInventory($strFurns);
        $self->updateCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost});
        $self->sendXT(['af', '-1', $intFurn, $self->{coins}]);

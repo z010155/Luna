@@ -67,7 +67,10 @@ method handleCloseIgloo($strData, $objClient) {
 }
 
 method handleGetOwnedFurniture($strData, $objClient) {
-       my $strFurns = join('%', map { return $_ . '|'. $objClient->{ownedFurns}->{$_}; } keys %{$objClient->{ownedFurns}});
+       my $strFurns = '';
+       while (my ($furnID, $furnQuantity) = each(%{$objClient->{ownedFurns}})) {
+              $strFurns .= $furnID . '|'. $furnQuantity . '%';
+       }
        $objClient->write('%xt%gf%-1%' . ($strFurns ? $strFurns : '%'));
 }
 
@@ -89,7 +92,10 @@ method handleGetOpenedIgloos($strData, $objClient) {
 }
 
 method loadIglooMap {
-       my $strMap = join('%', map { return $_ . '|' . $self->{child}->{igloos}->{$_}; } keys %{$self->{child}->{igloos}});
+       my $strMap = '';
+       while (my ($playerID, $playerName) = each(%{$self->{child}->{igloos}})) {
+              $strMap .= $playerID . '|' . $playerName . '%';
+       }
        return $strMap;
 }
 
