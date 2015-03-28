@@ -15,10 +15,12 @@ method new($resChild) {
 
 method handleMailGet($strData, $objClient) {
        my $arrReceived = $objClient->getPostcards($objClient->{ID});
-       my $arrCards = reverse($arrReceived);
        my $strCards = '';
-       foreach (%{$arrCards}) {
-                $strCards .= $_ . '%';
+       if ($arrReceived) {
+              my $arrCards = reverse($arrReceived);
+              foreach (%{$arrCards}) {
+                    $strCards .= $_ . '%';
+              }
        }
        $objClient->write('%xt%mg%-1%' . ($strCards ? $strCards : '%'));
 }
