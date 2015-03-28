@@ -34,7 +34,7 @@ and then type:
 
 If you are using Windows, you can use <b>Run.bat</b>
 
-*Important Note:* First install <b>CPAN</b> and after that type: <code>reload cpan</code> and then continue installing the other modules
+*<b>Important Note:</b>* First install <b>CPAN</b> and after that type: <code>reload cpan</code> and then continue installing the other modules
 
 ### Modules: 
 <ul>
@@ -74,7 +74,7 @@ If you are using Windows, you can use <b>Run.bat</b>
  <li><a href="http://www.adminer.org/">How to install Adminer(Optional)</a></li>
 </ul>
 
-*Note:* Windows users please do not install Perl when installing XAMPP.
+*<b>Note:</b>* Windows users please do not install Perl when installing XAMPP.
 
 ### Default Server Account:
 
