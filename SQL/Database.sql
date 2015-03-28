@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `servers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `puffles` (
-  `puffleID` int(11) NOT NULL,
+  `puffleID` int(11) NOT NULL AUTO_INCREMENT,
   `ownerID` smallint(2) NOT NULL,
   `puffleName` char(10) NOT NULL,
   `puffleType` smallint(2) NOT NULL,
