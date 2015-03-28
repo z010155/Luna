@@ -330,12 +330,12 @@ method removePlayer {
 
 method joinRoom($intRoom, $intX = 330, $intY = 330) {
        return if (!int($intRoom) && !int($intX) && !int($intY));
+       $self->removePlayer;
        if (exists($self->{parent}->{modules}->{crumbs}->{gameRoomCrumbs}->{$intRoom})) {
            return $self->sendXT(['jg', '-1', $intRoom]);
        } elsif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}) || $intRoom > 1000) {
                  $self->{room} = $intRoom;
                  $self->setPosition($intX, $intY);
-                 $self->removePlayer;  		
                  if ($intRoom <= 899 && $self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
                      return $self->sendError(210);
                  }
