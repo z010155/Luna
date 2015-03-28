@@ -3,12 +3,10 @@ Luna
 
 Club Penguin Server Emulator - AS2 Protocol
 
-[[ http://i.gyazo.com/01ae9c2572c8e9b7b2092f9cf2e590f2.png | height = 100px ]]
-[[ http://i.gyazo.com/118ae5a5f2fed6b4157bdb5e19b0f33a.png | height = 100px ]]
-[[ http://i.gyazo.com/fd4dac2adf30d0e5b0a8122d5d4c124d.png | height = 100px ]]
-[[ http://i.gyazo.com/c67d31b1845ae286f6f80d3135f597ef.png | height = 100px ]]
-[[ http://i.gyazo.com/13074fc2a61731518866add219e3a765.png | height = 100px ]]
-
+![Alt tag](https://github.com/Romtoc/Luna/blob/master/Screenshots/01ae9c2572c8e9b7b2092f9cf2e590f2.png)
+![Alt tag](https://github.com/Romtoc/Luna/blob/master/Screenshots/118ae5a5f2fed6b4157bdb5e19b0f33a.png)
+![Alt tag](https://github.com/Romtoc/Luna/blob/master/Screenshots/c67d31b1845ae286f6f80d3135f597ef.png)
+![Alt tag](https://github.com/Romtoc/Luna/blob/master/Screenshots/fd4dac2adf30d0e5b0a8122d5d4c124d.png)
 
 ### Requirements:
 <ul>
