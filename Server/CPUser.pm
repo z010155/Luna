@@ -339,7 +339,7 @@ method joinRoom($intRoom, $intX = 330, $intY = 330) {
                  if ($intRoom <= 899 && $self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
                      return $self->sendError(210);
                  }
-	         my $strData = '%xt%jr%-1%'  . $intRoom . $self->buildRoomString;  
+	         my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildRoomString;  
                  $self->write($strData);
                  $self->sendRoom('%xt%ap%-1%' . $self->buildClientString . '%');
        }
