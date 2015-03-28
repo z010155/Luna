@@ -505,6 +505,27 @@ method botSay($strMsg) {
        }
 }
 
+
+method addPuffle($puffleType, $puffleName) {
+       return if (!int($puffleType) && !$puffleName);
+       #my @fields = ('ownerID', 'puffleName', 'puffleType', 'puffleEnergy', 'puffleHealth', 'puffleRest');
+       #my @values = ($self->{ID}, $puffleName, $puffleType, '100', '100', '100');
+       my $puffleID = $self->{parent}->{modules}->{mysql}->execQuery("INSERT INTO puffles (ownerID, puffleName, puffleType) VALUES ('".$self->{ID}."', '".$puffleName."', '".$puffleType."');");
+       $puffleID = $puffleID->{mysql_insertid};
+       #my $puffleID = $self->{parent}->{modules}->{mysql}->insertData('puffles', \@fields, \@values);
+       $self->setCoins($self->{coins} - 800);
+       return $puffleID . '|' . $puffleName . '|' . $puffleType . '|100|100|100';
+}
+
+method getPuffles ($userID) {
+       my $puffles = '';
+       my $arrInfo = $self->{parent}->{modules}->{mysql}->fetchAll("SELECT * FROM puffles WHERE `ownerID` = '" . $userID . "'");
+       foreach (values @$arrInfo) {
+               $puffles .= $_->{puffleID} . '|' . $_->{puffleName} . '|' . $_->{puffleType} . '|' . $_->{puffleEnergy} . '|' . $_->{puffleHealth} . '|' . $_->{puffleRest} . '%';
+       }
+       return substr($puffles, 0, -1);
+}
+
 method getPostcards($intPID) {
        return if (!int($intPID));
        my $arrDetails = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT `mailerName`, `mailerID`, `postcardType`, `notes`, `timestamp`, `postcardID` FROM postcards WHERE `recepient` = '$intPID'");
