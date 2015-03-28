@@ -339,14 +339,7 @@ method joinRoom($intRoom, $intX = 330, $intY = 330) {
                  if ($intRoom <= 899 && $self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
                      return $self->sendError(210);
                  }
-	                my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildClientString . '%';
-	                my $objClient = $self->getClientByName($self->{username});       
-                 if ($objClient->{room} == $self->{room}) {
-                     $strData .= $objClient->buildClientString . '%';
-                 }
-                 if ($self->{parent}->{servConfig}->{isBot}) {
-                     $strData .= $self->buildBotString . '%';
-                 }
+	         my $strData = '%xt%jr%-1%'  . $intRoom . $self->buildRoomString;  
                  $self->write($strData);
                  $self->sendRoom('%xt%ap%-1%' . $self->buildClientString . '%');
        }
@@ -391,6 +384,19 @@ method updateOPStat($blnStat) {
        return if (!int($blnStat));
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'fieldOPStatus', $blnStat, 'ID', $self->{ID});
        $self->{fieldOPStatus} = $blnStat;
+}
+
+method buildRoomString {
+       my $userList = $self->buildClientString . '%';
+       foreach (values %{$self->{parent}->{clients}}) {
+                if ($_->{room} == $self->{room} && $_->{ID} ne $self->{ID}) {
+                    $userList .= $_->buildClientString . '%';
+                }
+       }
+       if ($self->{parent}->{servConfig}->{isBot}) {
+                $userList .= $self->buildBotString . '%';
+       }
+       return $userList;
 }
 
 method updateEPFPoints($intPoints) {
