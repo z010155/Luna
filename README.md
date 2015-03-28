@@ -34,7 +34,7 @@ and then type:
 
 If you are using Windows, you can use <b>Run.bat</b>
 
-<b><u>Important Note:</u></b> First install <b>CPAN</b> and after that type: <code>reload cpan</code> and then continue installing the other modules
+<b><em>Important Note:</em></b> First install <b>CPAN</b> and after that type: <code>reload cpan</code> and then continue installing the other modules
 
 ### Modules: 
 <ul>
@@ -74,7 +74,7 @@ If you are using Windows, you can use <b>Run.bat</b>
  <li><a href="http://www.adminer.org/">How to install Adminer(Optional)</a></li>
 </ul>
 
-<b><u>Note:</u></b> Windows users please do not install Perl when installing XAMPP.
+<b><em>Note:</em></b> Windows users please do not install Perl when installing XAMPP.
 
 ### Default Server Account:
 
@@ -82,3 +82,10 @@ The source now comes with a default account, this account is created when you im
 
 <b>Username:</b> Isis<br>
 <b>Password:</b> imfuckinggay<br>
+
+<style>
+em {
+  font-style: normal;
+  text-decoration: underline;
+}
+</style>
