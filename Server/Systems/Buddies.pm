@@ -25,7 +25,7 @@ method handleFetchBuddies($objClient) {
        return $strInfo;
 }
 
-method handleBuddyRequests($strData, $objClient) {
+method handleBuddyRequest($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intBudID = $arrData[5];
        return if (!int($intBudID));
@@ -44,9 +44,9 @@ method handleBuddyAccept($strData, $objClient) {
        $objPlayer->{buddies}->{$objClient->{ID}} = $objClient->{username};
        my $cbStr = join(',', map { return $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objClient->{buddies}});
        my $pbStr = join(',', map { return $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objPlayer->{buddies}});
-			   $objClient->updateBuddies($cbStr, $objClient->{ID});
-			   $objClient->updateBuddies($pbStr, $objPlayer->{ID});
-			   $objPlayer->sendXT(['ba', '-1', $objClient->{ID}, $objClient->{username}]);
+       $objClient->updateBuddies($cbStr, $objClient->{ID});
+       $objClient->updateBuddies($pbStr, $objPlayer->{ID});
+       $objPlayer->sendXT(['ba', '-1', $objClient->{ID}, $objClient->{username}]);
 }
 
 method handleBuddyRemove($strData, $objClient) {
