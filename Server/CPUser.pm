@@ -357,7 +357,7 @@ method addItem($intItem) {
        }    
        push(@{$self->{inventory}}, $intItem);
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'inventory', join('%', @{$self->{inventory}}) , 'ID', $self->{ID});
-       $self->updateCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{itemCrumbs}->{$intItem}->{cost});
+       $self->setCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{itemCrumbs}->{$intItem}->{cost});
        $self->sendXT(['ai', '-1', $intItem, $self->{coins}]);
 }
 
@@ -434,7 +434,7 @@ method addIgloo($intIgloo) {
        }   
        push(@{$self->{ownedIgloos}}, $intIgloo); 
        $self->updateIglooInventory(join('|', @{$self->{ownedIgloos}}));
-       $self->updateCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{iglooCrumbs}->{$intIgloo}->{cost});
+       $self->setCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{iglooCrumbs}->{$intIgloo}->{cost});
        $self->sendXT(['au', '-1', $intIgloo, $self->{coins}]);
 }
 
@@ -455,7 +455,7 @@ method addFurniture($intFurn) {
               $strFurns .= $furnID . '|' . $furnQuantity . ',';
        }
        $self->updateFurnInventory($strFurns);
-       $self->updateCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost});
+       $self->setCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost});
        $self->sendXT(['af', '-1', $intFurn, $self->{coins}]);
 }
 
