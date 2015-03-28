@@ -72,6 +72,7 @@ method parseResults($arrConfig, $objMysql, $objCaptcha, $objHtml) {
        my $intID = $objMysql->insertData('users', ['nickname', 'username', 'password', 'colour', 'active', 'ipAddr'], [$strName, $strName, $strHash, $intColour, 1, $strIP]);
        
        $objMysql->insertData('igloos', ['ID', 'username'], [$intID, $strName]);
+       $objMysql->insertData('postcards', ['recepient', 'mailerName', 'mailerID', 'notes', 'postcardType', 'timestamp'], [$intID, 'Luna', 0, 'Welcome To Luna!', 125, time]);
            
        say $objHtml->h1('You have successfully registered');
        say $objHtml->p($objHtml->u('Your account details:'));

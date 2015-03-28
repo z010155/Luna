@@ -29,7 +29,6 @@ method new($resParent, $resSock) {
        $obj->{bitMask} = 1;
        $obj->{banCount} = 0;
        $obj->{invalidLogins} = 0;
-       $obj->{isNewMail} = 1;
        $obj->{colour} = 0;
        $obj->{head} = 0;
        $obj->{face} = 0;
@@ -529,16 +528,10 @@ method getPostcardCount($intPID) {
 }
 
 method sendPostcard($recepient, $mailerName = 'Server', $mailerID = 0, $notes = 'Cool', $type = 1, $timestamp = time) {
-       my @fields = ('recepient', 'mailerName', 'mailerID', 'notes', 'timestamp', 'postcardType');
+       my @fields = ('recepient', 'mailerName', 'mailerID', 'notes', 'postcardType', 'time');
        my @values = ($recepient, $mailerName, $mailerID, $notes, $type, $timestamp);
        my $postcardID = $self->{parent}->{modules}->{mysql}->insertData('postcards', \@fields, \@values);
        return $postcardID;
-}
-
-method updateNewMail($isNew) {
-       return if (!int($isNew));
-       $self->{isNewMail} = $isNew;
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'isNewMail', $isNew, 'ID', $self->{ID});
 }
 
 method updateIgnore($strIgnored, $intPID) {

@@ -14,12 +14,6 @@ method new($resChild) {
 }
 
 method handleMailGet($strData, $objClient) {
-       if ($objClient->{isNewMail}) {
-           my $dbInfo = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT `age` FROM users WHERE `ID` = '$objClient->{ID}'");
-           my $timestamp = str2time($dbInfo->{age});
-           $objClient->sendPostcard($objClient->{userID}, 'Luna', 0, 'Welcome To Luna!', 125, $timestamp);
-           $objClient->updateNewMail(0);
-       }
        my $arrReceived = $objClient->getPostcards($objClient->{ID});
        my $arrCards = reverse($arrReceived);
        my $strCards = '';

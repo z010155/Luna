@@ -90,7 +90,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `fieldOPStatus` tinyint(1) NOT NULL DEFAULT '0',
   `epfPoints` int(10) NOT NULL DEFAULT '20',
   `totalEPFPoints` int(10) NOT NULL DEFAULT '100',
-  `isNewMail` tinyint(1) NOT NULL DEFAULT '1',
   `stamps` longblob NOT NULL,
   `cover` longblob NOT NULL,
   `restamps` longblob NOT NULL,
