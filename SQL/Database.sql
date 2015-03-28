@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS `postcards` (
   PRIMARY KEY (`postcardID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
+INSERT INTO `postcards` (`recepient`, `mailerName`, `mailerID`, `notes`, `timestamp`, `postcardType`) VALUES ('1', 'Luna', '0', 'Welcome To Luna', UNIX_TIMESTAMP, '125');
+
 CREATE TABLE IF NOT EXISTS `igloos` (
   `ID` int(11) NOT NULL,
   `username` char(20) NOT NULL,
