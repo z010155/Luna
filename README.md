@@ -32,7 +32,9 @@ and then type:
 
 <code>perl Run.pm</code>
 
-If you are using Windows, you can use the <b>Run.bat</b>
+If you are using Windows, you can use <b>Run.bat</b>
+
+<b><u>Important Note:</u></b> First install <b>CPAN</b> and after that type: <code>reload cpan</code> and then continue installing the other modules
 
 ### Modules: 
 <ul>
@@ -61,8 +63,6 @@ If you are using Windows, you can use the <b>Run.bat</b>
  <li> File::Fetch</li>
 </ul>
 
-<u><b>Important Note:</b></u> After you install <b>CPAN</b>, type <code>reload cpan</code> and continue installing the other modules
-
 ### Tutorials:
 <ul>
  <li><a href="http://areyouahuman.com/">Are You A Human?(Required)</a></li>
@@ -74,11 +74,11 @@ If you are using Windows, you can use the <b>Run.bat</b>
  <li><a href="http://www.adminer.org/">How to install Adminer(Optional)</a></li>
 </ul>
 
-<u><b>Note:</b></u> Windows users please do not install Perl when installing XAMPP
+<b><u>Note:</u></b> Windows users please do not install Perl when installing XAMPP.
 
 ### Default Server Account:
 
 The source now comes with a default account, this account is created when you import the SQL into your database. 
 
-<b>Username:</b> Isis
-<b>Password:</b> imfuckinggay
+<b>Username:</b> Isis<br>
+<b>Password:</b> imfuckinggay<br>
