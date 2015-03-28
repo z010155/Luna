@@ -54,6 +54,9 @@ CREATE TABLE IF NOT EXISTS `igloos` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `igloos` (`ID`, `username`) VALUES
+('1', 'Isis');
+
 CREATE TABLE IF NOT EXISTS `users` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `username` char(20) NOT NULL,
