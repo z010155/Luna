@@ -509,7 +509,11 @@ method botSay($strMsg) {
 method getPostcards($intPID) {
        return if (!int($intPID));
        my $arrDetails = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT `mailerName`, `mailerID`, `postcardType`, `notes`, `timestamp`, `postcardID` FROM postcards WHERE `recepient` = '$intPID'");
-       return $arrDetails;
+       if (!$arrDetails) {
+           return $arrDetails;
+       } else {
+          $self->{parent}->{modules}->{logger}->output(ucfirst($self->{username}) . ' Mail Box Is Empty', Logger::LEVELS->{inf});
+       }
 }
 
 method getUnreadPostcards($intPID) {
