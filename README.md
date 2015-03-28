@@ -15,7 +15,7 @@ Club Penguin Server Emulator - AS2 Protocol
 ### Instructions:
 <ul>
  <li> Setup an AS2 Media Server</li>
- <li> Install all the Perl modules from the list below</li>
+ <li> Install all the Perl modules from the <a href="https://github.com/Romtoc/Luna/blob/master/README.md#modules">modules list</a></li>
  <li> Import the <b>Database.sql</b> from the <b>SQL</b> folder using <b>Phpmyadmin/Adminer</b></li>
  <li> Setup the <b>Register</b> and create an account</li>
  <li> Edit <b>Config.pl</b> from the <b>Configuration</b> folder</li>
@@ -34,7 +34,7 @@ and then type:
 
 If you are using Windows, you can use <b>Run.bat</b>
 
-*<b>Important Note:</b>* First install <b>CPAN</b> and after that type: <code>reload cpan</code> and then continue installing the other modules
+*<b>Important Note:</b>* First install <b>CPAN</b> and after that type: <code>reload cpan</code> and then continue installing the other modules.
 
 ### Modules: 
 <ul>
