@@ -325,6 +325,7 @@ method setAction($intAction) {
 }
 
 method removePlayer {
+       return if (!int($self->{room})); # if player just joined server, then it's useless
        $self->sendRoom('%xt%rp%-1%' . $self->{ID} . '%');
 }
 
