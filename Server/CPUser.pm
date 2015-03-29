@@ -527,7 +527,7 @@ method addPuffle($puffleType, $puffleName) {
 method getPuffles($userID) {
        my $puffles = '';
        my $arrInfo = $self->{parent}->{modules}->{mysql}->fetchAll("SELECT * FROM puffles WHERE `ownerID` = '$userID'");
-       foreach (keys @{$arrInfo}) {
+       foreach (values @{$arrInfo}) {
                 $puffles .= $_->{puffleID} . '|' . $_->{puffleName} . '|' . $_->{puffleType} . '|' . $_->{puffleEnergy} . '|' . $_->{puffleHealth} . '|' . $_->{puffleRest} . '%';
        }
        return substr($puffles, 0, -1);
@@ -537,7 +537,7 @@ method getPostcards($intPID) {
        return if (!int($intPID));
        my $strCards = '';
        my $arrCards = $self->{parent}->{modules}->{mysql}->fetchAll("SELECT * FROM postcards WHERE `recepient` = '$intPID'");
-       foreach (keys @{$arrCards}) {
+       foreach (values @{$arrCards}) {
                 $strCards .= $_->{mailerName} . '|' . $_->{mailerID} . '|' . $_->{postcardType} . '|' . $_->{notes} . '|' . $_->{timestamp} . '|' . $_ . '%';
        }
        return $strCards;
