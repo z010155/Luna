@@ -69,9 +69,9 @@ method handlePuffleWalk($strData, $objClient) {
        my $puffleID = $arrData[5];
        my $petDetails = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$puffleID'");
        if ($petDetails) {
-             $objClient->updatePlayerCard('upa', 'hand', '75' . $petDetails->{puffleType});
-             my $walkStr = $petDetails->{puffleID} . '|' . $petDetails->{puffleName} . '|' . $petDetails->{puffleType} . '|0|0|0|0|0|1';
-             $objClient->sendRoom('%xt%pw%-1%'. $objClient->{ID} . '%' . $walkStr . '%');
+           $objClient->updatePlayerCard('upa', 'hand', '75' . $petDetails->{puffleType});
+           my $walkStr = $petDetails->{puffleID} . '|' . $petDetails->{puffleName} . '|' . $petDetails->{puffleType} . '|0|0|0|0|0|1';
+           $objClient->sendRoom('%xt%pw%-1%'. $objClient->{ID} . '%' . $walkStr . '%');
        }
 }
 

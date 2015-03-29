@@ -513,7 +513,7 @@ method addPuffle($puffleType, $puffleName) {
        return $puffleID . '|' . $puffleName . '|' . $puffleType . '|100|100|100';
 }
 
-method getPuffles ($userID) {
+method getPuffles($userID) {
        my $puffles = '';
        my $arrInfo = $self->{parent}->{modules}->{mysql}->fetchAll("SELECT * FROM puffles WHERE `ownerID` = '$userID'");
        foreach (keys @{$arrInfo}) {
