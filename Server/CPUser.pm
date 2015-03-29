@@ -591,7 +591,6 @@ method DESTROY {
        $self->removePlayer;
        $self->handleBuddyOffline;
        $self->closeIgloo;
-       $self->{parent}->{modules}->{base}->removeClientBySock($self->{sock});
 }
 
 1;
