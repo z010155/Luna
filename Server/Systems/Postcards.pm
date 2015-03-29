@@ -14,14 +14,7 @@ method new($resChild) {
 }
 
 method handleMailGet($strData, $objClient) {
-       my $arrReceived = $objClient->getPostcards($objClient->{ID});
-       my $strCards = '';
-       if ($arrReceived) {
-              my $arrCards = reverse($arrReceived);
-              foreach (%{$arrCards}) {
-                    $strCards .= $_ . '%';
-              }
-       }
+       my $strCards = $objClient->getPostcards($objClient->{ID});
        $objClient->write('%xt%mg%-1%' . ($strCards ? $strCards : '%'));
 }
 
