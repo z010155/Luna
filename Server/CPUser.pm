@@ -360,6 +360,17 @@ method addItem($intItem) {
        $self->sendXT(['ai', '-1', $intItem, $self->{coins}]);
 }
 
+method addStamp($intStamp) {
+       return if (!int($intStamp));
+       return if (!exists($self->{parent}->{child}->{modules}->{crumbs}->{stampCrumbs}->{$intStamp}));
+       return if (grep /$intStamp/, @{$self->{stamps}});
+       push(@{$self->{stamps}}, $intStamp);
+       push(@{$self->{restamps}}, $intStamp);
+       $self->{parent}->{child}->{modules}->{mysql}->updateTable('users', 'stamps', join('|', @{$self->{stamps}}), 'ID', $self->{ID});
+       $self->{parent}->{child}->{modules}->{mysql}->updateTable('users', 'restamps', join('|', @{$self->{restamps}}), 'ID', $self->{ID});
+       $self->sendXT(['aabs', '-1', $intStamp]);
+}
+
 method updateEPF($blnEpf) {
        return if (!int($blnEpf));
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'isEPF', $blnEpf, 'ID', $self->{ID});

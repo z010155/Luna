@@ -14,14 +14,7 @@ method new($resChild) {
 method handleSendStampEarned($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intStamp = $arrData[5];
-       return if (!int($intStamp));
-       return if (!exists($self->{child}->{modules}->{crumbs}->{stampCrumbs}->{$intStamp}));
-       return if (grep /$intStamp/, @{$objClient->{stamps}});
-       push(@{$objClient->{stamps}}, $intStamp);
-       push(@{$objClient->{restamps}}, $intStamp);
-       $self->{child}->{modules}->{mysql}->updateTable('users', 'stamps', join('|', @{$objClient->{stamps}}), 'ID', $objClient->{ID});
-       $self->{child}->{modules}->{mysql}->updateTable('users', 'restamps', join('|', @{$objClient->{restamps}}), 'ID', $objClient->{ID});
-       $objClient->sendXT(['aabs', '-1', $intStamp]);
+       $objClient->addStamp($intStamp);
 }
 
 method handleGetPlayersStamps($strData, $objClient) {
