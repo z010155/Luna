@@ -508,11 +508,7 @@ method botSay($strMsg) {
 
 method addPuffle($puffleType, $puffleName) {
        return if (!int($puffleType) && !$puffleName);
-       #my @fields = ('ownerID', 'puffleName', 'puffleType', 'puffleEnergy', 'puffleHealth', 'puffleRest');
-       #my @values = ($self->{ID}, $puffleName, $puffleType, '100', '100', '100');
-       my $puffleID = $self->{parent}->{modules}->{mysql}->execQuery("INSERT INTO puffles (ownerID, puffleName, puffleType) VALUES ('".$self->{ID}."', '".$puffleName."', '".$puffleType."');");
-       $puffleID = $puffleID->{mysql_insertid};
-       #my $puffleID = $self->{parent}->{modules}->{mysql}->insertData('puffles', \@fields, \@values);
+       my $puffleID = $self->{parent}->{modules}->{mysql}->insertData('puffles', ['ownerID', 'puffleName', 'puffleType'], [$self->{ID}, $puffleName, $puffleType]);
        $self->setCoins($self->{coins} - 800);
        return $puffleID . '|' . $puffleName . '|' . $puffleType . '|100|100|100';
 }
@@ -529,11 +525,7 @@ method getPuffles ($userID) {
 method getPostcards($intPID) {
        return if (!int($intPID));
        my $arrDetails = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT `mailerName`, `mailerID`, `postcardType`, `notes`, `timestamp`, `postcardID` FROM postcards WHERE `recepient` = '$intPID'");
-       if (!$arrDetails) {
-           return $arrDetails;
-       } else {
-          $self->{parent}->{modules}->{logger}->output(ucfirst($self->{username}) . ' Mail Box Is Empty', Logger::LEVELS->{inf});
-       }
+       return $arrDetails;
 }
 
 method getUnreadPostcards($intPID) {
@@ -549,9 +541,7 @@ method getPostcardCount($intPID) {
 }
 
 method sendPostcard($recepient, $mailerName = 'Server', $mailerID = 0, $notes = 'Cool', $type = 1, $timestamp = time) {
-       my @fields = ('recepient', 'mailerName', 'mailerID', 'notes', 'postcardType', 'time');
-       my @values = ($recepient, $mailerName, $mailerID, $notes, $type, $timestamp);
-       my $postcardID = $self->{parent}->{modules}->{mysql}->insertData('postcards', \@fields, \@values);
+       my $postcardID = $self->{parent}->{modules}->{mysql}->insertData('postcards', ['recepient', 'mailerName', 'mailerID', 'notes', 'postcardType', 'time'], [$recepient, $mailerName, $mailerID, $notes, $type, $timestamp]);
        return $postcardID;
 }
 
