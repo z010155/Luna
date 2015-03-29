@@ -453,7 +453,7 @@ method addFurniture($intFurn) {
        if (!exists($self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn})) {
            return $self->sendError(402);
        } elsif ($self->{coins} < $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost}) {
-	          return $self->sendError(401);
+	   return $self->sendError(401);
        }
        my $quantity = 1;
        if (exists($self->{ownedFurns}->{$intFurn})) {
@@ -462,7 +462,7 @@ method addFurniture($intFurn) {
        $self->{ownedFurns}->{$intFurn} = $quantity;  
        my $strFurns = '';
        while (my ($furnID, $furnQuantity) = each(%{$self->{ownedFurns}})) {
-              $strFurns .= $furnID . '|' . $furnQuantity . ',';
+           $strFurns .= $furnID . '|' . $furnQuantity . ',';
        }
        $self->updateFurnInventory($strFurns);
        $self->setCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost});
@@ -498,8 +498,14 @@ method updateIgloo($intIgloo) {
 
 method updateFloor($intFloor) {
        return if (!int($intFloor));
+       if (!exists($self->{parent}->{modules}->{crumbs}->{floorCrumbs}->{$intFloor})) {
+           return $self->sendError(402);
+       } elsif ($self->{coins} < $self->{parent}->{modules}->{crumbs}->{floorCrumbs}->{$intFloor}->{cost}) {
+	       return $self->sendError(401);
+       }
        $self->{floor} = $intFloor;
        $self->{parent}->{modules}->{mysql}->updateTable('igloos', 'floor', $intFloor, 'ID', $self->{ID});
+       $self->setCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{floorCrumbs}->{$intFloor}->{cost});
        $self->sendXT(['ag', '-1', $intFloor, $self->{coins}]);
 }
 
