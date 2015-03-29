@@ -99,4 +99,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
-INSERT INTO `users` (`username`, `nickname`, `password`, `colour`) VALUES ('Isis', 'Isis', 'f666dc0363010318799f42c48de7a41a', '4');
+INSERT INTO `users` (`username`, `nickname`, `password`, `colour`, `stamps`) VALUES ('Isis', 'Isis', 'f666dc0363010318799f42c48de7a41a', '4', '31|7|33|8|32|35|34|36|290|358|448');
