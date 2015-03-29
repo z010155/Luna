@@ -330,23 +330,25 @@ method continueLogin($strName, $arrInfo, $objClient) {
 
 method generateServerList {
        my $strServer = '';
-       my $arrInfo = $self->{modules}->{mysql}->fetchColumns('SELECT * FROM servers');
-       my $intPopulation = $arrInfo->{curPop};
-       my $intBars = 0;
-       if ($intPopulation <= 50) {    
-           $intBars = 1;
-       } elsif ($intPopulation > 50 && $intPopulation <= 100) {
-           $intBars = 2;
-       } elsif ($intPopulation > 100 && $intPopulation <= 200) {
-           $intBars = 3;
-       } elsif ($intPopulation > 200 && $intPopulation <= 300) {
-           $intBars = 4;
-       } elsif ($intPopulation > 300 && $intPopulation <= 400) {
-           $intBars = 5;
-       } elsif ($intPopulation > 400 && $intPopulation <= 500 && $intPopulation > 500) {
-           $intBars = 6;
+       my $arrInfo = $self->{modules}->{mysql}->fetchAll("SELECT * FROM servers WHERE `servType` = 'game'");
+       foreach (keys @{$arrInfo}) {
+                my $intPopulation = $_->{curPop};
+                my $intBars = 0;
+                if ($intPopulation <= 50) {    
+                    $intBars = 1;
+                } elsif ($intPopulation > 50 && $intPopulation <= 100) {
+                    $intBars = 2;
+                } elsif ($intPopulation > 100 && $intPopulation <= 200) {
+                    $intBars = 3;
+                } elsif ($intPopulation > 200 && $intPopulation <= 300) {
+                    $intBars = 4;
+                } elsif ($intPopulation > 300 && $intPopulation <= 400) {
+                    $intBars = 5;
+                } elsif ($intPopulation > 400 && $intPopulation <= 500 && $intPopulation > 500) {
+                    $intBars = 6;
+                }
+                $strServer .= $_->{servIP} . ':' . $_->{servPort} . ':' . $_->{servName} . ':' . $intBars . '|';
        }
-       $strServer .= $arrInfo->{servIP} . ':' . $arrInfo->{servPort} . ':' . $arrInfo->{servName} . ':' . $intBars . '|';
        return $strServer;
 }
 
