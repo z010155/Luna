@@ -19,6 +19,10 @@ method handleAdoptPuffle($strData, $objClient) {
            return $objClient->sendError(401);
        }
        my $puffleString = $objClient->addPuffle($puffleID, $puffleName);
+       my $adoptTime = time;
+       my $postcardType = 111;
+       my $postcardID = $objClient->sendPostcard($objClient->{ID}, 'sys', 0, 'Thanks For Adopting Me!', $postcardType, $adoptTime);
+       $objClient->sendXT(['mr', '-1', 'sys', 0, $postcardType, $puffleName, $adoptTime, $postcardID]);
        $objClient->sendXT(['pn', '-1', $objClient->{coins}, $puffleString]);
        $objClient->sendXT(['pgu', '-1', $objClient->getPuffles($objClient->{ID})]);
 }
@@ -69,7 +73,7 @@ method handlePuffleWalk($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $puffleID = $arrData[5];
        return if (!int($puffleID));
-       my $petDetails = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$puffleID'");
+       my $petDetails = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$puffleID' AND `ownerID` = '$objClient->{ID}'");
        if ($petDetails) {
            $objClient->updatePlayerCard('upa', 'hand', '75' . $petDetails->{puffleType});
            my $walkStr = $petDetails->{puffleID} . '|' . $petDetails->{puffleName} . '|' . $petDetails->{puffleType} . '|0|0|0|0|0|1';
