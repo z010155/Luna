@@ -26,6 +26,7 @@ method handleAdoptPuffle($strData, $objClient) {
 method handleGetPuffle($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $puffleID = $arrData[5];
+       return if (!int($puffleID));
        $objClient->sendXT(['pg', '-1', $objClient->getPuffles($puffleID)]);
 }
 
@@ -67,6 +68,7 @@ method handlePufflePir($strData, $objClient) {
 method handlePuffleWalk($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $puffleID = $arrData[5];
+       return if (!int($puffleID));
        my $petDetails = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$puffleID'");
        if ($petDetails) {
            $objClient->updatePlayerCard('upa', 'hand', '75' . $petDetails->{puffleType});
