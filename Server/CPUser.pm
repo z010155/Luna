@@ -379,15 +379,19 @@ method updateEPF($blnEpf) {
 
 method handleBuddyOnline {
        foreach (keys %{$self->{buddies}}) {
-                my $objPlayer = $self->getClientByID($_);
-                $objPlayer->sendXT(['bon', '-1', $self->{ID}]);
+                if ($self->getOnline($_)) {
+                     my $objPlayer = $self->getClientByID($_);
+                     $objPlayer->sendXT(['bon', '-1', $self->{ID}]);
+                }
        }
 }
 
 method handleBuddyOffline {
        foreach (keys %{$self->{buddies}}) {
-                my $objPlayer = $self->getClientByID($_);
-                $objPlayer->sendXT(['bof', '-1', $self->{ID}]);
+                if ($self->getOnline($_)) {
+                     my $objPlayer = $self->getClientByID($_);
+                     $objPlayer->sendXT(['bof', '-1', $self->{ID}]);
+                }
        }
 }
 
@@ -429,8 +433,11 @@ method getRoomCount {
 method getOnline($intPID) {
        return if (!int($intPID));
        foreach (values %{$self->{parent}->{clients}}) {
-                return $_->{ID} == $intPID ? 1 : 0;
-	      }
+                if($_->{ID} == $intPID) {
+                       return 1;
+                }
+	   }
+	   return 0;
 }
 
 method addIgloo($intIgloo) {
