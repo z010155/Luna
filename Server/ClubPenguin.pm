@@ -331,7 +331,7 @@ method continueLogin($strName, $arrInfo, $objClient) {
 method generateServerList {
        my $strServer = '';
        my $arrInfo = $self->{modules}->{mysql}->fetchAll("SELECT * FROM servers WHERE `servType` = 'game'");
-       foreach (values @{$arrInfo}) {
+       foreach (keys @{$arrInfo}) {
                 my $intPopulation = $_->{curPop};
                 my $intBars = 0;
                 if ($intPopulation <= 50) {    
@@ -353,9 +353,6 @@ method generateServerList {
 }
 
 method handleXTData($strData, $objClient) {
-       if (index($strData, '|') != -1) {
-           return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
-       }
        my @arrData = split('%', $strData);
        my $chrXT = $arrData[2];
        my $stdXT = $arrData[3];
