@@ -517,15 +517,19 @@ method getPuffles($userID) {
        my $puffles = '';
        my $arrInfo = $self->{parent}->{modules}->{mysql}->fetchAll("SELECT * FROM puffles WHERE `ownerID` = '$userID'");
        foreach (keys @{$arrInfo}) {
-               $puffles .= $_->{puffleID} . '|' . $_->{puffleName} . '|' . $_->{puffleType} . '|' . $_->{puffleEnergy} . '|' . $_->{puffleHealth} . '|' . $_->{puffleRest} . '%';
+                $puffles .= $_->{puffleID} . '|' . $_->{puffleName} . '|' . $_->{puffleType} . '|' . $_->{puffleEnergy} . '|' . $_->{puffleHealth} . '|' . $_->{puffleRest} . '%';
        }
        return substr($puffles, 0, -1);
 }
 
 method getPostcards($intPID) {
        return if (!int($intPID));
-       my $arrDetails = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT `mailerName`, `mailerID`, `postcardType`, `notes`, `timestamp`, `postcardID` FROM postcards WHERE `recepient` = '$intPID'");
-       return $arrDetails;
+       my $strCards = '';
+       my $arrCards = $self->{parent}->{modules}->{mysql}->fetchAll("SELECT * FROM postcards WHERE `recepient` = '$intPID'");
+       foreach (keys @{$arrCards}) {
+                $strCards .= $_->{mailerName} . '|' . $_->{mailerID} . '|' . $_->{postcardType} . '|' . $_->{notes} . '|' . $_->{timestamp} . '|' . $_ . '%';
+       }
+       return $strCards;
 }
 
 method getUnreadPostcards($intPID) {
