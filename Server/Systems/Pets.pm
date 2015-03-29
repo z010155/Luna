@@ -75,7 +75,7 @@ method handlePuffleWalk($strData, $objClient) {
        return if (!int($puffleID));
        my $petDetails = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$puffleID' AND `ownerID` = '$objClient->{ID}'");
        if ($petDetails) {
-           $objClient->updatePlayerCard('upa', 'hand', '75' . $petDetails->{puffleType});
+           $objClient->updatePlayerCard('upa', 'hand', 75 . $petDetails->{puffleType});
            my $walkStr = $petDetails->{puffleID} . '|' . $petDetails->{puffleName} . '|' . $petDetails->{puffleType} . '|0|0|0|0|0|1';
            $objClient->sendRoom('%xt%pw%-1%'. $objClient->{ID} . '%' . $walkStr . '%');
        }
