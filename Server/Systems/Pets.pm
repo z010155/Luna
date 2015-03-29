@@ -13,17 +13,20 @@ method new($resChild) {
 
 method handleAdoptPuffle($strData, $objClient) {
        my @arrData = split('%', $strData);
+       my $puffleID = $arrData[5];
+       my $puffleName = $arrData[6];
        if ($objClient->{coins} < 800) {
-              return $objClient->sendError(401);
+           return $objClient->sendError(401);
        }
-       my $puffleString = $objClient->addPuffle($arrData[5], $arrData[6]);
+       my $puffleString = $objClient->addPuffle($puffleID, $puffleName);
        $objClient->sendXT(['pn', '-1', $objClient->{coins}, $puffleString]);
        $objClient->sendXT(['pgu', '-1', $objClient->getPuffles($objClient->{ID})]);
 }
 
 method handleGetPuffle($strData, $objClient) {
        my @arrData = split('%', $strData);
-       $objClient->sendXT(['pg', '-1', $objClient->getPuffles($arrData[5])]);
+       my $puffleID = $arrData[5];
+       $objClient->sendXT(['pg', '-1', $objClient->getPuffles($puffleID)]);
 }
 
 method handlePuffleBath($strData, $objClient) {}
@@ -58,16 +61,17 @@ method handlePufflePip($strData, $objClient) {
 
 method handlePufflePir($strData, $objClient) {
        my @arrData = split('%', $strData);
-       $objClient->sendXT(['pip', '-1', $arrData[5], $arrData[6], $arrData[7]]);
+       $objClient->sendXT(['pir', '-1', $arrData[5], $arrData[6], $arrData[7]]);
 }
 
 method handlePuffleWalk($strData, $objClient) {
        my @arrData = split('%', $strData);
-       my $petDetails = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '".$arrData[5]."'");
+       my $puffleID = $arrData[5];
+       my $petDetails = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$puffleID'");
        if ($petDetails) {
-             $objClient->updatePlayerCard('upa', 'hand', '75'.$petDetails->{puffleType});
+             $objClient->updatePlayerCard('upa', 'hand', '75' . $petDetails->{puffleType});
              my $walkStr = $petDetails->{puffleID} . '|' . $petDetails->{puffleName} . '|' . $petDetails->{puffleType} . '|0|0|0|0|0|1';
-             $objClient->sendRoom('%xt%pw%-1%'.$objClient->{ID}.'%'.$walkStr.'%');
+             $objClient->sendRoom('%xt%pw%-1%'. $objClient->{ID} . '%' . $walkStr . '%');
        }
 }
 

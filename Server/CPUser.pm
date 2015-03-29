@@ -519,8 +519,8 @@ method addPuffle($puffleType, $puffleName) {
 
 method getPuffles ($userID) {
        my $puffles = '';
-       my $arrInfo = $self->{parent}->{modules}->{mysql}->fetchAll("SELECT * FROM puffles WHERE `ownerID` = '" . $userID . "'");
-       foreach (values @$arrInfo) {
+       my $arrInfo = $self->{parent}->{modules}->{mysql}->fetchAll("SELECT * FROM puffles WHERE `ownerID` = '$userID'");
+       foreach (keys @{$arrInfo}) {
                $puffles .= $_->{puffleID} . '|' . $_->{puffleName} . '|' . $_->{puffleType} . '|' . $_->{puffleEnergy} . '|' . $_->{puffleHealth} . '|' . $_->{puffleRest} . '%';
        }
        return substr($puffles, 0, -1);
