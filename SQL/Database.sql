@@ -12,11 +12,12 @@ DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `igloos`;
 
 CREATE TABLE IF NOT EXISTS `servers` (
+  `servType` varchar(10) NOT NULL DEFAULT 'game',
   `servPort` mediumint(5) NOT NULL,
   `servName` char(20) NOT NULL,
   `servIP` mediumblob NOT NULL,
   `curPop` int(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`servPort`)
+  PRIMARY KEY (`servType`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `puffles` (
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `puffles` (
   `puffleHealth` smallint(3) NOT NULL DEFAULT '100',
   `puffleRest` smallint(3) NOT NULL DEFAULT '100',
   PRIMARY KEY (`puffleID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `postcards` (
   `postcardID` int(10) NOT NULL AUTO_INCREMENT,
