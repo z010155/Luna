@@ -69,7 +69,7 @@ method parseResults($arrConfig, $objMysql, $objCaptcha, $objHtml) {
 
        my $strHash = md5_hex($strPass);
 
-       my $intID = $objMysql->insertData('users', ['nickname', 'username', 'password', 'colour', 'active', 'ipAddr'], [$strName, $strName, $strHash, $intColour, 1, $strIP]);
+       my $intID = $objMysql->insertData('users', ['nickname', 'username', 'password', 'colour', 'active', 'ipAddr', 'stamps'], [$strName, $strName, $strHash, $intColour, 1, $strIP, '31|7|33|8|32|35|34|36|290|358|448']);
        
        $objMysql->insertData('igloos', ['ID', 'username'], [$intID, $strName]);
        $objMysql->insertData('postcards', ['recepient', 'mailerName', 'mailerID', 'notes', 'postcardType', 'timestamp'], [$intID, 'Luna', 0, 'Welcome To Luna!', 125, time]);
