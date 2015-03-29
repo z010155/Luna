@@ -50,7 +50,7 @@ method handleGetIglooDetails($strData, $objClient) {
        my $intMusic = $arrInfo->{music};
        my $intFloor = $arrInfo->{floor};
        my $strFurn = $arrInfo->{furniture};
-       $objClient->write('%xt%gm%-1%' . $intPID . '%' . $intIgloo . '%' . $intMusic . '%' . $intFloor . '%' .  ($strFurn ? $strFurns : '') . '%');
+       $objClient->write('%xt%gm%-1%' . $intPID . '%' . $intIgloo . '%' . $intMusic . '%' . $intFloor . '%' .  ($strFurn ? $strFurn : '') . '%');
 }
 
 method handleGetOwnedIgloos($strData, $objClient) {
@@ -77,7 +77,7 @@ method handleGetOwnedFurniture($strData, $objClient) {
 method handleGetFurnitureRevision($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $strFurns = '';
-       while ($intKey, $strValue) = each(@arrData)) {
+       while (my ($intKey, $strValue) = each(@arrData)) {
               if ($intKey > 4) {
                   $strFurns .= $strValue . ',';
               }
