@@ -121,7 +121,7 @@ method new($resConfig, $resDBConfig) {
                     'ni#gsl' => 'handleGetSnowLevel',
                     'a#jt' => 'handleJoinTable',
                     'a#gt' => 'handleGetTable',
-                    'a#upt' => 'handleUpdateTable',
+                    'a#ut' => 'handleUpdateTable',
                     'a#lt' => 'handleLeaveTable'
                   },
                   z => {},
