@@ -11,7 +11,7 @@ method new($resChild) {
        return $obj;
 }
 
-method handleGetNinjaRevision($strData, $objClient) {}
+method handleGetNinjaRanks($strData, $objClient) {}
 
 method handleGetNinjaLevel($strData, $objClient) {}
 
