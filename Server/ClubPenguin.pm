@@ -113,7 +113,7 @@ method new($resConfig, $resDBConfig) {
                     't#rt' => 'handleRemoveToy',
                     'e#dc' => 'handleDonateCoins',
                     'e#spl' => 'handleSetPoll',
-                    'ni#gnr' => 'handleGetNinjaRevision',
+                    'ni#gnr' => 'handleGetNinjaRanks',
                     'ni#gnl' => 'handleGetNinjaLevel',
                     'ni#gcd' => 'handleGetCards',
                     'ni#gfl' => 'handleGetFireLevel',
