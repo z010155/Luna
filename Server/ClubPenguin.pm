@@ -122,7 +122,8 @@ method new($resConfig, $resDBConfig) {
                     'a#jt' => 'handleJoinTable',
                     'a#gt' => 'handleGetTable',
                     'a#ut' => 'handleUpdateTable',
-                    'a#lt' => 'handleLeaveTable'
+                    'a#lt' => 'handleLeaveTable',
+                    'w#jx' => 'handleSendWaddle'
                   },
                   z => {},
                   red => {
