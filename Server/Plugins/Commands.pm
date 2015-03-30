@@ -23,7 +23,8 @@ method new($resChild) {
                          sping => 'handleSendPong',
                          sid => 'handleSendID',
                          scount => 'handleSendServerPopulation',
-                         rcount => 'handleSendRoomPopulation'                                  
+                         rcount => 'handleSendRoomPopulation',
+                         jr => 'handleJoinRoom'                                
                  },
                  staff => {
                        tban => 'handleTimeBanClient',

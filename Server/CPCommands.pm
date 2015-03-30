@@ -47,6 +47,12 @@ method handleSendRoomPopulation($objClient, $nullVar) {
        $self->handleServerSay($objClient, $strMsg);
 }
 
+method handleJoinRoom($objClient, $intRoom) {
+       if ($intRoom > 0 && $intRoom < 1000) {
+              $objClient->joinRoom($intRoom);
+       }
+}
+
 method handleRebootServer($objClient, $nullVar) {
        return if (!$objClient->{isAdmin});
        foreach (values %{$self->{child}->{clients}}) {
