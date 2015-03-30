@@ -13,7 +13,7 @@ method new($resChild) {
 
 method handleGetNinjaRanks($strData, $objClient) {
        my @arrData = split('%', $strData);
-       $objClient->sendXT(['gnr', '-1', $arrData[5], '1', '2', '3', '4']); #arrData[5] being player id, later?
+       $objClient->sendXT(['gnr', '-1', $arrData[5], '0', '0', '0', '0']); #arrData[5] being player id, later?
 }
 
 method handleGetNinjaLevel($strData, $objClient) {
