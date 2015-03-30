@@ -61,15 +61,16 @@ method new($resConfig, $resDBConfig) {
                     'o#k' => 'handleKick',
                     'o#m' => 'handleMute',
                     'o#b' => 'handleBan',
+                    'p#ps' => 'handleSendPuffleFrame',
                     'p#pg' => 'handleGetPuffle',
                     'p#pip' => 'handlePufflePip',
                     'p#pir' => 'handlePufflePir',
                     'p#ir' => 'handlePuffleIsResting',
                     'p#ip' => 'handlePuffleIsPlaying',
+                    'p#if' => 'handlePuffleIsFeeding',
                     'p#pw' => 'handlePuffleWalk',
                     'p#pgu' => 'handlePuffleUser',
                     'p#pf' => 'handlePuffleFeedFood',
-                    'p#phg' => 'handlePuffleClick',
                     'p#pn' => 'handleAdoptPuffle',
                     'p#pr' => 'handlePuffleRest',
                     'p#pp' => 'handlePufflePlay',
@@ -331,7 +332,7 @@ method continueLogin($strName, $arrInfo, $objClient) {
 method generateServerList {
        my $strServer = '';
        my $arrInfo = $self->{modules}->{mysql}->fetchAll("SELECT * FROM servers WHERE `servType` = 'game'");
-       foreach (keys @{$arrInfo}) {
+       foreach (values @{$arrInfo}) {
                 my $intPopulation = $_->{curPop};
                 my $intBars = 0;
                 if ($intPopulation <= 50) {    
