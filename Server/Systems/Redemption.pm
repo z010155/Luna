@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Method::Signatures;
-use List::Compare qw(is_LsubsetR);
+use Array::Utils qw(array_diff);
 
 method new($resChild) {
        my $obj = bless {}, $self;
@@ -49,8 +49,7 @@ method handleRedemptionSendCode($strData, $objClient) {
        my $strItems = $self->{child}->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{items};
        my $intCoins = $self->{child}->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{cost};
        my @arrItems = split('\\|', $strItems);
-       my @arrExisting = @{$objClient->{inventory}};
-       if (is_LsubsetR([\@arrItems, \@arrExisting])) {
+       if (!array_diff(@arrItems, @{$objClient->{inventory}})) {
            return $objClient->sendError(20721);
        }
        $objClient->sendXT(['rsc', '-1', 'CAMPAIGN', $strItems, $intCoins]);  
@@ -74,8 +73,7 @@ method handleRedemptionSendGoldenCode($strData, $objClient) {
        }
        my $strItems = $self->{child}->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{items};
        my @arrItems = split('\\|', $strItems);
-       my @arrExisting = @{$objClient->{inventory}};
-       if (is_LsubsetR([\@arrItems, \@arrExisting])) {
+       if (!array_diff(@arrItems, @{$objClient->{inventory}})) {
            return $objClient->sendError(20721);
        }
        $objClient->sendXT(['rsgc', '-1', 'GOLDEN', $strItems]);  

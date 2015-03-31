@@ -57,7 +57,7 @@ If you are using Windows, you can use <b>Run.bat</b>
  <li> DBI</li>
  <li> DBD::mysql</li>
  <li> Module::Find</li>
- <li> List::Compare</li>
+ <li> Array::Utils</li>
  <li> HTTP::Date</li>
  <li> Math::Round</li>
  <li> POSIX</li>
