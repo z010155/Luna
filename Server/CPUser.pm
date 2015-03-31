@@ -550,8 +550,10 @@ method getPostcards($intPID) {
        return if (!int($intPID));
        my $strCards = '';
        my $arrCards = $self->{parent}->{modules}->{mysql}->fetchAll("SELECT * FROM postcards WHERE `recepient` = '$intPID'");
+       my $intCount = 0;
        foreach (values @{$arrCards}) {
-                $strCards .= $_->{mailerName} . '|' . $_->{mailerID} . '|' . $_->{postcardType} . '|' . $_->{notes} . '|' . $_->{timestamp} . '|' . $_ . '%';
+                $intCount++;
+                $strCards .= $_->{mailerName} . '|' . $_->{mailerID} . '|' . $_->{postcardType} . '|' . $_->{notes} . '|' . $_->{timestamp} . '|' . $intCount . '%';
        }
        return $strCards;
 }
