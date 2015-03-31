@@ -51,7 +51,7 @@ method handleBuddyAccept($strData, $objClient) {
               $pbStr .= $playerID . '|' . $playerName . ',';
        }
        $objClient->updateBuddies($cbStr, $objClient->{ID});
-       $objClient->updateBuddies($pbStr, $objPlayer->{ID});
+       $objPlayer->updateBuddies($pbStr, $objPlayer->{ID});
        $objPlayer->sendXT(['ba', '-1', $objClient->{ID}, $objClient->{username}]);
 }
 
@@ -71,7 +71,7 @@ method handleBuddyRemove($strData, $objClient) {
               $pbStr .= $playerID . '|' . $playerName . ',';
        }
  			   $objClient->updateBuddies($cbStr, $objClient->{ID});
-			   $objClient->updateBuddies($pbStr, $objPlayer->{ID});
+			   $objPlayer->updateBuddies($pbStr, $objPlayer->{ID});
        $objPlayer->sendXT(['rb', '-1', $objClient->{ID}, $objClient->{username}]);
 }
 

@@ -574,12 +574,10 @@ method sendPostcard($recepient, $mailerName = 'Server', $mailerID = 0, $notes = 
 }
 
 method updateIgnore($strIgnored, $intPID) {
-       return if (!$strIgnored && !int($intPID));
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'ignored', $strIgnored, 'ID', $intPID);
 }
 
 method updateBuddies($strBuddies, $intPID) {
-       return if (!$strBuddies && !int($intPID));
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'buddies', $strBuddies, 'ID', $intPID);
 }
 
