@@ -48,7 +48,7 @@ method handleRedemptionSendCode($strData, $objClient) {
        }       
        my $strItems = $self->{child}->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{items};
        my $intCoins = $self->{child}->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{cost};
-       my @arrItems = split('\\|', $strItems);
+       my @arrItems = split(',', $strItems);
        if (!array_diff(@arrItems, @{$objClient->{inventory}})) {
            return $objClient->sendError(20721);
        }
@@ -72,7 +72,7 @@ method handleRedemptionSendGoldenCode($strData, $objClient) {
            return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
        }
        my $strItems = $self->{child}->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{items};
-       my @arrItems = split('\\|', $strItems);
+       my @arrItems = split(',', $strItems);
        if (!array_diff(@arrItems, @{$objClient->{inventory}})) {
            return $objClient->sendError(20721);
        }
