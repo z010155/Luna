@@ -362,12 +362,12 @@ method addItem($intItem) {
 
 method addStamp($intStamp) {
        return if (!int($intStamp));
-       return if (!exists($self->{parent}->{child}->{modules}->{crumbs}->{stampCrumbs}->{$intStamp}));
+       return if (!exists($self->{parent}->{modules}->{crumbs}->{stampCrumbs}->{$intStamp}));
        return if (grep /$intStamp/, @{$self->{stamps}});
        push(@{$self->{stamps}}, $intStamp);
        push(@{$self->{restamps}}, $intStamp);
-       $self->{parent}->{child}->{modules}->{mysql}->updateTable('users', 'stamps', join('|', @{$self->{stamps}}), 'ID', $self->{ID});
-       $self->{parent}->{child}->{modules}->{mysql}->updateTable('users', 'restamps', join('|', @{$self->{restamps}}), 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('users', 'stamps', join('|', @{$self->{stamps}}), 'ID', $self->{ID});
+       $self->{parent}->{modules}->{mysql}->updateTable('users', 'restamps', join('|', @{$self->{restamps}}), 'ID', $self->{ID});
        $self->sendXT(['aabs', '-1', $intStamp]);
 }
 
