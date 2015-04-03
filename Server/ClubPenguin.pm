@@ -125,7 +125,11 @@ method new($resConfig, $resDBConfig) {
                     'a#lt' => 'handleLeaveTable',
                     'w#jx' => 'handleSendWaddle'
                   },
-                  z => {},
+                  z => {
+                     'zo' => 'handleGameOver',
+                     'm' => 'handleMovePuck',
+                     'gz' => 'handleGetZone'
+                  },
                   red => {
                       rjs => 'handleRedemptionJoinServer',
                       rgbq => 'handleRedemptionGetBookQuestion',
