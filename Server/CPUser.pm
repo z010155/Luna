@@ -460,7 +460,7 @@ method addFurniture($intFurn) {
        return if (!int($intFurn));
        if (!exists($self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn})) {
            return $self->sendError(402);
-       } elsif ($self->{coins} < $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost})
+       } elsif ($self->{coins} < $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost}) {
            return $self->sendError(401);
        }
        my $quantity = 1;
