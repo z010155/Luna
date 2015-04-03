@@ -570,7 +570,7 @@ method getPostcardCount($intPID) {
 }
 
 method sendPostcard($recepient, $mailerName = 'Server', $mailerID = 0, $notes = 'Cool', $type = 1, $timestamp = time) {
-       my $postcardID = $self->{parent}->{modules}->{mysql}->insertData('postcards', ['recepient', 'mailerName', 'mailerID', 'notes', 'postcardType', 'time'], [$recepient, $mailerName, $mailerID, $notes, $type, $timestamp]);
+       my $postcardID = $self->{parent}->{modules}->{mysql}->insertData('postcards', ['recepient', 'mailerName', 'mailerID', 'notes', 'postcardType', 'timestamp'], [$recepient, $mailerName, $mailerID, $notes, $type, $timestamp]);
        return $postcardID;
 }
 
