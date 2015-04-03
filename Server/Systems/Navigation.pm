@@ -59,12 +59,7 @@ method handleJoinGame($strData, $objClient) {
 
 method handleGetRoomSynced($strData, $objClient) {
        my $strClients = '';
-       foreach (values %{$self->{child}->{clients}}) {
-                if ($_->{room} == $objClient->{room}) {
-                    $strClients .= $_->buildClientString . '%';
-                }
-       }
-       $objClient->write('%xt%grs%-1%' . ($strClients ? $strClients : '%'));
+       $objClient->write('%xt%grs%-1%'.$objClient->{room}.'%'.$objClient->buildRoomString);
 }
 
 1;
