@@ -335,7 +335,8 @@ method joinRoom($intRoom, $intX = 330, $intY = 330) {
            return $self->sendXT(['jg', '-1', $intRoom]);
        } elsif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}) || $intRoom > 1000) {
                  $self->{room} = $intRoom;
-                 $self->setPosition($intX, $intY);
+                 $self->{xpos} = $intX;
+                 $self->{ypos} = $intY;
                  if ($intRoom <= 899 && $self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
                      return $self->sendError(210);
                  }
