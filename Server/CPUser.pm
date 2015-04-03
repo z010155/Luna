@@ -334,15 +334,15 @@ method joinRoom($intRoom, $intX = 330, $intY = 330) {
        if (exists($self->{parent}->{modules}->{crumbs}->{gameRoomCrumbs}->{$intRoom})) {
            return $self->sendXT(['jg', '-1', $intRoom]);
        } elsif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}) || $intRoom > 1000) {
-                 $self->{room} = $intRoom;
-                 $self->{xpos} = $intX;
-                 $self->{ypos} = $intY;
-                 if ($intRoom <= 899 && $self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
-                     return $self->sendError(210);
-                 }
-                 my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildRoomString;  
-                 $self->write($strData);
-                 $self->sendRoom('%xt%ap%-1%' . $self->buildClientString . '%');
+                $self->{room} = $intRoom;
+                $self->{xpos} = $intX;
+                $self->{ypos} = $intY;
+                if ($intRoom <= 899 && $self->getRoomCount >= $self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}->{limit}) {
+                    return $self->sendError(210);
+                }
+                my $strData = '%xt%jr%-1%'  . $intRoom . '%' . $self->buildRoomString;  
+                $self->write($strData);
+                $self->sendRoom('%xt%ap%-1%' . $self->buildClientString . '%');
        }
 }
 
@@ -381,8 +381,8 @@ method updateEPF($blnEpf) {
 method handleBuddyOnline {
        foreach (keys %{$self->{buddies}}) {
                 if ($self->getOnline($_)) {
-                     my $objPlayer = $self->getClientByID($_);
-                     $objPlayer->sendXT(['bon', '-1', $self->{ID}]);
+                    my $objPlayer = $self->getClientByID($_);
+                    $objPlayer->sendXT(['bon', '-1', $self->{ID}]);
                 }
        }
 }
@@ -390,8 +390,8 @@ method handleBuddyOnline {
 method handleBuddyOffline {
        foreach (keys %{$self->{buddies}}) {
                 if ($self->getOnline($_)) {
-                     my $objPlayer = $self->getClientByID($_);
-                     $objPlayer->sendXT(['bof', '-1', $self->{ID}]);
+                    my $objPlayer = $self->getClientByID($_);
+                    $objPlayer->sendXT(['bof', '-1', $self->{ID}]);
                 }
        }
 }
@@ -434,11 +434,11 @@ method getRoomCount {
 method getOnline($intPID) {
        return if (!int($intPID));
        foreach (values %{$self->{parent}->{clients}}) {
-                if($_->{ID} == $intPID) {
-                       return 1;
+                if ($_->{ID} == $intPID) {
+                    return 1;
                 }
-	   }
-	   return 0;
+       }
+       return 0;
 }
 
 method addIgloo($intIgloo) {
@@ -460,18 +460,15 @@ method addFurniture($intFurn) {
        return if (!int($intFurn));
        if (!exists($self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn})) {
            return $self->sendError(402);
-       } elsif ($self->{coins} < $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost}) {
-	   return $self->sendError(401);
+       } elsif ($self->{coins} < $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost})
+           return $self->sendError(401);
        }
        my $quantity = 1;
        if (exists($self->{ownedFurns}->{$intFurn})) {
            $quantity += $self->{ownedFurns}->{$intFurn};           
        }
        $self->{ownedFurns}->{$intFurn} = $quantity;  
-       my $strFurns = '';
-       while (my ($furnID, $furnQuantity) = each(%{$self->{ownedFurns}})) {
-           $strFurns .= $furnID . '|' . $furnQuantity . ',';
-       }
+       my $strFurns = join(',', map { $_ . '|' . $self->{ownedFurns}->{$_}; } keys %{$self->{ownedFurns}});
        $self->updateFurnInventory($strFurns);
        $self->setCoins($self->{coins} - $self->{parent}->{modules}->{crumbs}->{furnitureCrumbs}->{$intFurn}->{cost});
        $self->sendXT(['af', '-1', $intFurn, $self->{coins}]);
@@ -509,7 +506,7 @@ method updateFloor($intFloor) {
        if (!exists($self->{parent}->{modules}->{crumbs}->{floorCrumbs}->{$intFloor})) {
            return $self->sendError(402);
        } elsif ($self->{coins} < $self->{parent}->{modules}->{crumbs}->{floorCrumbs}->{$intFloor}->{cost}) {
-	       return $self->sendError(401);
+           return $self->sendError(401);
        }
        $self->{floor} = $intFloor;
        $self->{parent}->{modules}->{mysql}->updateTable('igloos', 'floor', $intFloor, 'ID', $self->{ID});

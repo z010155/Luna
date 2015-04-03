@@ -13,11 +13,7 @@ method new($resChild) {
 }
 
 method handleRedemptionJoinServer($strData, $objClient) {
-       my @arrValues;
-       for (1..16) {
-            push(@arrValues, $_);
-       }
-       my $intStr = join(',', @arrValues);
+       my $intStr = join(',', map { $_; } 1..16);
        $objClient->sendXT(['rjs', '-1', $intStr, 0]);	             
 }
 

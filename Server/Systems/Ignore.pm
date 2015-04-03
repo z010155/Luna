@@ -21,10 +21,7 @@ method handleAddIgnore($strData, $objClient) {
        my $intPID = $arrData[5];
        return if (!int($intPID) && exists($objClient->{ignored}->{$intPID}));
        $objClient->{ignored}->{$intPID} = $objClient->{username};
-       my $ignStr = '';
-       while (my ($playerID, $playerName) = each(%{$objClient->{ignored}})) {
-              $ignStr .= $playerID . '|' . $playerName . ',';
-       }
+       my $ignStr = join(',', map { $_ . '|' . $objClient->{ignored}->{$_}; } keys %{$objClient->{ignored}});
        $objClient->updateIgnore($ignStr, $objClient->{ID});
        $objClient->sendXT(['an', $objClient->{room}, $intPID]);
 }
@@ -34,10 +31,7 @@ method handleRemoveIgnored($strData, $objClient) {
        my $intPID = $arrData[5];
        return if (!int($intPID) && !exists($objClient->{ignored}->{$intPID}));
        delete($objClient->{ignored}->{$intPID});
-       my $ignStr = '';
-       while (my ($playerID, $playerName) = each(%{$objClient->{ignored}})) {
-              $ignStr .= $playerID . '|' . $playerName . ',';
-       }
+       my $ignStr = join(',', map { $_ . '|' . $objClient->{ignored}->{$_}; } keys %{$objClient->{ignored}});
        $objClient->updateIgnore($ignStr, $objClient->{ID});
        $objClient->sendXT(['rn', $objClient->{room}, $intPID]);
 }

@@ -49,7 +49,7 @@ method handleSendRoomPopulation($objClient, $nullVar) {
 
 method handleJoinRoom($objClient, $intRoom) {
        if ($intRoom > 0 && $intRoom < 1000) {
-              $objClient->joinRoom($intRoom);
+           $objClient->joinRoom($intRoom);
        }
 }
 

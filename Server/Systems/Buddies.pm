@@ -42,14 +42,8 @@ method handleBuddyAccept($strData, $objClient) {
        delete($objPlayer->{buddyRequests}->{$objClient->{ID}});
        $objClient->{buddies}->{$intBudID} = $objPlayer->{username};
        $objPlayer->{buddies}->{$objClient->{ID}} = $objClient->{username};
-       my $cbStr = '';
-       my $pbStr = '';
-       while (my ($playerID, $playerName) = each(%{$objClient->{buddies}})) {
-              $cbStr .= $playerID . '|' . $playerName . ',';
-       }
-       while (my ($playerID, $playerName) = each(%{$objPlayer->{buddies}})) {
-              $pbStr .= $playerID . '|' . $playerName . ',';
-       }
+       my $cbStr = join(',', map { $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objClient->{buddies}});
+       my $pbStr = join(',', map { $_ . '|' . $objPlayer->{buddies}->{$_}; } keys %{$objPlayer->{buddies}});
        $objClient->updateBuddies($cbStr, $objClient->{ID});
        $objPlayer->updateBuddies($pbStr, $objPlayer->{ID});
        $objPlayer->sendXT(['ba', '-1', $objClient->{ID}, $objClient->{username}]);
@@ -62,14 +56,8 @@ method handleBuddyRemove($strData, $objClient) {
        my $objPlayer = $objClient->getClientByID($intBudID);
        delete($objClient->{buddies}->{$intBudID});
        delete($objPlayer->{buddies}->{$objClient->{ID}});
-       my $cbStr = '';
-       my $pbStr = '';
-       while (my ($playerID, $playerName) = each(%{$objClient->{buddies}})) {
-              $cbStr .= $playerID . '|' . $playerName . ',';
-       }
-       while (my ($playerID, $playerName) = each(%{$objPlayer->{buddies}})) {
-              $pbStr .= $playerID . '|' . $playerName . ',';
-       }
+       my $cbStr = join(',', map { $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objClient->{buddies}});
+       my $pbStr = join(',', map { $_ . '|' . $objPlayer->{buddies}->{$_}; } keys %{$objPlayer->{buddies}});
        $objClient->updateBuddies($cbStr, $objClient->{ID});
        $objPlayer->updateBuddies($pbStr, $objPlayer->{ID});
        $objPlayer->sendXT(['rb', '-1', $objClient->{ID}, $objClient->{username}]);

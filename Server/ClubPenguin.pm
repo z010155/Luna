@@ -173,14 +173,14 @@ method createHeader {
 
 method loadModules {
        $self->{modules} = {
-                 logger => Logger->new,
-                 mysql => MySQL->new,
-                 base => Socket->new($self),
-                 crypt => Cryptography->new,
-                 tools => Tools->new,
-                 crumbs => Crumbs->new($self),
-                 pbase => CPPlugins->new($self),
-                 commands => CPCommands->new($self)
+               logger => Logger->new,
+               mysql => MySQL->new,
+               base => Socket->new($self),
+               crypt => Cryptography->new,
+               tools => Tools->new,
+               crumbs => Crumbs->new($self),
+               pbase => CPPlugins->new($self),
+               commands => CPCommands->new($self)
        };
 }
 

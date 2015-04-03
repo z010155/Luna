@@ -30,11 +30,11 @@ method handleMute($strData, $objClient) {
        my $objPlayer = $objClient->getClientByID($intPID);
        if ($objClient->{isStaff}) {
            if (!$objPlayer->{isMuted}) {
-		 $objClient->updateMute($objPlayer, 1);
-		 $objClient->botSay($objPlayer->{username} . ' Has Been Muted By: ' . $objClient->{username});
+               $objClient->updateMute($objPlayer, 1);
+               $objClient->botSay($objPlayer->{username} . ' Has Been Muted By: ' . $objClient->{username});
            } elsif ($objPlayer->{isMuted}) {
-	         $objClient->updateMute($objPlayer, 0);
-		 $objClient->botSay($objPlayer->{username} . ' Has Been Unmuted By: ' . $objClient->{username});
+               $objClient->updateMute($objPlayer, 0);
+               $objClient->botSay($objPlayer->{username} . ' Has Been Unmuted By: ' . $objClient->{username});
            }
        } else {
            $objClient->sendError(800);
@@ -48,10 +48,10 @@ method handleBan($strData, $objClient) {
        my $objPlayer = $objClient->getClientByID($intPID);
        if ($objClient->{isStaff}) {
            if ($objPlayer->{isBanned} eq '') {
-	         $objClient->updateBan($objPlayer, 'PERM');
-	         $objPlayer->sendError(603);
-                 $objClient->botSay($objClient->{username} . ' Has Permanently Banned ' . $objPlayer->{username});
-	         $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+               $objClient->updateBan($objPlayer, 'PERM');
+               $objPlayer->sendError(603);
+               $objClient->botSay($objClient->{username} . ' Has Permanently Banned ' . $objPlayer->{username});
+               $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
            }
        } else {
            $objClient->sendError(800);
