@@ -18,12 +18,12 @@ method new {
 method asyncGetContent(\@arrUrls) {
        my %arrInfo;
        my @arrCoro = map {
-                    my $strUrl = $_;
-                    async {
-                        my $strName = basename($strUrl, '.json');
-                        my $arrData = get($strUrl);
-                        $arrInfo{$strName} = $arrData;
-                    }
+                       my $strUrl = $_;
+                       async {
+                           my $strName = basename($strUrl, '.json');
+                           my $arrData = get($strUrl);
+                           $arrInfo{$strName} = $arrData;
+                       }
        } @arrUrls;
        $_->join for @arrCoro;       
        return \%arrInfo;     
@@ -39,10 +39,10 @@ method parseXML(Str $strData) {
 
 method asyncDownload($resDir, \@arrUrls) {
        my @arrCoro = map {
-                    my $strUrl = $_;
-                    async {
-                        File::Fetch->new(uri => $strUrl)->fetch(to => $resDir);
-                    }
+                       my $strUrl = $_;
+                       async {
+                           File::Fetch->new(uri => $strUrl)->fetch(to => $resDir);
+                       }
        } @arrUrls;
        $_->join for @arrCoro;        
 }
