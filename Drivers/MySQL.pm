@@ -52,8 +52,8 @@ method updateTable($table, $set, $setValue, $where, $whereValue) {
 
 method insertData($table, \@columns, \@values) {
        return if (!$table && !scalar(@columns) && !scalar(@values));
-       my $fields = join("`, `", @columns);
-       my $statement = $self->{mysql}->prepare("INSERT INTO $table ($fields) VALUES " . join(", ", ("?") x scalar(@columns)));
+       my $fields = join(", ", @columns);
+       my $statement = $self->{mysql}->prepare("INSERT INTO $table ($fields) VALUES (" . join(', ', ('?') x @columns) . ")");
        $statement->execute(@values);
        return $statement->{mysql_insertid};
 }
