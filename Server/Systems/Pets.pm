@@ -22,7 +22,7 @@ method handleAdoptPuffle($strData, $objClient) {
        my $puffleString = $objClient->addPuffle($puffleID, $puffleName);
        my $adoptTime = time;
        my $postcardType = 111;
-       my $postcardID = $objClient->sendPostcard($objClient->{ID}, 'sys', 0, 'Thanks For Adopting Me!', $postcardType, $adoptTime);
+       my $postcardID = $objClient->sendPostcard($objClient->{ID}, 'sys', 0, $puffleName, $postcardType, $adoptTime);
        $objClient->sendXT(['mr', '-1', 'sys', 0, $postcardType, $puffleName, $adoptTime, $postcardID]);
        $objClient->sendXT(['pn', '-1', $objClient->{coins}, $puffleString]);
        $objClient->sendXT(['pgu', '-1', $objClient->getPuffles($objClient->{ID})]);
