@@ -332,6 +332,7 @@ method joinRoom($intRoom, $intX = 330, $intY = 330) {
        return if (!int($intRoom) && !int($intX) && !int($intY));
        $self->removePlayer;
        if (exists($self->{parent}->{modules}->{crumbs}->{gameRoomCrumbs}->{$intRoom})) {
+       	   $self->{room} = $intRoom;
            return $self->sendXT(['jg', '-1', $intRoom]);
        } elsif (exists($self->{parent}->{modules}->{crumbs}->{roomCrumbs}->{$intRoom}) || $intRoom > 1000) {
                 $self->{room} = $intRoom;
