@@ -174,26 +174,8 @@ method buildClientString {
 }
 
 method buildBotString {
-       my @arrInfo = (
-                   'botID' => 0, 
-                   'botName' => 'Mystic', 
-                   'bitMask' => 1, 
-                   'botColour' => 4, 
-                   'botHead' => 1007, 
-                   'botFace' => 106, 
-                   'botNeck' => 0, 
-                   'botBody' => 221, 
-                   'botHand' => 0, 
-                   'botFeet' => 0, 
-                   'botFlag' => 0, 
-                   'botPhoto' => 0, 
-                   'xpos' => 0, 
-                   'ypos' => 0, 
-                   'frame' => 0, 
-                   'isMember' => 1,
-                   'rank' => 999
-       );
-       my $strInfo = join('|', values @arrInfo);
+       my @arrInfo = (0, 'Mystic', 1, 4, 1007, 106, 0, 221, 0, 0, 0, 0, 0, 0, 0, 1, 999);
+       my $strInfo = join('|', @arrInfo);
        return $strInfo;
 }
 
