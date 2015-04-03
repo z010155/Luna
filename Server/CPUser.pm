@@ -95,14 +95,14 @@ method loadDetails {
                       case ('buddies') {
                             my @buddies = split(',', $value);
                             foreach (@buddies) {
-                                     my ($userID, $username) = split('|', $_);
+                                     my ($userID, $username) = split('\\|', $_);
                                      $self->{buddies}->{$userID} = $username;
                             }
                       }
                       case ('ignored') {
                             my @ignored = split(',', $value);
                             foreach (@ignored) {
-                                     my ($userID, $username) = split('|', $_);
+                                     my ($userID, $username) = split('\\|', $_);
                                      $self->{ignored}->{$userID} = $username;
                             }
                       }

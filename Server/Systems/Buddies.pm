@@ -70,8 +70,8 @@ method handleBuddyRemove($strData, $objClient) {
        while (my ($playerID, $playerName) = each(%{$objPlayer->{buddies}})) {
               $pbStr .= $playerID . '|' . $playerName . ',';
        }
- 			   $objClient->updateBuddies($cbStr, $objClient->{ID});
-			   $objPlayer->updateBuddies($pbStr, $objPlayer->{ID});
+       $objClient->updateBuddies($cbStr, $objClient->{ID});
+       $objPlayer->updateBuddies($pbStr, $objPlayer->{ID});
        $objPlayer->sendXT(['rb', '-1', $objClient->{ID}, $objClient->{username}]);
 }
 
