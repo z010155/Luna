@@ -174,7 +174,25 @@ method buildClientString {
 }
 
 method buildBotString {
-       my @arrInfo = (0, 'Mystic', 1, 4, 1007, 106, 0, 221, 0, 0, 0, 0, 0, 0, 0, 1, 999);
+       my @arrInfo = (
+                   $self->{parent}->{servConfig}->{botProp}->{botID},
+                   $self->{parent}->{servConfig}->{botProp}->{botName},
+                   $self->{parent}->{servConfig}->{botProp}->{bitMask},
+                   $self->{parent}->{servConfig}->{botProp}->{botColour},
+                   $self->{parent}->{servConfig}->{botProp}->{botHead},
+                   $self->{parent}->{servConfig}->{botProp}->{botFace},
+                   $self->{parent}->{servConfig}->{botProp}->{botNeck},
+                   $self->{parent}->{servConfig}->{botProp}->{botBody},
+                   $self->{parent}->{servConfig}->{botProp}->{botHand},
+                   $self->{parent}->{servConfig}->{botProp}->{botFeet},
+                   $self->{parent}->{servConfig}->{botProp}->{botFlag},
+                   $self->{parent}->{servConfig}->{botProp}->{botPhoto},
+                   $self->{parent}->{servConfig}->{botProp}->{botXPos},
+                   $self->{parent}->{servConfig}->{botProp}->{botYPos},
+                   $self->{parent}->{servConfig}->{botProp}->{botFrame},
+                   $self->{parent}->{servConfig}->{botProp}->{botMember},
+                   $self->{parent}->{servConfig}->{botProp}->{botRank}
+       );
        my $strInfo = join('|', @arrInfo);
        return $strInfo;
 }
@@ -392,7 +410,7 @@ method buildRoomString {
                     $userList .= $_->buildClientString . '%';
                 }
        }
-       if ($self->{parent}->{servConfig}->{isBot}) {
+       if ($self->{parent}->{servConfig}->{botProp}->{onServ}) {
            $userList .= $self->buildBotString . '%';
        }
        return $userList;
