@@ -22,7 +22,9 @@ method handleXMLData($strData, $objClient) {
                     if (exists($_->{property}->{$strAct})) {
                         if ($_->{property}->{$strAct}->{isEnabled}) {
                             my $strHandler = $_->{property}->{$strAct}->{handler};
-                            $_->$strHandler($strXML, $objClient);
+                            if ($_->can($strHandler)) {
+                                $_->$strHandler($strXML, $objClient);
+                            }
                         }
                     }
                 }
@@ -37,7 +39,9 @@ method handleXTData($strData, $objClient) {
                     if (exists($_->{property}->{$strCmd})) {
                         if ($_->{property}->{$strCmd}->{isEnabled}) {
                             my $strHandler = $_->{property}->{$strCmd}->{handler};
-                            $_->$strHandler($strData, $objClient);
+                            if ($_->can($strHandler)) {
+                                $_->$strHandler($strData, $objClient);
+                            }
                         }
                     }
                 }
