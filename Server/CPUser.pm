@@ -574,14 +574,6 @@ method sendPostcard($recepient, $mailerName = 'Server', $mailerID = 0, $notes = 
        return $postcardID;
 }
 
-method updateIgnore($strIgnored, $intPID) {
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'ignored', $strIgnored, 'ID', $intPID);
-}
-
-method updateBuddies($strBuddies, $intPID) {
-       $self->{parent}->{modules}->{mysql}->updateTable('users', 'buddies', $strBuddies, 'ID', $intPID);
-}
-
 method updateMute($objClient, $blnMute) {
        return if (!int($blnMute));
        $self->{parent}->{modules}->{mysql}->updateTable('users', 'isMuted', $blnMute, 'ID', $objClient->{ID});

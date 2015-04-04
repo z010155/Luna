@@ -42,10 +42,10 @@ method handleBuddyAccept($strData, $objClient) {
        delete($objPlayer->{buddyRequests}->{$objClient->{ID}});
        $objClient->{buddies}->{$intBudID} = $objPlayer->{username};
        $objPlayer->{buddies}->{$objClient->{ID}} = $objClient->{username};
-       my $cbStr = join(',', map { $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objClient->{buddies}});
-       my $pbStr = join(',', map { $_ . '|' . $objPlayer->{buddies}->{$_}; } keys %{$objPlayer->{buddies}});
-       $objClient->updateBuddies($cbStr, $objClient->{ID});
-       $objPlayer->updateBuddies($pbStr, $objPlayer->{ID});
+       my $strCBuddies = join(',', map { $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objClient->{buddies}});
+       my $strPBuddies = join(',', map { $_ . '|' . $objPlayer->{buddies}->{$_}; } keys %{$objPlayer->{buddies}});
+       $self->{child}->{modules}->{mysql}->updateTable('users', 'buddies', $strCBuddies, 'ID', $objClient->{ID});
+       $self->{child}->{modules}->{mysql}->updateTable('users', 'buddies', $strPBuddies, 'ID', $objPlayer->{ID});
        $objPlayer->sendXT(['ba', '-1', $objClient->{ID}, $objClient->{username}]);
 }
 
@@ -53,14 +53,17 @@ method handleBuddyRemove($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intBudID = $arrData[5];
        return if (!int($intBudID));
-       my $objPlayer = $objClient->getClientByID($intBudID);
-       delete($objClient->{buddies}->{$intBudID});
-       delete($objPlayer->{buddies}->{$objClient->{ID}});
-       my $cbStr = join(',', map { $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objClient->{buddies}});
-       my $pbStr = join(',', map { $_ . '|' . $objPlayer->{buddies}->{$_}; } keys %{$objPlayer->{buddies}});
-       $objClient->updateBuddies($cbStr, $objClient->{ID});
-       $objPlayer->updateBuddies($pbStr, $objPlayer->{ID});
-       $objPlayer->sendXT(['rb', '-1', $objClient->{ID}, $objClient->{username}]);
+       foreach my $objPlayer (values %{$self->{child}->{clients}}) {
+          if ($objPlayer->{ID} == $intBudID) {
+              delete($objClient->{buddies}->{$intBudID});
+              delete($objPlayer->{buddies}->{$intBudID});
+              my $strCBuddies = join(',', map { $_ . '|' . $objClient->{buddies}->{$_}; } keys %{$objClient->{buddies}});
+              my $strPBuddies = join(',', map { $_ . '|' . $objPlayer->{buddies}->{$_}; } keys %{$objPlayer->{buddies}});
+              $self->{child}->{modules}->{mysql}->updateTable('users', 'buddies', $strCBuddies, 'ID', $objClient->{ID});
+              $self->{child}->{modules}->{mysql}->updateTable('users', 'buddies', $strPBuddies, 'ID', $objPlayer->{ID});
+              $objPlayer->sendXT(['rb', '-1', $objClient->{ID}, $objClient->{username}]);
+          }
+       }
 }
 
 method handleBuddyFind($strData, $objClient) {
