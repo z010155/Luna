@@ -58,7 +58,7 @@ method insertData($table, \@columns, \@values) {
        return $statement->{mysql_insertid};
 }
 
-method deleteData($table, $where, $whereValue, $andKey, $andValue, $andClause = 0) {
+method deleteData($table, $where, $whereValue, $andClause = 0, $andKey = '', $andValue = '') {
        return if (!$table && !$where && !$whereValue);
        return $andClause ? $self->execQuery("DELETE FROM $table WHERE `$where` = '$whereValue' AND `$andKey` = '$andValue'") : $self->execQuery("DELETE FROM $table WHERE `$where` = '$whereValue'");
 }

@@ -51,7 +51,7 @@ method handleMailDelete($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $postcardID = $arrData[5];
        return if (!int($postcardID));
-       $self->{child}->{modules}->{mysql}->deleteData('postcards', 'postcardID', $postcardID);
+       $self->{child}->{modules}->{mysql}->deleteData('postcards', 'postcardID', $postcardID, 0, '', '');
        $objClient->sendXT(['md', '-1', $postcardID]);
 }
 
@@ -59,7 +59,7 @@ method handleMailDeletePlayer($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $playerID = $arrData[5];
        return if (!int($playerID));
-       $self->{child}->{modules}->{mysql}->deleteData('postcards', 'recepient', $objClient->{ID}, 'mailerID', $playerID, 1);
+       $self->{child}->{modules}->{mysql}->deleteData('postcards', 'recepient', $objClient->{ID}, 1, 'mailerID', $playerID);
        my $intCount = $objClient->getPostcardCount($objClient->{ID});
        $objClient->sendXT(['mdp', '-1', $intCount]);
 }	
