@@ -59,6 +59,8 @@ method new($resParent, $resSock) {
        $obj->{restamps} = [];
        $obj->{ownedFurns} = {};
        $obj->{buddyRequests} = {};
+       $obj->{tableID} = 0;
+       $obj->{seatID} = 999;
        return $obj;
 }
 
@@ -592,6 +594,9 @@ method updateBanCount($objClient, $intVal) {
 }
 
 method DESTROY {
+       if ($self->{tableID} ne 0) {
+            $self->{parent}->{systems}->{Tables}->handleLeaveTable((), $self);
+       }
        $self->removePlayer;
        $self->handleBuddyOffline;
        $self->closeIgloo;
