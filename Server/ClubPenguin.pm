@@ -128,7 +128,9 @@ method new($resConfig, $resDBConfig) {
                   z => {
                      'zo' => 'handleGameOver',
                      'm' => 'handleMovePuck',
-                     'gz' => 'handleGetZone'
+                     'gz' => 'handleGetZone',
+                     'jz' => 'handleJoinZone',
+                     'zm' => 'handleSendMove'
                   },
                   red => {
                       rjs => 'handleRedemptionJoinServer',
@@ -139,6 +141,7 @@ method new($resConfig, $resDBConfig) {
                   }
               }
        };
+       $obj->{tables} = {'200' => {'clients' => {}, 'max' => 2}, '201' => {'clients' => {}, 'max' => 2}, '202' => {'clients' => {}, 'max' => 2}, '203' => {'clients' => {}, 'max' => 2}, '204' => {'clients' => {}, 'max' => 2}, '205' => {'clients' => {}, 'max' => 2}, '206' => {'clients' => {}, 'max' => 2}, '207' => {'clients' => {}, 'max' => 2}};
        $obj->{iplog} = {};
        $obj->{igloos} = {};
        $obj->{systems} = {};
