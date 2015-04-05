@@ -15,7 +15,7 @@ method new($resChild) {
 method handleJoinTable($strData, $objClient) {
        my @arrData = split('%', $strData);
        return if(!int($arrData[5]) || !exists($self->{child}->{tables}->{$arrData[5]}));
-       if (keys (%{$self->{child}->{tables}->{$arrData[5]}{clients}}) >= 2 || $objClient->{tableID} ne 0) {
+       if (keys (%{$self->{child}->{tables}->{$arrData[5]}{clients}}) >= $self->{child}->{tables}->{$arrData[5]}->{max} || $objClient->{tableID} ne 0) {
             return $objClient->sendError(211);
        }
        $objClient->{tableID} = $arrData[5];
@@ -44,17 +44,17 @@ method handleUpdateTable($strData, $objClient) {
 
 method handleLeaveTable($strData, $objClient) {
        if ($objClient->{room} eq 220 || $objClient->{room} eq 221) { # find four
-           if ($objClient->{tableID} ne 0 && $objClient->{seatID} ne 0) {
+           if ($objClient->{tableID} ne 0 && $objClient->{seatID} ne 999) {
                 foreach (values (%{$self->{child}->{tables}->{$objClient->{tableID}}->{clients}})) {
                       if ($_->{ID} ne $objClient->{ID}) {
                            $_->sendXT(['cz', '-1', $objClient->{username}]);
                            $_->{tableID} = 0;
-                           $_->{seatID} = 0;
+                           $_->{seatID} = 999;
                       }
                 }
                 $self->{child}->{tables}->{$objClient->{tableID}} = {'clients' => {}, 'max' => 2};
                 $objClient->{tableID} = 0;
-                $objClient->{seatID} = 0;
+                $objClient->{seatID} = 999;
            }
        }
 }
