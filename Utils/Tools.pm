@@ -29,7 +29,7 @@ method asyncGetContent(\@arrUrls) {
        return \%arrInfo;     
 } 
 
-method parseXML(Str $strData) {
+method parseXML($strData) {
        my $strXML;
        eval {
           $strXML = XML::Simple::parse_string($strData);
