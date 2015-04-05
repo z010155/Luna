@@ -49,7 +49,7 @@ method handleGetZone($strData, $objClient) {
 method handleJoinZone($strData, $objClient) {
      my @arrData = split('%', $strData);
      if ($objClient->{room} eq 220 || $objClient->{room} eq 221) { # find four
-           if ($objClient->{tableID} ne 0 && $objClient->{seatID} ne 0) {
+           if ($objClient->{tableID} ne 0 && $objClient->{seatID} ne 999) {
                 $objClient->sendXT(['jz', '-1', $objClient->{seatID} - 1, $objClient->{username}]);
                 foreach (values (%{$self->{child}->{tables}->{$objClient->{tableID}}->{clients}})) {
                       if ($_->{ID} ne $objClient->{ID}){
@@ -58,7 +58,7 @@ method handleJoinZone($strData, $objClient) {
                       }
                       $objClient->sendXT(['uz', '-1', $objClient->{seatID}-1, $objClient->{username}]);
                 }
-                if (keys (%{$self->{child}->{tables}->{$objClient->{tableID}}->{clients}}) >= 2) {
+                if (keys (%{$self->{child}->{tables}->{$objClient->{tableID}}->{clients}}) >= $self->{child}->{tables}->{$objClient->{tableID}}->{max}) {
                      $self->{child}->{tables}->{$objClient->{tableID}}->{currentTurn} = 0;
                      foreach (values (%{$self->{child}->{tables}->{$objClient->{tableID}}->{clients}})) {
                           $_->sendXT(['sz', '-1', '0']);
@@ -71,7 +71,7 @@ method handleJoinZone($strData, $objClient) {
 method handleSendMove($strData, $objClient) {
      my @arrData = split('%', $strData);
      if ($objClient->{room} eq 220 || $objClient->{room} eq 221) { # find four
-           if ($objClient->{tableID} ne 0 && $objClient->{seatID} ne 0) {
+           if ($objClient->{tableID} ne 0 && $objClient->{seatID} ne 999) {
                 my $column = $arrData[5];
                 my $row = $arrData[6];
                 $self->{child}->{tables}->{$objClient->{tableID}}->{boardMap}[int($column)][int($row)] = int($self->{child}->{tables}->{$objClient->{tableID}}->{currentTurn});
