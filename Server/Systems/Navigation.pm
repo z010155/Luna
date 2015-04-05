@@ -58,7 +58,6 @@ method handleJoinGame($strData, $objClient) {
 }
 
 method handleGetRoomSynced($strData, $objClient) {
-       my $strClients = '';
        $objClient->write('%xt%grs%-1%' . $objClient->{room} . '%' . $objClient->buildRoomString);
 }
 

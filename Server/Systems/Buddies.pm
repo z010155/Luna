@@ -17,12 +17,8 @@ method handleGetBuddies($strData, $objClient) {
 }
 
 method handleFetchBuddies($objClient) {
-       my $strInfo = '';
-       foreach (keys %{$objClient->{buddies}}) {
-	               my $arrInfo = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT `nickname` FROM users WHERE `ID` = '$_'");
-	        	      $strInfo .= $_ . '|' . $arrInfo->{nickname} . '|' . $objClient->getOnline($_) . '%';
-       }
-       return $strInfo;
+       my $strBuddies = join('%', map { $_ . '|' . $objClient->{buddies}->{$_} . '|' . $objClient->getOnline($_); } keys %{$objClient->{buddies}});
+       return $strBuddies;
 }
 
 method handleBuddyRequest($strData, $objClient) {

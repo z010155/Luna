@@ -37,11 +37,7 @@ method handleRemoveIgnored($strData, $objClient) {
 }
 
 method handleFetchIgnored($objClient) {
-       my $strIgnored = '';
-       foreach (keys %{$objClient->{ignored}}) {
-                my $arrInfo = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT `nickname` FROM users WHERE `ID` = '$_'");
-                $strIgnored .= $_ . '|' . $arrInfo->{nickname} . '%';
-       }
+       my $strIgnored = join('%', map { $_ . '|' . $objClient->{ignored}->{$_}; } keys %{$objClient->{ignored}});
        return $strIgnored;
 }
 
