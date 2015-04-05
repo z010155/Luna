@@ -19,7 +19,7 @@ method handleGetIgnored($strData, $objClient) {
 method handleAddIgnore($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intPID = $arrData[5];
-       return if (!int($intPID) && exists($objClient->{ignored}->{$intPID}));
+       return if (!int($intPID) && exists($objClient->{ignored}->{$intPID})) {
        $objClient->{ignored}->{$intPID} = $objClient->{username};
        my $strIgnored = join(',', map { $_ . '|' . $objClient->{ignored}->{$_}; } keys %{$objClient->{ignored}});
        $self->{child}->{modules}->{mysql}->updateTable('users', 'ignored', $strIgnored, 'ID', $intPID);
@@ -29,7 +29,7 @@ method handleAddIgnore($strData, $objClient) {
 method handleRemoveIgnored($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intPID = $arrData[5];
-       return if (!int($intPID));
+       return if (!int($intPID) && !exists($objClient->{ignored}->{$intPID}));
        delete($objClient->{ignored}->{$intPID});
        my $strIgnored = join(',', map { $_ . '|' . $objClient->{ignored}->{$_}; } keys %{$objClient->{ignored}});
        $self->{child}->{modules}->{mysql}->updateTable('users', 'ignored', $strIgnored, 'ID', $intPID);

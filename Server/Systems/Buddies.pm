@@ -37,7 +37,7 @@ method handleBuddyRequest($strData, $objClient) {
 method handleBuddyAccept($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intBudID = $arrData[5];
-       return if (!int($intBudID));
+       return if (!int($intBudID) && !exists($objClient->{buddies}->{$intBudID}));
        my $objPlayer = $objClient->getClientByID($intBudID);
        delete($objPlayer->{buddyRequests}->{$objClient->{ID}});
        $objClient->{buddies}->{$intBudID} = $objPlayer->{username};
@@ -52,7 +52,7 @@ method handleBuddyAccept($strData, $objClient) {
 method handleBuddyRemove($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intBudID = $arrData[5];
-       return if (!int($intBudID));
+       return if (!int($intBudID) && !exists($objClient->{buddies}->{$intBudID}));
        foreach my $objPlayer (values %{$self->{child}->{clients}}) {
           if ($objPlayer->{ID} == $intBudID) {
               delete($objClient->{buddies}->{$intBudID});

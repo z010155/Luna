@@ -23,7 +23,7 @@ method handleGetTable($strData, $objClient) {
 
 method handleUpdateTable($strData, $objClient) {
        my @arrData = split('%', $strData);
-       $objClient->sendRoom('%xt%ut%'.$arrData[5].'%'.$arrData[6].'%'); # TableID%Players
+       $objClient->sendRoom('%xt%ut%'. $arrData[5] . '%' . $arrData[6] . '%'); # TableID%Players
 }
 
 method handleLeaveTable($strData, $objClient) {
