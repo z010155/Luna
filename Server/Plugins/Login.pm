@@ -11,8 +11,8 @@ method new($resChild) {
        $obj->{pluginType} = 'XML';
        $obj->{property} = {
               'login' => { 
-                    handler => 'handleLoginNotice',
-                    isEnabled => 1
+                      handler => 'handleLoginNotice',
+                      isEnabled => 1
               }
        };
        return $obj;

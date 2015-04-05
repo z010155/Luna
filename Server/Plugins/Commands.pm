@@ -65,7 +65,7 @@ method handleStaffCommands($strMsg, $objClient) {
        return if (!exists($self->{commands}->{staff}->{$strCmd}));
        my $strHandler = $self->{commands}->{staff}->{$strCmd};
        if ($objClient->{isStaff}) {
-          $self->{child}->{modules}->{commands}->$strHandler($objClient, $strArg);
+           $self->{child}->{modules}->{commands}->$strHandler($objClient, $strArg);
        }
 }
 

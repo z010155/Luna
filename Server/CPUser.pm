@@ -587,10 +587,10 @@ method updateBan($objClient, $strBan) {
        $objClient->{isBanned} = $strBan;   
 }
 
-method updateBanCount($objClient, $intVal) {
-       return if (!int($intVal));
-       $self->{parent}->{modules}->{mysql}->updateTable('users' , 'banCount', $intVal, 'ID', $objClient->{ID});
-       $objClient->{banCount} = $intVal;
+method updateBanCount($objClient, $intCount) {
+       return if (!int($intCount));
+       $self->{parent}->{modules}->{mysql}->updateTable('users' , 'banCount', $intCount, 'ID', $objClient->{ID});
+       $objClient->{banCount} = $intCount;
 }
 
 method DESTROY {

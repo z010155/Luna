@@ -11,8 +11,8 @@ method new($resChild) {
        $obj->{pluginType} = 'XT';
        $obj->{property} = {
               'i#ai' => { 
-                    handler => 'handleItemBlocking',
-                    isEnabled => 1
+                     handler => 'handleItemBlocking',
+                     isEnabled => 0
               }
        };
        return $obj;

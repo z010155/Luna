@@ -13,12 +13,12 @@ method new($resChild) {
 
 method handleDonateCoins($strData, $objClient) {
        my @arrData = split('%', $strData);
-       my $id = $arrData[5]; # Poll ID? dunno.
-       my $ammount = $arrData[6]; # Amount of coins to donate
-       if ($objClient->{coins} < $ammount || !int($ammount)) {
+       my $id = $arrData[5];
+       my $amount = $arrData[6];
+       if ($objClient->{coins} < $amount || !int($amount)) {
               return $objClient->sendError(401);
        }
-       $objClient->setCoins($objClient->{coins} - $ammount);
+       $objClient->setCoins($objClient->{coins} - $amount);
        $objClient->sendXT(['dc', $id, $objClient->{coins}]);
 }
 

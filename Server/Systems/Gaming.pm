@@ -37,7 +37,7 @@ method handleMovePuck($strData, $objClient) {
 method handleGetZone($strData, $objClient) {
        my @arrData = split('%', $strData);
        if ($objClient->{room} == 802) {
-             return $objClient->sendXT(['gz', '802', $self->{puck}]);
+           return $objClient->sendXT(['gz', '802', $self->{puck}]);
        }
 }
 
