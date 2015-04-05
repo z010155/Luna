@@ -594,7 +594,7 @@ method updateBanCount($objClient, $intVal) {
 }
 
 method DESTROY {
-       if ($self->{tableID} ne 0) {
+       if ($self->{tableID} != 0) {
             $self->{parent}->{systems}->{Tables}->handleLeaveTable((), $self);
        }
        $self->removePlayer;
