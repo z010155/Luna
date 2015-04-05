@@ -31,7 +31,7 @@ method handleGameOver($strData, $objClient) {
 method handleMovePuck($strData, $objClient) {
        my @arrData = split('%', $strData);
        $self->{puck} = $arrData[6] . '%' . $arrData[7] . '%' . $arrData[8] . '%' . $arrData[9];
-       $objClient->sendRoom('%xt%zm%-1%'.$arrData[5].'%'.$self->{puck}.'%');
+       $objClient->sendRoom('%xt%zm%-1%' . $arrData[5] . '%' . $self->{puck} . '%');
 }
 
 method handleGetZone($strData, $objClient) {
@@ -39,7 +39,7 @@ method handleGetZone($strData, $objClient) {
        if ($objClient->{room} eq 802) {
              return $objClient->sendXT(['gz', '802', $self->{puck}]);
        } elsif ($objClient->{room} eq 220 || $objClient->{room} eq 221) { # find four
-             if ($objClient->{tableID} ne 0) {
+             if ($objClient->{tableID} ne 0) { 
                    my $zoneString = '%%0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0%';
                    $objClient->sendXT(['gz', '-1', substr $zoneString, 0, -1]);
              }
@@ -74,7 +74,7 @@ method handleSendMove($strData, $objClient) {
            if ($objClient->{tableID} ne 0 && $objClient->{seatID} ne 999) {
                 my $column = $arrData[5];
                 my $row = $arrData[6];
-                $self->{child}->{tables}->{$objClient->{tableID}}->{boardMap}[int($column)][int($row)] = int($self->{child}->{tables}->{$objClient->{tableID}}->{currentTurn});
+                $self->{child}->{tables}->{$objClient->{tableID}}->{boardMap}[$column][$row] = $self->{child}->{tables}->{$objClient->{tableID}}->{currentTurn};
                 foreach (values (%{$self->{child}->{tables}->{$objClient->{tableID}}->{clients}})) {
                       $_->sendXT(['zm', '-1', $self->{child}->{tables}->{$objClient->{tableID}}->{currentTurn}, $column, $row]);
                 }
