@@ -20,7 +20,7 @@ our $gameConfig = {
             botID => 0,
             botName => 'Mystic',
             bitMask => 1, # Default is 1 = English
-            botColour => 14
+            botColour => 14,
             botHead => 1007,
             botFace => 106,
             botNeck => 0,
