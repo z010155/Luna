@@ -16,7 +16,7 @@ method handleDonateCoins($strData, $objClient) {
        my $id = $arrData[5];
        my $amount = $arrData[6];
        if ($objClient->{coins} < $amount || !int($amount)) {
-              return $objClient->sendError(401);
+           return $objClient->sendError(401);
        }
        $objClient->setCoins($objClient->{coins} - $amount);
        $objClient->sendXT(['dc', $id, $objClient->{coins}]);

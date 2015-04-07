@@ -12,7 +12,9 @@ method new {
 }
 
 method createMysql($strHost, $strDatabase, $strUsername, $strPassword) {
-       $self->{mysql} = Mojo::mysql->new('mysql://' . $strUsername . ':' . $strPassword . '@' . $strHost . '/' . $strDatabase);
+       my $mysql = Mojo::mysql->new;
+       $mysql->from_string("mysql://".$strUsername.":".$strPassword."@".$strHost."/".$strDatabase);
+       $self->{mysql} = $mysql;
 }
 
 method execQuery($strSQL) {

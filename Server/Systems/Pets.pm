@@ -120,7 +120,6 @@ method handlePuffleIsPlaying($strData, $objClient) {
        return if (!int($puffleID) || !int($arrData[6]) || !int($arrData[7]) || $self->{child}->{modules}->{mysql}->countRows("SELECT `ownerID` FROM puffles WHERE `puffleID` = '$puffleID' AND `ownerID` = '$objClient->{ID}'") <= 0);
        my $petDetails = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$puffleID' AND `ownerID` = '$objClient->{ID}'");
        $objClient->sendRoom('%xt%ip%-1%' . $petDetails->{puffleID} . '|' . $petDetails->{puffleName} . '|' . $petDetails->{puffleType} . '|100|100|100%' . $arrData[6] . '%' . $arrData[7] . '%');
-
 }
 
 method handlePuffleIsFeeding($strData, $objClient) {

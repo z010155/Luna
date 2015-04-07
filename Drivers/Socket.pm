@@ -29,7 +29,7 @@ method serverLoop {
           eval {
              my $objClient = $self->getClientBySock($resSock);              
              my $strBuffer;
-             $resSock->sysread($strBuffer, 65536);
+             recv($resSock, $strBuffer, 65536, 0);
              if ($strBuffer eq '') {
                  $self->removeClientBySock($resSock);
              }
