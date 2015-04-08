@@ -18,7 +18,6 @@ method new($resChild) {
                rooms => 'rooms.json',
                stamps => 'stamps.json',
                pcards => 'postcards.json',
-               jcards => 'jitsu_cards.json',
                redeem => 'redeem.json'
        };  
        $obj->{methods} = {
@@ -40,7 +39,7 @@ method updateCrumbs {
        my $strDir = 'Misc/JSON/';
        my @arrUrls;
        while (my ($strKey, $strFile) = each(%{$self->{jsons}})) {
-              if ($strKey ne 'pcards' && $strKey ne 'jcards' && $strKey ne 'redeem') {
+              if ($strKey ne 'pcards' && $strKey ne 'redeem') {
                   my $strLink = 'http://media1.clubpenguin.com/play/en/web_service/game_configs/';
                   my $strUrl = $strLink . $strFile;
                   push(@arrUrls, $strUrl);
