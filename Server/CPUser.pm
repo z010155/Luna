@@ -535,7 +535,8 @@ method addPuffle($puffleType, $puffleName) {
        return if (!int($puffleType) && !$puffleName);
        my $puffleID = $self->{parent}->{modules}->{mysql}->insertData('puffles', ['ownerID', 'puffleName', 'puffleType'], [$self->{ID}, $puffleName, $puffleType]);
        $self->setCoins($self->{coins} - 800);
-       return $puffleID . '|' . $puffleName . '|' . $puffleType . '|100|100|100';
+       my $petString = $puffleID . '|' . $puffleName . '|' . $puffleType . '|100|100|100';
+       return $petString;
 }
 
 method getPuffles($userID) {
@@ -545,6 +546,18 @@ method getPuffles($userID) {
                 $puffles .= $_->{puffleID} . '|' . $_->{puffleName} . '|' . $_->{puffleType} . '|' . $_->{puffleEnergy} . '|' . $_->{puffleHealth} . '|' . $_->{puffleRest} . '%';
        }
        return substr($puffles, 0, -1);
+}
+
+method getPuffle($intPuffle) {
+       my $petDetails = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$intPuffle' AND `ownerID` = '$self->{ID}'");
+       my $petString = '';
+       $petString .= $petDetails->{puffleID} . '|';
+       $petString .= $petDetails->{puffleName} . '|';
+       $petString .= $petDetails->{puffleType} . '|';
+       $petString .= $puffleDetails->{puffleHealth} . '|';
+       $petString .= $petDetails->{puffleEnergy} . '|';
+       $petString .= $petDetails->{puffleRest} . '%';
+       return $petString;
 }
 
 method getPostcards($intPID) {
@@ -591,6 +604,26 @@ method updateBanCount($objClient, $intCount) {
        return if (!int($intCount));
        $self->{parent}->{modules}->{mysql}->updateTable('users' , 'banCount', $intCount, 'ID', $objClient->{ID});
        $objClient->{banCount} = $intCount;
+}
+
+method changePuffleStat($intPuffle, $strType, $intCount, $blnInc = 1) {
+       my $arrInfo = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT $strType FROM puffles WHERE `puffleID` = '$intPuffle' AND `ownerID` = '$self->{ID}'");
+       my $intStat = $arrInfo->{$strType};
+       $blnInc ? $intStat += $intCount : $intStat -= $intCount;
+       $self->{parent}->{modules}->{mysql}->execQuery("UPDATE puffles SET `$strType` = '$intStat' WHERE `puffleID` = '$intPuffle' AND `ownerID` = '$self->{ID}'");
+}
+
+method changeRandPuffStat($intPuffle) { # I dont even know if this is the proper way lol
+       my $arrInfo = $self->{parent}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$intPuffle' AND `ownerID` = '$self->{ID}'");
+       my $intRandHealth = $self->{parent}->{modules}->{crypt}->generateInt(1, 10);
+       my $intRandEnergy = $self->{parent}->{modules}->{crypt}->generateInt(1, 10);
+       my $intRandRest = $self->{parent}->{modules}->{crypt}->generateInt(1, 10);
+       my $intNewHealth = $intRandHealth - $arrInfo->{puffleHealth};
+       my $intNewEnergy = $intRandEnergy - $arrInfo->{puffleEnergy};
+       my $intNewRest = $intRandRest - $arrInfo->{puffleRest};
+       $self->{parent}->{modules}->{mysql}->execQuery("UPDATE puffles SET `puffleHealth` = '$intNewHealth' WHERE `puffleID` = '$intPuffle' AND `ownerID` = '$self->{ID}'");
+       $self->{parent}->{modules}->{mysql}->execQuery("UPDATE puffles SET `puffleEnergy` = '$intNewEnergy' WHERE `puffleID` = '$intPuffle' AND `ownerID` = '$self->{ID}'");
+       $self->{parent}->{modules}->{mysql}->execQuery("UPDATE puffles SET `puffleRest` = '$intNewRest' WHERE `puffleID` = '$intPuffle' AND `ownerID` = '$self->{ID}'");
 }
 
 method DESTROY {
