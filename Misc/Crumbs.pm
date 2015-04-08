@@ -28,7 +28,6 @@ method new($resChild) {
                rooms => 'loadRooms',
                stamps => 'loadStamps',
                postcards => 'loadPostcards',
-               jitsu_cards => 'loadJitsuCards',
                redeem => 'loadRedemptions'
        };
        $obj->{directory} = 'file://' . cwd . '/Misc/JSON/';
