@@ -20,9 +20,20 @@ method new {
        return $obj;
 }
 
-method output($strMsg, $strType) {
+method output($strMessage, $strType) {
        my $strTime = strftime('%I:%M:%S[%p]', localtime);
-       say '[' . $strTime . ']' . '[' . uc($strType) . '] =>> ' . $strMsg;
+       say '[' . $strTime . ']' . '[' . uc($strType) . '] =>> ' . $strMessage;
+       if ($strType eq 'error' || $strType eq 'warn') {
+           $strText = '<' . $strTime . '>: ' . $strMessage;
+           $self->writeLog($strMessage);
+       }
+}
+
+method writeLog($strText, $resFile = 'Logs.log') {
+       my $resHandle;
+       open($resHandle, '>>', $resFile);
+       say $resHandle $strText;
+       close($resHandle);
 }
 
 method kill($strMsg, $strType) {
