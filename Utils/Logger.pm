@@ -24,7 +24,7 @@ method output($strMessage, $strType) {
        my $strTime = strftime('%I:%M:%S[%p]', localtime);
        say '[' . $strTime . ']' . '[' . uc($strType) . '] =>> ' . $strMessage;
        if ($strType eq 'error' || $strType eq 'warn') {
-           $strText = '<' . $strTime . '>: ' . $strMessage;
+           my $strText = '<' . $strTime . '>: ' . $strMessage;
            $self->writeLog($strMessage);
        }
 }
