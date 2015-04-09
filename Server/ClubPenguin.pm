@@ -162,7 +162,7 @@ method new($resConfig, $resDBConfig) {
 method initializeSource {
        $self->createHeader;
        $self->loadModules;
-       if ($self->{servConfig}->{servType} ne 'login') {
+       if ($self->{servConfig}->{servType} ne 'game') {
            $self->{modules}->{crumbs}->updateCrumbs;
            $self->{modules}->{crumbs}->loadCrumbs;
            $self->loadSystems;
