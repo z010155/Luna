@@ -166,10 +166,10 @@ method initializeSource {
            $self->{modules}->{crumbs}->updateCrumbs;
            $self->{modules}->{crumbs}->loadCrumbs;
            $self->loadSystems;
+           $self->createServer;
        }
        $self->initiateMysql;
        $self->loadPlugins;
-       $self->createServer;
        $self->initiateServer;
 }
 
@@ -238,11 +238,9 @@ method initiateMysql {
 }
 
 method createServer {
-       if ($self->{servConfig}->{servType} eq 'game') {
-           my $intExist = $self->{modules}->{mysql}->countRows("SELECT `servPort` FROM servers WHERE `servPort` = '$self->{servConfig}->{servPort}'");
-           if ($intExist <= 0) {
-               $self->{modules}->{mysql}->insertData('servers', ['servPort', 'servName', 'servIP'], [$self->{servConfig}->{servPort}, $self->{servConfig}->{servName}, $self->{servConfig}->{servHost}]);       
-           }
+       my $intExist = $self->{modules}->{mysql}->countRows("SELECT `servPort` FROM servers WHERE `servPort` = '$self->{servConfig}->{servPort}'");
+       if ($intExist <= 0) {
+           $self->{modules}->{mysql}->insertData('servers', ['servPort', 'servName', 'servIP'], [$self->{servConfig}->{servPort}, $self->{servConfig}->{servName}, $self->{servConfig}->{servHost}]);       
        }
 }
 
