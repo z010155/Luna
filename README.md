@@ -21,10 +21,10 @@ Club Penguin Server Emulator - AS2 Protocol
 <ul>
  <li> Setup an AS2 Media Server</li>
  <li> Install all the Perl modules from the <a href="https://github.com/Romtoc/Luna/blob/master/README.md#modules">modules list</a></li>
- <li> Import the <b>Database.sql</b> from the <b>SQL</b> folder using <b>Phpmyadmin/Adminer</b></li>
- <li> Setup the <b>Register</b> and create an account</li>
- <li> Edit <b>Config.pl</b> from the <b>Configuration</b> folder</li>
- <li> Execute <b>Run.pm</b></li>
+ <li> Import the <a href="https://github.com/Romtoc/Luna/blob/master/SQL/Database.sql">Database.sql</a> using <b>Phpmyadmin/Adminer</b></li>
+ <li> Setup the <a href="https://github.com/Romtoc/Luna/blob/master/Register/index.pl">Register</a> and create an account</li>
+ <li> Edit <a href="https://github.com/Romtoc/Luna/blob/master/Configuration/Config.pl">Config.pl</a></li>
+ <li> Execute <a href="https://github.com/Romtoc/Luna/blob/master/Run.pm">Run.pm</a></li>
 </ul>
 
 ### Usage:
