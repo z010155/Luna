@@ -15,14 +15,15 @@ method new($resChild) {
 
 method handleGameOver($strData, $objClient) {
        my @arrData = split('%', $strData);
+       my $intCoins = $arrData[5];
        if ($objClient->{room} <= 899 || $objClient->{room} >= 1000) {
            return $objClient->sendXT(['zo', '-1', $objClient->{coins}, '', 0, 0, 0]);
        }
-       if ($arrData[5] > 99999) {
+       if ($intCoins > 99999) {
            $objClient->sendError(611);
            return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
        }
-       my $coins = round($arrData[5] / 10);
+       my $coins = round($intCoins / 10);
        $objClient->setCoins($objClient->{coins} + $coins);
        # No stamps yet, later?
        $objClient->sendXT(['zo', '-1', $objClient->{coins}, '', 0, 0, 0]);
@@ -41,7 +42,7 @@ method handleGetZone($strData, $objClient) {
        } elsif ($objClient->{room} eq 220 || $objClient->{room} eq 221) { # find four
                 if ($objClient->{tableID} ne 0) { 
                     my $zoneString = '%%0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0%';
-                    $objClient->sendXT(['gz', '-1', substr $zoneString, 0, -1]);
+                    $objClient->sendXT(['gz', '-1', substr($zoneString, 0, -1)]);
                 }
        } 
 }
@@ -53,10 +54,10 @@ method handleJoinZone($strData, $objClient) {
              $objClient->sendXT(['jz', '-1', $objClient->{seatID} - 1, $objClient->{username}]);
              foreach (values (%{$self->{child}->{tables}->{$objClient->{tableID}}->{clients}})) {
                       if ($_->{ID} ne $objClient->{ID}){
-                          $objClient->sendXT(['uz', '-1', $_->{seatID}-1, $_->{username}]);
-                          $_->sendXT(['uz', '-1', $objClient->{seatID}-1, $objClient->{username}]);
+                          $objClient->sendXT(['uz', '-1', $_->{seatID} - 1, $_->{username}]);
+                          $_->sendXT(['uz', '-1', $objClient->{seatID} - 1, $objClient->{username}]);
                       }
-                      $objClient->sendXT(['uz', '-1', $objClient->{seatID}-1, $objClient->{username}]);
+                      $objClient->sendXT(['uz', '-1', $objClient->{seatID} - 1, $objClient->{username}]);
              }
              if (keys (%{$self->{child}->{tables}->{$objClient->{tableID}}->{clients}}) >= $self->{child}->{tables}->{$objClient->{tableID}}->{max}) {
                  $self->{child}->{tables}->{$objClient->{tableID}}->{currentTurn} = 0;

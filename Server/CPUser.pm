@@ -628,7 +628,7 @@ method changeRandPuffStat($intPuffle) { # I dont even know if this is the proper
 
 method DESTROY {
        if ($self->{tableID} ne 0) {
-            $self->{parent}->{systems}->{Tables}->handleLeaveTable((), $self);
+           $self->{parent}->{systems}->{Tables}->handleLeaveTable((), $self);
        }
        $self->removePlayer;
        $self->handleBuddyOffline;

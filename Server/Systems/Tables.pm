@@ -14,15 +14,16 @@ method new($resChild) {
 
 method handleJoinTable($strData, $objClient) {
        my @arrData = split('%', $strData);
-       return if(!int($arrData[5]) || !exists($self->{child}->{tables}->{$arrData[5]}));
-       if (keys (%{$self->{child}->{tables}->{$arrData[5]}{clients}}) >= $self->{child}->{tables}->{$arrData[5]}->{max} || $objClient->{tableID} ne 0) {
+       my $intTable = $arrData[5];
+       return if(!int($intTable) || !exists($self->{child}->{tables}->{$intTable}));
+       if (scalar (keys %{$self->{child}->{tables}->{$intTable}->{clients}}) >= $self->{child}->{tables}->{$intTable}->{max} || $objClient->{tableID} ne 0) {
            return $objClient->sendError(211);
        }
-       $objClient->{tableID} = $arrData[5];
-       $self->{child}->{tables}->{$arrData[5]}->{clients}->{$objClient->{username}} = $objClient;
-       $self->{child}->{tables}->{$arrData[5]}->{boardMap} = $self->{boardMap};
-       $objClient->{seatID} = keys (%{$self->{child}->{tables}->{$arrData[5]}{clients}});
-       $objClient->sendXT(['jt', '-1', $objClient->{tableID}, $objClient->{seatID}]); #TableID%SeatID
+       $objClient->{tableID} = $intTable;
+       $self->{child}->{tables}->{$intTable}->{clients}->{$objClient->{username}} = $objClient;
+       $self->{child}->{tables}->{$intTable}->{boardMap} = $self->{boardMap};
+       $objClient->{seatID} = scalar(keys %{$self->{child}->{tables}->{$intTable}->{clients}});
+       $objClient->sendXT(['jt', '-1', $objClient->{tableID}, $objClient->{seatID}]);
 }
 
 method handleGetTable($strData, $objClient) {
@@ -30,8 +31,8 @@ method handleGetTable($strData, $objClient) {
        splice(@arrData, 0, 5);
        my $tablePopulation = '';
        foreach (@arrData) {
-                if (exists($self->{child}->{tables}{$_})) {
-                    $tablePopulation .= $_ . '|' . keys (%{$self->{child}->{tables}{$_}{clients}}) . '%';
+                if (exists($self->{child}->{tables}->{$_})) {
+                    $tablePopulation .= $_ . '|' . scalar(keys %{$self->{child}->{tables}->{$_}->{clients}}) . '%';
                 }
        }
        $objClient->sendXT(['gt', '-1', substr($tablePopulation, 0, -1)]);
@@ -39,11 +40,11 @@ method handleGetTable($strData, $objClient) {
 
 method handleUpdateTable($strData, $objClient) {
        my @arrData = split('%', $strData);
-       $objClient->sendRoom('%xt%ut%' . $arrData[5] . '%' . $arrData[6] . '%'); # TableID%Players
+       $objClient->sendRoom('%xt%ut%' . $arrData[5] . '%' . $arrData[6] . '%');
 }
 
 method handleLeaveTable($strData, $objClient) {
-       if ($objClient->{room} eq 220 || $objClient->{room} eq 221) { # find four
+       if ($objClient->{room} eq 220 || $objClient->{room} eq 221) {
            if ($objClient->{tableID} ne 0 && $objClient->{seatID} ne 999) {
                foreach (values (%{$self->{child}->{tables}->{$objClient->{tableID}}->{clients}})) {
                         if ($_->{ID} ne $objClient->{ID}) {
@@ -52,7 +53,7 @@ method handleLeaveTable($strData, $objClient) {
                             $_->{seatID} = 999;
                         }
                }
-               $self->{child}->{tables}->{$objClient->{tableID}} = {'clients' => {}, 'max' => 2};
+               $self->{child}->{tables}->{$objClient->{tableID}} = {clients => {}, max => 2};
                $objClient->{tableID} = 0;
                $objClient->{seatID} = 999;
           }

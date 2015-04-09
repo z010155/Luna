@@ -14,17 +14,19 @@ method new($resChild) {
 method handleJoinPlayer($strData, $objClient) {
        my @arrData = split('%', $strData);
        my $intRoom = $arrData[5];
-       if (!$arrData[6]) {
-           $arrData[6] = 0;
+       my $intX = $arrData[6];
+       my $intY = $arrData[7];
+       if (!$intX) {
+           $intX = 0;
        }       
-       if (!$arrData[7]) {
-           $arrData[7] = 0;
+       if (!$intY) {
+           $intY = 0;
        }
        if ($intRoom < 1000) {
            $intRoom += 1000;
        }
        $objClient->sendXT(['jp', '-1', $intRoom]); 
-       $objClient->joinRoom($intRoom, $arrData[6], $arrData[7]);
+       $objClient->joinRoom($intRoom, $intX, $intY);
 }
 
 method handleJoinRoom($strData, $objClient) {
