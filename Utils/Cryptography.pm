@@ -11,18 +11,18 @@ method new {
        return $obj;
 }
 
-method encryptPass($strPassword, $strKey) {
-       my $strHash = $self->swapMD5(md5_hex($self->swapMD5($strPassword) . $strKey . 'Y(02.>\'H}t":E1'));
+method digestHash($strPassword, $strKey) {
+       my $strHash = $self->swapHash(md5_hex($self->swapHash($strPassword) . $strKey . 'Y(02.>\'H}t":E1'));
        return $strHash;
 }
 
-method swapMD5($strHash) {
+method swapHash($strHash) {
        my $strSwapped = substr($strHash, 16, 16);
        $strSwapped .= substr($strHash, 0, 16);
        return $strSwapped;
 }
 
-method reverseMD5($strKey) {
+method reverseHash($strKey) {
        my $revKey = reverse($strKey);
        my $strHash = md5_hex($revKey);
        return $strHash;

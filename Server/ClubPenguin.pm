@@ -322,8 +322,8 @@ method checkBeforeLogin($strName, $strPass, $objClient) {
 
 method generateHash($arrInfo, $objClient) {
        my $strLoginKey = $objClient->{loginKey};
-       my $strLoginHash = $self->{modules}->{crypt}->encryptPass(uc($arrInfo->{password}), $strLoginKey);                            
-       my $strGameHash = $self->{modules}->{crypt}->swapMD5(md5_hex($arrInfo->{loginKey} . $strLoginKey)) . $arrInfo->{loginKey};
+       my $strLoginHash = $self->{modules}->{crypt}->digestHash(uc($arrInfo->{password}), $strLoginKey);                            
+       my $strGameHash = $self->{modules}->{crypt}->swapHash(md5_hex($arrInfo->{loginKey} . $strLoginKey)) . $arrInfo->{loginKey};
        my $strType = $self->{servConfig}->{servType};
        my $strHash = $strType eq 'login' ? $strLoginHash : $strGameHash;
        return $strHash;
@@ -332,8 +332,8 @@ method generateHash($arrInfo, $objClient) {
 method continueLogin($strName, $arrInfo, $objClient) {
        if ($self->{servConfig}->{servType} eq 'login') {
            $objClient->write('%xt%gs%-1%' . $self->generateServerList . '%');  
-           $objClient->write('%xt%l%-1%' . $arrInfo->{ID} . '%' . $self->{modules}->{crypt}->reverseMD5($objClient->{loginKey}) . '%0%');
-           $objClient->updateKey($self->{modules}->{crypt}->reverseMD5($objClient->{loginKey}), $strName);
+           $objClient->write('%xt%l%-1%' . $arrInfo->{ID} . '%' . $self->{modules}->{crypt}->reverseHash($objClient->{loginKey}) . '%0%');
+           $objClient->updateKey($self->{modules}->{crypt}->reverseHash($objClient->{loginKey}), $strName);
        } else {
            $objClient->{ID} = $arrInfo->{ID};
            $objClient->{isAuth} = 1;
