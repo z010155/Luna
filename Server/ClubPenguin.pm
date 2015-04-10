@@ -162,13 +162,13 @@ method new($resConfig, $resDBConfig) {
 method initializeSource {
        $self->createHeader;
        $self->loadModules;
+       $self->initiateMysql;
        if ($self->{servConfig}->{servType} ne 'game') {
            $self->{modules}->{crumbs}->updateCrumbs;
            $self->{modules}->{crumbs}->loadCrumbs;
            $self->loadSystems;
            $self->createServer;
        }
-       $self->initiateMysql;
        $self->loadPlugins;
        $self->initiateServer;
 }
