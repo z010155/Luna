@@ -45,7 +45,7 @@ method handlePuffleBath($strData, $objClient) {
        $objClient->changeRandPuffStat($puffleID);
        $objClient->setCoins($objClient->{coins} - 5);
        my $petDetails = $objClient->getPuffle($puffleID);
-       $objClient->sendRoom('%xt%pb%-1%' . $objClient->{coins} . '%' . ($petDetails ? $petDetails ? '%'));
+       $objClient->sendRoom('%xt%pb%-1%' . $objClient->{coins} . '%' . ($petDetails ? $petDetails : '%'));
 }
 
 method handlePuffleFeed($strData, $objClient) { 
@@ -59,7 +59,7 @@ method handlePuffleFeed($strData, $objClient) {
        $objClient->changeRandPuffStat($puffleID);
        $objClient->setCoins($objClient->{coins} - 5);
        my $petDetails = $objClient->getPuffle($puffleID);
-       $objClient->sendRoom('%xt%pt%-1%' . $objClient->{coins} . '%' . ($petDetails ? $petDetails ? '%'));
+       $objClient->sendRoom('%xt%pt%-1%' . $objClient->{coins} . '%' . ($petDetails ? $petDetails : '%'));
 }
 
 method handlePuffleRest($strData, $objClient) {
@@ -70,7 +70,7 @@ method handlePuffleRest($strData, $objClient) {
        $objClient->changePuffleStats($puffleID, 'puffleRest', 20, 1);
        $objClient->changePuffleStats($puffleID, 'puffleEnergy', 10, 1);
        my $petDetails = $objClient->getPuffle($puffleID);
-       $objClient->sendRoom('%xt%pr%-1%' . ($petDetails ? $petDetails ? '%'));
+       $objClient->sendRoom('%xt%pr%-1%' . ($petDetails ? $petDetails : '%'));
 }
 
 method handlePufflePip($strData, $objClient) {
@@ -157,7 +157,7 @@ method handlePuffleWalk($strData, $objClient) {
        return if (!int($puffleID) || !int($blnWalk));
        my $petDetails = $self->{child}->{modules}->{mysql}->fetchColumns("SELECT * FROM puffles WHERE `puffleID` = '$puffleID' AND `ownerID` = '$objClient->{ID}'");
        if ($petDetails) {
-           my $walkStr = $petDetails->{puffleID} . '|' . $petDetails->{puffleName} . '|' . $petDetails->{puffleType} . '|' . $puffleDetails->{puffleHealth} . '|' . $petDetails->{puffleEnergy} . '|' . $petDetails->{puffleRest} . '|0|0|0|0|0|0'; # Dont know what the rest are
+           my $walkStr = $petDetails->{puffleID} . '|' . $petDetails->{puffleName} . '|' . $petDetails->{puffleType} . '|' . $petDetails->{puffleHealth} . '|' . $petDetails->{puffleEnergy} . '|' . $petDetails->{puffleRest} . '|0|0|0|0|0|0'; # Dont know what the rest are
            if ($blnWalk eq 1) {
                $objClient->updatePlayerCard('upa', 'hand', 75 . $petDetails->{puffleType});
                $objClient->sendRoom('%xt%pw%-1%' . $objClient->{ID} . '%' . $walkStr . '|1%');

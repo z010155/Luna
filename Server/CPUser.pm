@@ -554,7 +554,7 @@ method getPuffle($intPuffle) {
        $petString .= $petDetails->{puffleID} . '|';
        $petString .= $petDetails->{puffleName} . '|';
        $petString .= $petDetails->{puffleType} . '|';
-       $petString .= $puffleDetails->{puffleHealth} . '|';
+       $petString .= $petDetails->{puffleHealth} . '|';
        $petString .= $petDetails->{puffleEnergy} . '|';
        $petString .= $petDetails->{puffleRest} . '%';
        return $petString;
