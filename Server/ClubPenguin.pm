@@ -163,7 +163,7 @@ method initializeSource {
        $self->createHeader;
        $self->loadModules;
        $self->initiateMysql;
-       if ($self->{servConfig}->{servType} ne 'game') {
+       if ($self->{servConfig}->{servType} ne 'login') {
            $self->{modules}->{crumbs}->updateCrumbs;
            $self->{modules}->{crumbs}->loadCrumbs;
            $self->loadSystems;
