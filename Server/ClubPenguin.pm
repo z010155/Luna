@@ -126,11 +126,11 @@ method new($resConfig, $resDBConfig) {
                     'w#jx' => 'handleSendWaddle'
                   },
                   z => {
-                     'zo' => 'handleGameOver',
-                     'm' => 'handleMovePuck',
-                     'gz' => 'handleGetZone',
-                     'jz' => 'handleJoinZone',
-                     'zm' => 'handleSendMove'
+                     zo => 'handleGameOver',
+                     m => 'handleMovePuck',
+                     gz => 'handleGetZone',
+                     jz => 'handleJoinZone',
+                     zm => 'handleSendMove'
                   },
                   red => {
                       rjs => 'handleRedemptionJoinServer',
