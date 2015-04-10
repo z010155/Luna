@@ -21,7 +21,7 @@ method handleGameOver($strData, $objClient) {
        }
        if ($intCoins > 99999) {
            $objClient->sendError(611);
-           return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{child}->{modules}->{base}->removeClient($objClient->{sock});
        }
        my $coins = round($intCoins / 10);
        $objClient->setCoins($objClient->{coins} + $coins);

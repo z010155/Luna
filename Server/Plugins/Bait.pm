@@ -24,7 +24,7 @@ method handleItemBlocking($strData, $objClient) {
        if ($self->{child}->{modules}->{crumbs}->{itemCrumbs}->{$intItem}->{isBait}) {
            $objClient->sendError(800);
            $objClient->updateBan($objClient, 'PERM');
-           return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{child}->{modules}->{base}->removeClient($objClient->{sock});
        }
 }
 

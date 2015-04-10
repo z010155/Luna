@@ -26,7 +26,7 @@ method handleCensoring($strData, $objClient) {
        foreach (@{$self->{badWords}}) {
                if (index($strMsg, $_) != -1)  {
                    $objClient->sendError(610);
-                   return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
+                   return $self->{child}->{modules}->{base}->removeClient($objClient->{sock});
                }
        }
 }

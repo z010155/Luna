@@ -57,21 +57,21 @@ method handleRebootServer($objClient, $nullVar) {
        return if (!$objClient->{isAdmin});
        foreach (values %{$self->{child}->{clients}}) {
                 $_->sendError(990);
-                $self->{child}->{modules}->{base}->removeClientBySock($_->{sock});
+                $self->{child}->{modules}->{base}->removeClient($_->{sock});
        }
 }
 
 method handleKickClient($objClient, $strName) {
        my $objPlayer = $objClient->getClientByName($strName);
        $objPlayer->sendError(610);
-       $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+       $self->{child}->{modules}->{base}->removeClient($objPlayer->{sock});
 }
 
 method handleBanClient($objClient, $strName) {
        return if ($objClient->{rank} < 4);
        my $objPlayer = $objClient->getClientByName($strName);
        $objPlayer->sendError(603);
-       $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+       $self->{child}->{modules}->{base}->removeClient($objPlayer->{sock});
        $self->{child}->{modules}->{mysql}->updateTable('users', 'isBanned', 'PERM', 'username', $strName);
        $objPlayer->{isBanned} = 'PERM';
 }
@@ -109,19 +109,19 @@ method handleTimeBanClient($objClient, $strName) {
                      $objClient->updateBanCount($objPlayer, 1);
                      $self->{child}->{modules}->{mysql}->updateTable('users', 'isBanned', time + 86400, 'ID', $objPlayer->{ID});
                      $objPlayer->sendError(610 . '%' . 'Your account has temporarily been suspended for 24 hours by ' . $objClient->{username});
-                     return $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+                     return $self->{child}->{modules}->{base}->removeClient($objPlayer->{sock});
                }
                case (1) {
                      $objClient->updateBanCount($objPlayer, 2);
                      $self->{child}->{modules}->{mysql}->updateTable('users', 'isBanned', time + 172800, 'ID', $objPlayer->{ID});
                      $objPlayer->sendError(610 . '%' . 'Your account has been temporarily suspended for 48 hours by ' . $objClient->{username});
-                     return $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+                     return $self->{child}->{modules}->{base}->removeClient($objPlayer->{sock});
                }
                case (2) {
                      $objClient->updateBanCount($objPlayer, 3);
                      $self->{child}->{modules}->{mysql}->updateTable('users', 'isBanned', time + 259200, 'ID', $objPlayer->{ID});
                      $objPlayer->sendError(610 . '%' . 'Your account has been temporarily suspended for 72 hours by ' . $objClient->{username});
-                     return $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+                     return $self->{child}->{modules}->{base}->removeClient($objPlayer->{sock});
                } 
                case (3) {                        
                      $self->handleBanClient($objClient, $strName);

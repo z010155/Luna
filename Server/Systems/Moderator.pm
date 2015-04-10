@@ -17,10 +17,10 @@ method handleKick($strData, $objClient) {
        my $objPlayer = $objClient->getClientByID($intPID);
        if ($objClient->{isStaff}) {
            $objPlayer->sendError(5);
-           $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+           $self->{child}->{modules}->{base}->removeClient($objPlayer->{sock});
        } else {
            $objClient->sendError(800);
-           $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
+           $self->{child}->{modules}->{base}->removeClient($objClient->{sock});
        }
 }
 
@@ -38,7 +38,7 @@ method handleMute($strData, $objClient) {
            }
        } else {
            $objClient->sendError(800);
-           $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
+           $self->{child}->{modules}->{base}->removeClient($objClient->{sock});
        }
 }
 
@@ -51,11 +51,11 @@ method handleBan($strData, $objClient) {
                $objClient->updateBan($objPlayer, 'PERM');
                $objPlayer->sendError(603);
                $objClient->botSay($objClient->{username} . ' Has Permanently Banned ' . $objPlayer->{username});
-               $self->{child}->{modules}->{base}->removeClientBySock($objPlayer->{sock});
+               $self->{child}->{modules}->{base}->removeClient($objPlayer->{sock});
            }
        } else {
            $objClient->sendError(800);
-           $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
+           $self->{child}->{modules}->{base}->removeClient($objClient->{sock});
        }
 }
 

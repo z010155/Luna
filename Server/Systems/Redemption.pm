@@ -65,7 +65,7 @@ method handleRedemptionSendGoldenCode($strData, $objClient) {
        } elsif (!exists($self->{child}->{modules}->{crumbs}->{redeemCrumbs}->{$strName})) {
            return $objClient->sendError(20720);
        } elsif ($self->{child}->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{type} eq 'normal') {
-           return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{child}->{modules}->{base}->removeClient($objClient->{sock});
        }
        my $strItems = $self->{child}->{modules}->{crumbs}->{redeemCrumbs}->{$strName}->{items};
        my @arrItems = split(',', $strItems);

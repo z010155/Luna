@@ -262,7 +262,7 @@ method handleXMLData($strData, $objClient) {
        }
        my $strXML = $self->{modules}->{tools}->parseXML($strData);
        if (!$strXML) {
-           return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{modules}->{base}->removeClient($objClient->{sock});
        }
        my $strAct = $strXML->{body}->{action};
        return if (!exists($self->{handlers}->{xml}->{$strAct}));
@@ -297,17 +297,17 @@ method checkBeforeLogin($strName, $strPass, $objClient) {
        my $strHash = $self->generateHash($arrInfo, $objClient);      
        if ($intNames <= 0) {
            $objClient->sendError(100);
-           return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{modules}->{base}->removeClient($objClient->{sock});
        } elsif ($strPass ne $strHash) {
            $objClient->sendError(101);	
            $objClient->updateInvalidLogins($arrInfo->{invalidLogins} + 1, $strName);
-           return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{modules}->{base}->removeClient($objClient->{sock});
        } elsif ($arrInfo->{invalidLogins} > 5) {
            $objClient->sendError(150);
-           return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{modules}->{base}->removeClient($objClient->{sock});
        } elsif (!$arrInfo->{active})  {
            $objClient->sendError(900);
-           return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{modules}->{base}->removeClient($objClient->{sock});
        } elsif ($arrInfo->{isBanned} eq 'PERM' || $arrInfo->{isBanned} > time) {
                 if (int($arrInfo->{isBanned})) {
                     my $intTime = round(($arrInfo->{isBanned} - time) / 3600);
@@ -315,7 +315,7 @@ method checkBeforeLogin($strName, $strPass, $objClient) {
                 } else {
                     $objClient->sendError(603);	
                 }
-                return $self->{modules}->{base}->removeClientBySock($objClient->{sock});                
+                return $self->{modules}->{base}->removeClient($objClient->{sock});                
        }
        $self->continueLogin($strName, $arrInfo, $objClient);
 } 
@@ -376,7 +376,7 @@ method handleXTData($strData, $objClient) {
        return if (!exists($self->{handlers}->{xt}->{$chrXT}->{$stdXT}));
        my $strHandler = $self->{handlers}->{xt}->{$chrXT}->{$stdXT};
        if (!$objClient->{isAuth} && $objClient->{username} eq '') {
-           return $self->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{modules}->{base}->removeClient($objClient->{sock});
        } else {
            foreach (values %{$self->{systems}}) {
                     if ($_->can($strHandler)) {

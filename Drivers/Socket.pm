@@ -31,7 +31,7 @@ method serverLoop {
              my $strBuffer;
              recv($resSock, $strBuffer, 65536, 0);
              if ($strBuffer eq '') {
-                 $self->removeClientBySock($resSock);
+                 $self->removeClient($resSock);
              }
              my @arrData = split(chr(0), $strBuffer);
              foreach (@arrData) {                         
@@ -84,7 +84,7 @@ method addClient {
        $objClient->{ipAddr} = $strIP;
        $self->{child}->{iplog}->{$strIP} = ($self->{child}->{iplog}->{$strIP}) ? $self->{child}->{iplog}->{$strIP} + 1 : 1;
        if (exists($self->{child}->{iplog}->{$strIP}) && $self->{child}->{iplog}->{$strIP} > 3) {
-           return $self->removeClientBySock($resSocket);
+           return $self->removeClient($resSocket);
        } 
 }
 
@@ -96,12 +96,12 @@ method handleData($strData, $objClient) {
        my $blnXML = $chrType eq '<' ? 1 : 0;
        my $blnXT = $chrType eq '%' ? 1 : 0;
        if (!$blnXML && !$blnXT) {
-           return $self->removeClientBySock($objClient->{sock});
+           return $self->removeClient($objClient->{sock});
        }
        $blnXML ? $self->{child}->handleXMLData($strData, $objClient) : $self->{child}->handleXTData($strData, $objClient);
 }
 
-method removeClientBySock($resSocket) {
+method removeClient($resSocket) {
        while (my ($intIndex, $objClient) = each(%{$self->{child}->{clients}})) {
               if ($objClient->{sock} == $resSocket) {
                   $self->{listener}->remove($resSocket);

@@ -44,7 +44,7 @@ method handleJoinServer($strData, $objClient) {
        if ($loginKey eq '' || $loginKey ne $dbInfo->{loginKey}) {
            $objClient->sendError(101);
            $objClient->updateInvalidLogins($dbInfo->{invalidLogins} + 1, $objClient->{username});
-           return $self->{child}->{modules}->{base}->removeClientBySock($objClient->{sock});
+           return $self->{child}->{modules}->{base}->removeClient($objClient->{sock});
        }
        $objClient->updateKey('', $objClient->{username});
        $objClient->sendXT(['js', '-1', 0, 1, $objClient->{isStaff}, 0]);
