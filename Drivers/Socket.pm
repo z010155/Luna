@@ -29,8 +29,8 @@ method serverLoop {
           eval {
              my $objClient = $self->getClientBySock($resSock);              
              my $strBuffer;
-             my $intBytes = recv($resSock, $strBuffer, 65536, 0);
-             if ($intBytes <= 0) {
+             my $resReceived = recv($resSock, $strBuffer, 65536, 0);
+             if (!$resReceived) {
                  return $self->removeClient($resSock);
              }
              my @arrData = split(chr(0), $strBuffer);
