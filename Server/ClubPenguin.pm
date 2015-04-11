@@ -167,7 +167,9 @@ method initializeSource {
            $self->{modules}->{crumbs}->updateCrumbs;
            $self->{modules}->{crumbs}->loadCrumbs;
            $self->loadSystems;
-           $self->createServer;
+           if ($self->{servConfig}->{servType} eq 'game') {
+               $self->createServer;
+           }
        }
        $self->loadPlugins;
        $self->initiateServer;
